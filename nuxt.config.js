@@ -11,6 +11,10 @@ export default {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
+    script: [
+      // { src: 'https: //cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js' },
+      // { src: '~/static/js/TweenMax.min.js' }
+    ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
@@ -23,6 +27,7 @@ export default {
   ** Global CSS
   */
   css: [
+    '@/assets/scss/styles.scss'
   ],
   /*
   ** Plugins to load before mounting the App
@@ -33,6 +38,7 @@ export default {
   ** Nuxt.js modules
   */
   modules: [
+
   ],
   /*
   ** Build configuration
@@ -43,5 +49,11 @@ export default {
     */
     extend(config, ctx) {
     }
-  }
+  },
+  modules: ['@nuxtjs/style-resources'],
+    styleResources: {
+      scss: [
+        './assets/scss/_variables.scss' // use underscore "_" & also file extension ".scss"
+      ]
+    }
 }
