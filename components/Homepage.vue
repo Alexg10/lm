@@ -1,34 +1,54 @@
 <template>
     <div>
         <div class="container">
-            <div class="background-container" :style="{ 'background-image': 'url(' + Urlimage + ')' }"></div>
-            <div class="love" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave">
-                <div class="elle">
-                    <div class="start">
-                    <div class="letter-container">
-                        <div class="letter ">e</div>
-                        <div class="letter ">l</div>
+            <div class="love-container">
+                <div class="background-container"></div>
+                <div class="love" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave">
+                    <div class="word-container elle">
+                        <div class=" word">
+                            <div class="start">
+                                <div class="letter-container">
+                                    <div class="letter ">e</div>
+                                    <div class="letter ">l</div>
+                                </div>
+                            </div>
+                            <div class="letter permanent">l</div>
+                            <div class="end">
+                                <div class="letter-container">
+                                    <div class="letter ">e</div>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
+                    <div class="word-container aime">
+                        <div class="word">
+                            <div class="start">
+                                <div class="letter-container">
+                                    <div class="letter">a</div>
+                                    <div class="letter">i</div>
+                                </div>
+                            </div>
+                            <div class="letter permanent">m</div>
+                            <div class="end">
+                                <div class="letter-container">
+                                <div class="letter end">e</div>
+                            </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="letter permanent">l</div>
-                    <div class="end">
-                    <div class="letter-container">
-                        <div class="letter ">e</div>
+
+                </div>
+            </div>
+            <div class="work-container">
+                <div class="work" v-on:mouseenter="workHover">
+                    <div class="word-container">
+                        <div class="work-word word">work</div>
                     </div>
+                    <div class="word-container">
+                        <div class="work-word word">work</div>
                     </div>
-                </div> 
-                <div class="aime">
-                    <div class="start">
-                    <div class="letter-container">
-                        <div class="letter">a</div>
-                        <div class="letter">i</div>
-                    </div>
-                    </div>
-                    <div class="letter permanent">m</div>
-                    <div class="end">
-                        <div class="letter-container">
-                        <div class="letter end">e</div>
-                    </div>
+                    <div class="word-container">
+                        <div class="work-word word">work</div>
                     </div>
                 </div>
             </div>
@@ -42,13 +62,20 @@
     export default {
         data(){
             return{
-                tl : new TimelineMax({ paused: true}),
+                lm_tl : new TimelineMax({ paused: true}),
+                wordInDownTl : new TimelineMax({ paused: true}),
+                wordOutTl : new TimelineMax({ paused: true}),
+                wordActiveOutTl : new TimelineMax({ paused: true}),
+                wordActiveOutUpTl : new TimelineMax({ paused: true}),
+                wordInUpTl: new TimelineMax({ paused: true}),
                 images : [
-                'https://picsum.photos/id/586/1500/800',
-                'https://picsum.photos/id/516/1500/800',
-                'https://picsum.photos/id/519/1500/800',
-                'https://picsum.photos/id/522/1500/800',
-                'https://picsum.photos/id/509/1500/800'
+                '/images/home/lm_1.jpg',
+                '/images/home/lm_2.jpg',
+                '/images/home/lm_3.jpg',
+                '/images/home/lm_4.jpg',
+                '/images/home/lm_5.jpg',
+                '/images/home/lm_6.jpg',
+                '/images/home/lm_7.jpg'
                 ],
                 i: 0, 
                 gifLenght: 0,
@@ -58,41 +85,65 @@
         },
         methods: {
             loveHover(){
-                this.tl.play();
-                setInterval(() => {
+                this.lm_tl.play();
+                this.playing = setInterval(() => {
                     this.gif()
-                }, 200);
+                }, 200)
             },
             loveLeave(){
-                this.tl.reverse();
-                // setTimeout(() => {
-                //     clearInterval(this.gif());
-                // },500)
+                this.lm_tl.reverse();
+                setTimeout(() =>     {
+                    clearInterval(this.playing)
+                },500);
             }, 
             gif(){
                 this.i;
-                console.log(this.i);
                 var image = this.images[this.i];
                 var Urlimage = 'url('+this.images[this.i]+')';
-                console.log(image);
-                // $(".background-container").css('background-image','url('+this.images[this.i]+')'); 
+                console.log(Urlimage);
+                this.$el.querySelector(".background-container").style.backgroundImage =Urlimage;
                 this.i++;
                 if(this.i >= this.gifLenght){
                     this.i=0;
                 }
+            },
+            workHover(){
+                
+                console.log("ok");
+            },
+            detectScroll(){
+                var vm = this;
+                window.addEventListener('wheel', function(e) {
+                    if (e.deltaY < 0) {
+                        console.log('up');
+                        // vm.wordInUpTl.restart();
+                        // vm.wordOutTl.play();
+                        vm.wordActiveOutUpTl.play();
+                        setTimeout(function() {
+                            vm.$el.querySelector('.work-container').style.display = 'none';
+                            vm.$el.querySelector('.love-container').style.display = 'block';
+                            vm.wordInUpTl.play();
+                        }, 1250);
+
+                    }
+                    if (e.deltaY > 0) {
+                        console.log('down');
+                        vm.wordActiveOutTl.play();
+                        setTimeout(function() {
+                            vm.$el.querySelector('.love-container').style.display = 'none';
+                            vm.$el.querySelector('.work-container').style.display = 'block';
+                            vm.wordInDownTl.play();
+
+                        }, 1250);
+
+
+                        // vm.wordInDownTl.play();
+                        // vm.wordInDownTl.restart();
+                    }
+                });
             }
-        },
-        computed: {
-            // gif: function(){
-            //     console.log(this.i);
-            //     var bgImg = this.images[this.i];
-            //     if(this.i >= this.gifLenght){
-            //         this.i=0;
-            //     }
-            //     return{
-            //         "background": 'url('+bgImg+')'
-            //     }
-            // }
+
+
         },
         mounted(){
             var elleStart = this.$el.querySelector('.elle .start .letter-container');
@@ -103,9 +154,13 @@
             var elle = this.$el.querySelector('.elle');
             var bgAnim = this.$el.querySelector('.background-container');
             this.gifLenght = this.images.length;
+            
+            var work = this.$el.querySelector('.work .work-word');
 
-            this.tl.to( elle, 1, {x:87, ease: Power4.easeInOut},"fire")
-                .to( aime, 1, {x:-87, ease: Power4.easeInOut},"fire")
+
+
+            this.lm_tl.to( elle, 1, {x:92, ease: Power4.easeInOut},"fire")
+                .to( aime, 1, {x:-92, ease: Power4.easeInOut},"fire")
                 .to( elleStart, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut},"fire")
                 .to( elleEnd, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut}, "-=0.98")
                 .from( elleEnd, 1, {x:-107, ease: Power4.easeInOut}, "-=0.98")
@@ -113,6 +168,19 @@
                 .to( aimeEnd, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut}, "-=0.98")
                 .from( aimeEnd, 1, {x:-87, ease: Power4.easeInOut}, "-=0.98")
                 .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
+    
+            this.wordInDownTl.set(".word",{y:160})
+                .staggerTo( ".word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
+            this.wordInUpTl.set(".word",{y:-160})
+                .staggerTo( ".word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
+            this.wordOutTl.staggerTo( ".word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.4);
+
+            this.wordActiveOutTl.staggerTo( ".word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3);
+            this.wordActiveOutUpTl.staggerTo( ".word", 1.2, {y:160, ease: Power4.easeInOut}, -0.3);
+
+
+            this.detectScroll();
+
         }    
     }
 </script>
@@ -123,7 +191,6 @@
         align-items: center;
         justify-content: center;
         height: 100vh;
-        font-family: 'Prata', serif;
         font-size: 200px;
     }
     .background-container{
@@ -174,10 +241,39 @@
         }
     }
     .aime{
-        transform: translate(-167px, 41px);
+        transform: translate(-174px, 41px);
     }
     .elle{
-        transform: translate(155px, -42px);
+        transform: translate(163px, -42px);
+    }
+            .word-container{
+            overflow: hidden;
+            line-height: 163px;
+            font-weight: bold;}
+
+    .work{
+        .word-container{
+            overflow: hidden;
+            line-height: 163px;
+            font-weight: bold;
+            &:nth-child(1){
+                transform: translate(0px, 80px);
+            }
+            &:nth-child(2){
+                transform: translateX(126px);
+            }
+            &:nth-child(3){
+                transform: translate(-109px, -75px);
+            }
+        }
+    }
+
+
+    .love-container{
+        // display: none;
+    }
+    .work-container{
+        display: none;
     }
 
 </style>

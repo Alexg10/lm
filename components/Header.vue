@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="header">
         <div class="logo">LM</div>
     </div>
 </template>
@@ -11,8 +11,14 @@
 </script>
 
 <style lang="scss" scoped>
-    .logo{
-        text-align: center;
+    .header{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        .logo{
+            text-align: center;
+        }
     }
 
 </style>
