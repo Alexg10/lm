@@ -2,3 +2,13 @@ html,
 body{
     font-family: 'Didot';
 }
+
+.container{
+    width: 100%;
+    max-width: 1113px;
+    margin: 0 auto;
+}
+
+.grey-section{
+    background-color: $light-grey;
+}
