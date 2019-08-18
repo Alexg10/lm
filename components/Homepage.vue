@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="container">
-            <div class="love-container">
+            <div class="love-container active">
                 <div class="background-container"></div>
                 <div class="love" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave" v-on:click="loveClick">
                     <div class="word-container elle">
@@ -78,20 +78,21 @@
         data(){
             return{
                 lm_tl : new TimelineMax({ paused: true}),
-                wordInDownTl : new TimelineMax({ paused: true}),
-                wordOutTl : new TimelineMax({ paused: true}),
-                wordActiveOutTl : new TimelineMax({ paused: true}),
-                wordActiveOutUpTl : new TimelineMax({ paused: true}),
-                wordInUpTl: new TimelineMax({ paused: true}),
+                scrollDownWord: new TimelineMax({ 
+                    paused: true,
+                }),
+                scrollUpWord: new TimelineMax({ 
+                    paused: true,
+                }),
                 lm_click: new TimelineMax({ paused: true}),
                 images : [
-                '/images/home/lm_1.jpg',
-                '/images/home/lm_2.jpg',
-                '/images/home/lm_3.jpg',
-                '/images/home/lm_4.jpg',
-                '/images/home/lm_5.jpg',
-                '/images/home/lm_6.jpg',
-                '/images/home/lm_7.jpg'
+                    '/images/home/lm_1.jpg',
+                    '/images/home/lm_2.jpg',
+                    '/images/home/lm_3.jpg',
+                    '/images/home/lm_4.jpg',
+                    '/images/home/lm_5.jpg',
+                    '/images/home/lm_6.jpg',
+                    '/images/home/lm_7.jpg'
                 ],
                 i: 0, 
                 gifLenght: 0,
@@ -141,31 +142,21 @@
             detectScroll(){
                 var vm = this;
                 window.addEventListener('wheel', function(e) {
-
                     if (e.deltaY < 0) {
-                        console.log('up');
-                        // vm.wordInUpTl.restart();
-                        // vm.wordOutTl.play();
-                        vm.wordActiveOutUpTl.play();
-                        setTimeout(function() {
-                            vm.$el.querySelector('.work-container').style.display = 'none';
-                            vm.$el.querySelector('.love-container').style.display = 'block';
-                            vm.wordInUpTl.play();
-                        }, 1250);
-
+                        // console.log('up');
+                        vm.scrollUpWord.play();
+                        vm.scrollUpWord.eventCallback("onComplete", function () {
+                            console.log('complete');
+                            vm.scrollDownWord.pause(0);
+                        });
                     }
                     if (e.deltaY > 0) {
-                        console.log('down');
-                        vm.wordActiveOutTl.play(0);
-                        setTimeout(function() {
-                            vm.$el.querySelector('.love-container').style.display = 'none';
-                            vm.$el.querySelector('.work-container').style.display = 'block';
-                            vm.wordInDownTl.play();
-                        }, 1250);
-
-
-                        // vm.wordInDownTl.play();
-                        // vm.wordInDownTl.restart();
+                        // console.log('down');
+                        vm.scrollDownWord.play();
+                        vm.scrollDownWord.eventCallback("onComplete", function () {
+                            console.log('complete');
+                            vm.scrollUpWord.pause(0);
+                        });
                     }
                 });
             }
@@ -197,23 +188,26 @@
                 .from( aimeEnd, 1, {x:-87, ease: Power4.easeInOut}, "-=0.98")
                 .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
 
-            this.wordInDownTl.set(".word",{y:160})
-                .staggerTo( ".word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
-            this.wordInUpTl.set(".word",{y:-160})
-                .staggerTo( ".word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
-            this.wordOutTl.staggerTo( ".word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.4);
+            this.scrollDownWord
+                .staggerTo( ".active .word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3)
+                .set(".active+div", {className:"+=active"})
+                .set(".active", {className:"-=active"})
+                .set(".work .word",{y:160})
+                .staggerTo( ".work .word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
 
-            this.wordActiveOutTl.staggerTo( ".word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3);
-            this.wordActiveOutUpTl.staggerTo( ".word", 1.2, {y:160, ease: Power4.easeInOut}, -0.3);
+            this.scrollUpWord
+                .staggerTo( ".work-container .word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3)
+                .set(".love-container", {className:"+=active"})
+                .set(".work-container", {className:"-=active"})
+                .set(".love .word",{y:160})
+                .staggerTo( ".love .word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
             this.lm_click.to( elle, 2, {x:"-80vw", ease: Power4.easeInOut},"fire")
                 .to( aime, 2, {x:"80vw", ease: Power4.easeInOut},"fire")
-                .to( bgAnim, 2.8, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.5")
+                .to( bgAnim, 2.8, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
                 .set( love, {autoAlpha: 0, display: 'none'})
-                .set( loveContent,{display: 'block'})
-                .from( loveContentW, 1.8, { y:80, ease: Power4.easeInOut}, "-=0.7")
-                .from( loveContentDesc, 1.5, { y:80, ease: Power4.easeInOut}, "-=0.96");                ;
-
-
+                .set( loveContent, {className:"+=active"})
+                .from( loveContentW, 1.8, { y:80, ease: Power4.easeInOut}, "-=0.6")
+                .from( loveContentDesc, 1.5, { y:80, ease: Power4.easeInOut}, "-=1.3");     
 
             this.detectScroll();
 
@@ -228,6 +222,8 @@
         justify-content: center;
         height: 100vh;
         font-size: 200px;
+        flex-direction:column;
+        overflow: hidden;
     }
     .background-container{
         position: absolute;
@@ -281,12 +277,18 @@
         font-size: 60px;
         text-align: center;
         font-weight: bold;
+        &.active{
+            display: block;
+        }
         .love-description{
             font-size: 20px;
             text-transform: uppercase;
             font-family: 'GTWalsheimProMedium';
             font-weight: bold;
             margin-top: 20px;
+        }
+        .word-container{
+            line-height: 80px;
         }
         .contact-me{
             position: fixed;
@@ -310,6 +312,7 @@
     .word-container{
         overflow: hidden;
         font-weight: bold;
+        line-height: 160px;
     }
 
     .work{
@@ -328,15 +331,26 @@
             }
         }
     }
-
+    .moveUp{
+        transform: translateY(-160px);
+        transition: 0.4s ease;
+    }
     .love-container{
-        // display: none;
+        // height: 50%;
+        display: none;
         .love{
             // display: none;
         }
+        &.active{
+            display: block;
+        }
     }
     .work-container{
+        // height: 50%;
         display: none;
+        &.active{
+            display: block;
+        }
     }
 
 </style>
