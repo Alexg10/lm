@@ -160,8 +160,6 @@
                     }
                 });
             }
-
-
         },
         mounted(){
             var elleStart = this.$el.querySelector('.elle .start .letter-container');

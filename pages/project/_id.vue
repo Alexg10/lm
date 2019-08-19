@@ -5,6 +5,9 @@
             <Chapter></Chapter>
             <LaptopSection></LaptopSection>
             <TextSection></TextSection>
+            <ImgSection></ImgSection>
+            <Img4Section></Img4Section>
+
         </div>
     </div>
 </template>
@@ -14,13 +17,20 @@
     import LaptopSection from '~/components/project/LaptopSection'
     import Chapter from '~/components/project/Chapter'
     import TextSection from '~/components/project/TextSection'
+    import ImgSection from '~/components/project/ImgSection'
+    import Img4Section from '~/components/project/Img4Section'
+
+
+    
 
     export default {
         components:{
             HeaderProject,
             LaptopSection,
             Chapter,
-            TextSection
+            TextSection,
+            ImgSection,
+            Img4Section
         },
         data(){
             return{
@@ -31,15 +41,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .text{
-        font-size: 28px;
-        padding-bottom: 108px;
-        p{
-            text-align: center;
-            max-width: 640px;
-            margin: 0 auto;
-            font-weight: bold;
-        }
-    }
     
 </style>
