@@ -38,12 +38,13 @@
 
 <style lang="scss" scoped>
     .img-4-section{
-        padding: 90px 0 140px;
+        padding: 90px 0 110px;
         .img-section-container{
             display: flex;
             .img-container{
                 flex: 1;
                 display: flex;
+                justify-content: center;
             }
         }
     }

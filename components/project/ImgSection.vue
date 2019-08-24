@@ -38,9 +38,6 @@
             var msnry = new Masonry( this.masonryW, {
                 itemSelector: '.img-container'
             });
-        },
-        methods:{
-
         }
     }
 </script>

@@ -1,8 +1,8 @@
 <template>
     <div>
         <div class="container">
+            <div class="background-container"></div>
             <div class="love-container active">
-                <div class="background-container"></div>
                 <div class="love" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave" v-on:click="loveClick">
                     <div class="word-container elle">
                         <div class=" word">
@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="work-container">
-                <div class="work" v-on:mouseenter="workHover">
+                <div class="work" v-on:mouseenter="workHover" v-on:mouseleave="workLeave">
                     <div class="word-container">
                         <div class="work-word word">work</div>
                     </div>
@@ -78,6 +78,7 @@
         data(){
             return{
                 lm_tl : new TimelineMax({ paused: true}),
+                work_tl : new TimelineMax({ paused: true}),
                 scrollDownWord: new TimelineMax({ 
                     paused: true,
                 }),
@@ -85,7 +86,13 @@
                     paused: true,
                 }),
                 lm_click: new TimelineMax({ paused: true}),
-                images : [
+                i: 0, 
+                gifLenght: 0,
+                gifTime: 250,
+                lmImg:'',
+                workImg:'',
+                Urlimage:'',
+                lmImg : [
                     '/images/home/lm_1.jpg',
                     '/images/home/lm_2.jpg',
                     '/images/home/lm_3.jpg',
@@ -94,20 +101,24 @@
                     '/images/home/lm_6.jpg',
                     '/images/home/lm_7.jpg'
                 ],
-                i: 0, 
-                gifLenght: 0,
-                image:'',
-                Urlimage:'',
+                workImg : [
+                    '/images/home/work_1.jpg',
+                    '/images/home/work_2.png',
+                    '/images/home/work_3.jpg',
+                    '/images/home/work_4.jpg'
+                ],
                 clicked: false
             }
         },
         methods: {
             loveHover(){
+                console.log(this.lmImg);
                 this.lm_tl.play();
                 this.playing = setInterval(() => {
-                    this.gif()
-                }, 200)
+                    this.gif(this.lmImg);
+                }, this.gifTime)
             },
+            
             loveClick(){
                 console.log('clic');
                 this.clicked = true;
@@ -123,11 +134,12 @@
                         clearInterval(this.playing)
                     },500);
                 }
-            }, 
-            gif(){
+            },
+            gif(imageArray){
                 this.i;
-                var image = this.images[this.i];
-                var Urlimage = 'url('+this.images[this.i]+')';
+                this.gifLenght = imageArray.length;
+                var image = imageArray;
+                var Urlimage = 'url('+imageArray[this.i]+')';
                 console.log(Urlimage);
                 this.$el.querySelector(".background-container").style.backgroundImage =Urlimage;
                 this.i++;
@@ -136,8 +148,19 @@
                 }
             },
             workHover(){
-                
                 console.log("ok");
+                this.work_tl.play();
+                this.playing = setInterval(() => {
+                    this.gif(this.workImg);
+                }, this.gifTime)
+            },
+            workLeave(){
+                if(!this.clicked){
+                    this.work_tl.reverse();
+                    setTimeout(() =>     {
+                        clearInterval(this.playing)
+                    },500);
+                }
             },
             detectScroll(){
                 var vm = this;
@@ -173,7 +196,6 @@
             var aime = this.$el.querySelector('.aime');
             var elle = this.$el.querySelector('.elle');
             var bgAnim = this.$el.querySelector('.background-container');
-            this.gifLenght = this.images.length;
             var work = this.$el.querySelector('.work .work-word');
 
             this.lm_tl.to( elle, 1, {x:92, ease: Power4.easeInOut},"fire")
@@ -184,6 +206,9 @@
                 .to( aimeStart, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut}, "-=0.98")
                 .to( aimeEnd, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut}, "-=0.98")
                 .from( aimeEnd, 1, {x:-87, ease: Power4.easeInOut}, "-=0.98")
+                .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
+
+            this.work_tl
                 .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
 
             this.scrollDownWord
@@ -260,7 +285,8 @@
             }
         }
     }
-    .love{
+    .love,
+    .work{
         position: relative;
         color: black;
         transition: color 0.4s ease;
