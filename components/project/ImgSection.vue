@@ -32,7 +32,7 @@
             }
         },
         mounted() {
-            console.log(this.masonryW);
+            // console.log(this.masonryW);
             
             var msnry = new Masonry( this.masonryW, {
                 itemSelector: '.img-container'
@@ -60,6 +60,9 @@
         width: 50%;
         img{
             width: 100%;
+            &.phone-img{
+                width: auto;
+            }
         }
     }
 

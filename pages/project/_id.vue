@@ -10,6 +10,7 @@
             <ImgFullCenter></ImgFullCenter>
             <ImgFullHalf></ImgFullHalf>
             <ColorSection></ColorSection>
+            <Footer></Footer>
 
         </div>
     </div>
@@ -25,6 +26,8 @@
     import ImgFullCenter from '~/components/project/ImgFullCenter'
     import ImgFullHalf from '~/components/project/ImgFullHalf'
     import ColorSection from '~/components/project/ColorSection'
+    import Footer from '~/components/project/Footer'
+
 
 
     export default {
@@ -37,7 +40,8 @@
             Img4Section,
             ImgFullCenter,
             ImgFullHalf,
-            ColorSection
+            ColorSection,
+            Footer
         },
         data(){
             return{
