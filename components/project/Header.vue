@@ -53,5 +53,23 @@
             font-size: 23px;
             font-weight: bold;
         }
+        @media only screen and ( max-width : 768px ) {
+            .project-header-content{
+                padding: 0 20px;
+            }
+            .project-name{
+                font-size: 150px;
+            }
+        }
+        @media only screen and ( max-width : 680px ) {
+            .project-name{
+                font-size: 65px;
+            }
+            .project-description{
+                align-self: center;
+                max-width: 100%;
+                font-size: 19px;
+            }
+        }
     }
 </style>

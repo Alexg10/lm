@@ -24,6 +24,9 @@
         .img-full-center-section-container{
             display: flex;
             justify-content: center;
+            img{
+                width: 100%;
+            }
         }
     }
 

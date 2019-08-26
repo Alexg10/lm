@@ -50,7 +50,7 @@
             display: flex;
             justify-content: center;
             .color-container{
-                flex: 1;
+                padding: 0 62px;
                 text-align: center;
             }
         }
@@ -64,6 +64,18 @@
         }
         .color-name{
             font-family: 'GTWalsheimProRegular';
+        }
+        @media only screen and ( max-width : 768px ) {
+            .color-section-container{
+                flex-wrap: wrap;
+                .color-container{
+                    padding: 0 22px;
+                    margin-bottom: 30px;
+                }
+            }
+        }
+        @media only screen and ( max-width : 680px ) {
+
         }
     }
 

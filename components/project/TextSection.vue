@@ -31,6 +31,13 @@
             margin: 0 auto;
             font-weight: bold;
         }
+        @media only screen and ( max-width : 768px ) {
+        }
+        @media only screen and ( max-width : 680px ) {
+            font-size: 18px;
+
+        }
+
     }
     
 </style>

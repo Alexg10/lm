@@ -32,7 +32,6 @@
             }
         },
         mounted() {
-            // var masonryW = this.$el.querySelector('.img-section-container');
             console.log(this.masonryW);
             
             var msnry = new Masonry( this.masonryW, {
@@ -59,6 +58,38 @@
     .grid-sizer,
     .grid-item {
         width: 50%;
+        img{
+            width: 100%;
+        }
+    }
+
+    @media ( max-width : 768px ) {
+        .project-header-content{
+            padding: 0 20px;
+        }
+        .project-name{
+            font-size: 150px;
+        }
+    }
+    @media ( max-width : 680px ) {
+
+        .img-section-container{
+            transform: translateY(-140px);
+            .img-container{
+                width: 100%;
+            }
+            .phone-container{
+                text-align: center;
+                padding: 100px 0;
+            }
+        }
+        .grid-sizer,
+        .grid-item {
+            width: 100%;
+            img{
+                width: 100%;
+            }
+        }
     }
     
 </style>

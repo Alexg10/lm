@@ -47,6 +47,27 @@
                 justify-content: center;
             }
         }
+        @media only screen and ( max-width : 768px ) {
+            .img-section-container{
+                .img-container{
+                    img{
+                        width: 80%;
+                    }
+                }
+            }
+        }
+        @media only screen and ( max-width : 680px ) {
+            .img-section-container{
+                flex-wrap: wrap;
+                .img-container{
+                    flex: 50%;
+                    margin-bottom: 30px;
+                    img{
+                        width: 80%;
+                    }
+                }
+            }
+        }
     }
 
 </style>
