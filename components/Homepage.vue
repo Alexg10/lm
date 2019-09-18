@@ -55,7 +55,7 @@
                 </div>
             </div>
             <div class="work-container">
-                <div class="work" v-on:mouseenter="workHover" v-on:mouseleave="workLeave">
+                <div class="work" v-on:mouseenter="workHover" v-on:mouseleave="workLeave" v-on:click="workClick">
                     <div class="word-container">
                         <div class="work-word word">work</div>
                     </div>
@@ -64,6 +64,33 @@
                     </div>
                     <div class="word-container">
                         <div class="work-word word">work</div>
+                    </div>
+                </div>
+                <div class="work-list">
+                    <div class="work-list-container">
+                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_1.jpg`">
+                            Dinh Van
+                        </div>
+                    </div>
+                    <div class="work-list-container active">
+                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_2.png`">
+                            Pierre Frey
+                        </div>
+                    </div>
+                    <div class="work-list-container">
+                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_2.png`">
+                            Chopard 
+                        </div>
+                    </div>
+                    <div class="work-list-container">
+                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_3.jpg`">
+                            Letsignit
+                        </div>
+                    </div>
+                    <div class="work-list-container">
+                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_4.jpg`">
+                            Monoprix
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,10 +113,13 @@
                     paused: true,
                 }),
                 lm_click: new TimelineMax({ paused: true}),
+                work_click: new TimelineMax({ paused: true}),
+                work_close: new TimelineMax({ paused: true}),
                 i: 0, 
                 gifLenght: 0,
                 gifTime: 250,
                 lmImg:'',
+                projectName:'',
                 workImg:'',
                 Urlimage:'',
                 lmImg : [
@@ -120,12 +150,13 @@
             },
             
             loveClick(){
-                console.log('clic');
+                var vm = this;
                 this.clicked = true;
                 this.lm_click.play(0);
                 setTimeout(() =>     {
                     clearInterval(this.playing)
                 },3000);
+                vm.showCross("love");
             },
             loveLeave(){
                 if(!this.clicked){
@@ -141,18 +172,28 @@
                 var image = imageArray;
                 var Urlimage = 'url('+imageArray[this.i]+')';
                 console.log(Urlimage);
-                this.$el.querySelector(".background-container").style.backgroundImage =Urlimage;
+                this.$el.querySelector(".background-container").style.backgroundImage = Urlimage;
                 this.i++;
                 if(this.i >= this.gifLenght){
                     this.i=0;
                 }
             },
             workHover(){
-                console.log("ok");
                 this.work_tl.play();
                 this.playing = setInterval(() => {
                     this.gif(this.workImg);
                 }, this.gifTime)
+            },
+            workClick(){
+                console.log('clic');
+                var vm = this;
+                this.clicked = true;
+                this.work_click.play(0);
+                setTimeout(() =>     {
+                    clearInterval(this.playing);
+                },700);
+                vm.hideLogo();
+                vm.showCross("work");
             },
             workLeave(){
                 if(!this.clicked){
@@ -162,6 +203,27 @@
                     },500);
                 }
             },
+            workTitleHover(){
+                console.log(this);
+
+                // imgUrl = this.getAttribute("data-image");
+                // console.log(imgUrl);
+            },
+            showLogo(){
+                var logo = document.getElementsByClassName("logo");
+                console.log(logo);
+                logo[0].classList.add("visible");
+            },
+            hideLogo(){
+                var logo = document.getElementsByClassName("logo");
+                console.log(logo);
+                logo[0].classList.remove("visible");
+            },
+            showCross(section){
+                var cross = document.getElementsByClassName("cross");
+                cross[0].classList.add(section, "active");
+            },
+
             detectScroll(){
                 var vm = this;
                 window.addEventListener('wheel', function(e) {
@@ -171,6 +233,7 @@
                         vm.scrollUpWord.eventCallback("onComplete", function () {
                             console.log('complete');
                             vm.scrollDownWord.pause(0);
+                            vm.hideLogo();
                         });
                     }
                     if (e.deltaY > 0) {
@@ -179,6 +242,7 @@
                         vm.scrollDownWord.eventCallback("onComplete", function () {
                             console.log('complete');
                             vm.scrollUpWord.pause(0);
+                            vm.showLogo();
                         });
                     }
                 });
@@ -197,6 +261,12 @@
             var elle = this.$el.querySelector('.elle');
             var bgAnim = this.$el.querySelector('.background-container');
             var work = this.$el.querySelector('.work .work-word');
+            var workList = this.$el.querySelector('.work-list');
+            var workTop = this.$el.querySelector('.work .word-container:nth-child(1)');
+            var workMid = this.$el.querySelector('.work .word-container:nth-child(2)');
+            var workBottom = this.$el.querySelector('.work .word-container:nth-child(3)');
+
+
 
             this.lm_tl.to( elle, 1, {x:92, ease: Power4.easeInOut},"fire")
                 .to( aime, 1, {x:-92, ease: Power4.easeInOut},"fire")
@@ -209,7 +279,27 @@
                 .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
 
             this.work_tl
-                .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
+                .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98")
+                .to( workTop, 1, {x:80, ease: Power4.easeInOut}, "-=1")
+                .to( workMid, 1, {x:-45, ease: Power4.easeInOut}, "-=1")
+                .to( workBottom, 1, {x:160, ease: Power4.easeInOut}, "-=1");
+
+            this.work_click
+                .to( workTop, 1.7, {x:"70vw", ease: Power4.easeInOut}, "-=1.7")
+                .to( workMid, 1.7, {x:"-70vw", ease: Power4.easeInOut}, "-=1.7")
+                .to( workBottom, 1.7, {x:"70vw", ease: Power4.easeInOut}, "-=1.7")
+                .to( bgAnim, 2, {autoAlpha:0, ease: Power4.easeInOut}, "-=0.5")
+                .set( ".work", {display: "none", ease: Power4.easeInOut})
+                .set( workList, {display: "block", ease: Power4.easeInOut})
+                .to( workList, 2, {autoAlpha:1, ease: Power4.easeInOut}, "+=0.4");
+
+            this.work_close
+                .set( ".work", {display: "block", ease: Power4.easeInOut})
+                .to( workList, 2, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
+                .set( workList, {display: "none", ease: Power4.easeInOut})
+                .to( workTop, 1.7, {x:"0vw", ease: Power4.easeInOut}, "-=1.7")
+                .to( workMid, 1.7, {x:"0vw", ease: Power4.easeInOut}, "-=1.7")
+                .to( workBottom, 1.7, {x:"0", ease: Power4.easeInOut}, "-=1.7");
 
             this.scrollDownWord
                 .staggerTo( ".active .word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3)
@@ -224,7 +314,8 @@
                 .set(".work-container", {className:"-=active"})
                 .set(".love .word",{y:160})
                 .staggerTo( ".love .word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
-            this.lm_click.to( elle, 2, {x:"-80vw", ease: Power4.easeInOut},"fire")
+            this.lm_click
+                .to( elle, 2, {x:"-80vw", ease: Power4.easeInOut},"fire")
                 .to( aime, 2, {x:"80vw", ease: Power4.easeInOut},"fire")
                 .to( bgAnim, 2.8, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
                 .set( love, {autoAlpha: 0, display: 'none'})
@@ -247,6 +338,7 @@
         font-size: 200px;
         flex-direction:column;
         overflow: hidden;
+        max-width: 100%;
     }
     .background-container{
         position: absolute;
@@ -352,6 +444,30 @@
             }
             &:nth-child(3){
                 transform: translate(-109px, -75px);
+            }
+        }
+    }
+    .work-list{
+        display: none;
+        text-align:center;
+        opacity: 0;
+        .work-list-container{
+            &.active{
+                .work-list-title{
+                    font-size: 200px;
+                    color:#FF9170;
+
+                }
+            }
+        }
+        .work-list-title{
+            font-weight: bold;
+            font-size: 80px;
+            transition: color 0.5s ease;
+            &:hover{
+                cursor: pointer;
+                color:#FF9170;
+                transition: color 0.5s ease;
             }
         }
     }

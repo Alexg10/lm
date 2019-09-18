@@ -10,6 +10,7 @@
             <ImgFullCenter></ImgFullCenter>
             <ImgFullHalf></ImgFullHalf>
             <ColorSection></ColorSection>
+            <TextBgSection></TextBgSection>
             <Footer></Footer>
 
         </div>
@@ -26,6 +27,7 @@
     import ImgFullCenter from '~/components/project/ImgFullCenter'
     import ImgFullHalf from '~/components/project/ImgFullHalf'
     import ColorSection from '~/components/project/ColorSection'
+    import TextBgSection from '~/components/project/TextBgSection'
     import Footer from '~/components/project/Footer'
 
 
@@ -41,6 +43,7 @@
             ImgFullCenter,
             ImgFullHalf,
             ColorSection,
+            TextBgSection,
             Footer
         },
         data(){
