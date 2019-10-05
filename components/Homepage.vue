@@ -1,6 +1,14 @@
 <template>
     <div>
         <div class="container">
+            <div class="cross" v-on:click="hideCross">
+                <div class="crossLineOne">
+                    <div class="crossLineOne_content"></div>
+                </div>
+                <div class="crossLineTwo">
+                    <div class="crossLineTwo_content"></div>
+                </div>
+            </div>
             <div class="background-container"></div>
             <div class="love-container active">
                 <div class="love" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave" v-on:click="loveClick">
@@ -122,6 +130,9 @@
                 projectName:'',
                 workImg:'',
                 Urlimage:'',
+                work_close: new TimelineMax({ paused: true}),
+                lm_close: new TimelineMax({ paused: true}),
+                clicked: process.env.clicked,
                 lmImg : [
                     '/images/home/lm_1.jpg',
                     '/images/home/lm_2.jpg',
@@ -137,13 +148,47 @@
                     '/images/home/work_3.jpg',
                     '/images/home/work_4.jpg'
                 ],
-                clicked: false
+                clicked: process.env.clicked
             }
         },
         methods: {
+            hideCross(){
+                var cross = document.getElementsByClassName("cross");
+                var vm = this;
+                console.log('close nok ');
+                this.clicked=false;
+
+                if(cross[0].classList.contains("work")){
+                    console.log('close ok ');
+                    cross[0].classList.remove("active", "work");
+                    this.work_close.play(0);
+                    console.log('CLose');
+                    this.work_close.eventCallback("onComplete", function () {
+                        console.log('complete');
+                        vm.showLogo();
+                    });
+                }else if (cross[0].classList.contains("love")){
+                    cross[0].classList.remove("active", "love");
+                    this.lm_close.play(0);
+                    // this.lm_click.reverse();
+                    setTimeout(() => {
+                        this.lm_tl.pause(0);
+                    }, 3000);
+                }
+                console.log(this.clicked);
+
+            },
+            showLogo(){
+                var logo = document.getElementsByClassName("logo");
+                console.log(logo);
+                logo[0].classList.add("visible");
+            },
             loveHover(){
+                this.clicked = false;
+
                 console.log(this.lmImg);
                 this.lm_tl.play();
+                console.log(this.clicked)
                 this.playing = setInterval(() => {
                     this.gif(this.lmImg);
                 }, this.gifTime)
@@ -154,8 +199,8 @@
                 this.clicked = true;
                 this.lm_click.play(0);
                 setTimeout(() =>     {
-                    clearInterval(this.playing)
-                },3000);
+                    clearInterval(this.playing);
+                },2000);
                 vm.showCross("love");
             },
             loveLeave(){
@@ -179,7 +224,7 @@
                 }
             },
             workHover(){
-                this.work_tl.play();
+                this.work_tl.play(0);
                 this.playing = setInterval(() => {
                     this.gif(this.workImg);
                 }, this.gifTime)
@@ -194,6 +239,7 @@
                 },700);
                 vm.hideLogo();
                 vm.showCross("work");
+                // this.clicked = false;
             },
             workLeave(){
                 if(!this.clicked){
@@ -266,15 +312,34 @@
             var workMid = this.$el.querySelector('.work .word-container:nth-child(2)');
             var workBottom = this.$el.querySelector('.work .word-container:nth-child(3)');
 
+            this.work_close
+                .to( workList, 1, {autoAlpha:0, ease: Power4.easeInOut})
+                .set( workList, {display: "none", ease: Power4.easeInOut})
+                .set( ".work", {display: "block", ease: Power4.easeInOut})
+                .to( workTop, 1.7, {x:"0", ease: Power4.easeInOut}, "-=0.9")
+                .to( workMid, 1.7, {x:"126px", ease: Power4.easeInOut}, "-=1")
+                .to( workBottom, 1.7, {x:"-109px", ease: Power4.easeInOut}, "-=1.1");
 
+            this.lm_close
+                .to( loveContentW, 1.8, { y:-80, ease: Power4.easeInOut}, "-=0.6")
+                .to( loveContentDesc, 1.5, { y:-80, ease: Power4.easeInOut}, "-=1.3")
+                .set( elleStart, {xPercent:0})
+                .set( elleEnd, {xPercent:0})
+                .set( aimeStart, {xPercent:4})
+                .set( aimeEnd, {xPercent:4})
+                .set( loveContent, {className:"-=active"})
+                .set( love, {autoAlpha: 1, display: 'block'})
+                .set( bgAnim, {alpha:0, visibility: "visible"}, "+=0.4")
+                .to( elle, 1.5, {x:163, ease: Power4.easeInOut},"fire")
+                .to( aime, 1.5, {x:-174, ease: Power4.easeInOut},"fire");   
 
             this.lm_tl.to( elle, 1, {x:92, ease: Power4.easeInOut},"fire")
                 .to( aime, 1, {x:-92, ease: Power4.easeInOut},"fire")
                 .to( elleStart, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut},"fire")
-                .to( elleEnd, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut}, "-=0.98")
+                .to( elleEnd, 1, {xPercent:-96,alpha:1, ease: Power4.easeInOut}, "-=0.98")
                 .from( elleEnd, 1, {x:-107, ease: Power4.easeInOut}, "-=0.98")
                 .to( aimeStart, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut}, "-=0.98")
-                .to( aimeEnd, 1, {xPercent:-100,alpha:1, ease: Power4.easeInOut}, "-=0.98")
+                .to( aimeEnd, 1, {xPercent:-96,alpha:1, ease: Power4.easeInOut}, "-=0.98")
                 .from( aimeEnd, 1, {x:-87, ease: Power4.easeInOut}, "-=0.98")
                 .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
 
@@ -295,11 +360,10 @@
 
             this.work_close
                 .set( ".work", {display: "block", ease: Power4.easeInOut})
+                .set( bgAnim, {alpha:0, visibility: "visible"})
                 .to( workList, 2, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
                 .set( workList, {display: "none", ease: Power4.easeInOut})
-                .to( workTop, 1.7, {x:"0vw", ease: Power4.easeInOut}, "-=1.7")
-                .to( workMid, 1.7, {x:"0vw", ease: Power4.easeInOut}, "-=1.7")
-                .to( workBottom, 1.7, {x:"0", ease: Power4.easeInOut}, "-=1.7");
+                ;
 
             this.scrollDownWord
                 .staggerTo( ".active .word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3)
@@ -317,7 +381,7 @@
             this.lm_click
                 .to( elle, 2, {x:"-80vw", ease: Power4.easeInOut},"fire")
                 .to( aime, 2, {x:"80vw", ease: Power4.easeInOut},"fire")
-                .to( bgAnim, 2.8, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
+                .to( bgAnim, 2, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
                 .set( love, {autoAlpha: 0, display: 'none'})
                 .set( loveContent, {className:"+=active"})
                 .from( loveContentW, 1.8, { y:80, ease: Power4.easeInOut}, "-=0.6")
@@ -492,5 +556,73 @@
             display: block;
         }
     }
+
+    .cross{
+		position: absolute;
+        top: 15px;
+        left: 50%;
+		width: 40px;
+		height: 40px;
+		// border: 1px solid black;
+		// border-radius: 100px;
+        transform: translateX(-50%);
+		&:hover{
+			cursor: pointer;
+		}
+		&.active{
+			.crossLineOne{
+				.crossLineOne_content{
+					transform: translate(0%, 0%);
+					transition: 0.4s ease;
+					transition-delay:0.3s;
+				}
+			}
+			.crossLineTwo{
+				.crossLineTwo_content{
+					transform: translate(0%, 0%);
+					transition: 0.4s ease;
+				}
+			}
+		}
+	}
+	.crossLineOne{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 2px;
+        transform: translate(-50%,-50%) rotate(-45deg);
+        overflow: hidden;
+		&_content{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #3b4046;
+			transform: translate(100%, 0%);
+			transition: 0.4s ease;
+			transition-delay:0.3s;
+		}
+	}
+	.crossLineTwo{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 2px;
+        transform: translate(-50%,-50%) rotate(45deg);
+        overflow: hidden;
+		&_content{
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background-color: #3b4046;
+			transform: translate(-100%, 0%);
+			transition: 0.4s ease;
+		}
+	}
 
 </style>

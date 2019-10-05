@@ -33,7 +33,6 @@
         },
         mounted() {
             // console.log(this.masonryW);
-            
             var msnry = new Masonry( this.masonryW, {
                 itemSelector: '.img-container'
             });

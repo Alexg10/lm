@@ -50,6 +50,9 @@ export default {
     extend(config, ctx) {
     }
   },
+  env: {
+    clicked: false
+  },
   modules: ['@nuxtjs/style-resources'],
     styleResources: {
       scss: [
