@@ -1,19 +1,20 @@
 <template>
     <div>
         <section class="project-laptop-preview container">
-            <img :src="LaptopPreview" alt="">
+            <img :src="image" alt="">
         </section>
     </div>
 </template>
 
 <script>
-    import LaptopPreview from '~/assets/images/project/project-laptop.png'
     export default {
         data(){
             return{
-                LaptopPreview
             }
-        }
+        },
+        props: [
+            'image'
+        ]
     }
 </script>
 

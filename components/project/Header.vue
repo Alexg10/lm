@@ -1,24 +1,26 @@
 <template>
-    <div class="project-header" :style="{ backgroundImage: `url(${backgroundUrl})` }">
+    <div class="project-header" :style="{ backgroundImage: `url(${image})` }">
         <div class="project-header-content">
             <div class="category">Project</div>
-            <div class="project-name">Chopard</div>
+            <div class="project-name">{{name}}</div>
             <div class="project-description">
-                <p>Enhance of the product page of the luxury brand to create a high end experience with an interactive configurator.</p>
+                <p>{{description}}</p>
             </div>
         </div>
     </div>
 </template>
 
 <script>
-    import backgroundUrl from '~/assets/images/project/project-header.jpg'
     export default {
         data(){
             return{
-                backgroundUrl
             }
-        }
-        
+        },
+        props: [
+            'name',
+            'description',
+            'image'
+        ]
     }
 </script>
 

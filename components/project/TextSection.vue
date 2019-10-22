@@ -2,7 +2,7 @@
     <section class="text transition">
         <div class="container">
             <p>
-                Modernization of the website by using immersive full screen images and a configurator allowing user to create a unique piece of jewelry.
+                {{text}}
             </p>
         </div>
     </section>
@@ -14,7 +14,10 @@
             return{
                 
             }
-        }
+        },
+        props: [
+            'text'
+        ]
     }
 </script>
 

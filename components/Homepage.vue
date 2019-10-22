@@ -123,11 +123,13 @@
                 lm_click: new TimelineMax({ paused: true}),
                 work_click: new TimelineMax({ paused: true}),
                 work_close: new TimelineMax({ paused: true}),
+                lm_hover_down: new TimelineMax({ paused: true}),
                 i: 0, 
                 gifLenght: 0,
                 gifTime: 250,
                 lmImg:'',
                 projectName:'',
+                playing:'',
                 workImg:'',
                 Urlimage:'',
                 work_close: new TimelineMax({ paused: true}),
@@ -189,6 +191,7 @@
                 console.log(this.lmImg);
                 this.lm_tl.play();
                 console.log(this.clicked)
+                console.log(this.playing);
                 this.playing = setInterval(() => {
                     this.gif(this.lmImg);
                 }, this.gifTime)
@@ -204,17 +207,21 @@
                 vm.showCross("love");
             },
             loveLeave(){
+
                 if(!this.clicked){
                     this.lm_tl.reverse();
                     setTimeout(() =>     {
+                    console.log(this.playing);
+
                         clearInterval(this.playing)
                     },500);
+                    console.log('sdfsdfs');
+                    
                 }
             },
             gif(imageArray){
                 this.i;
                 this.gifLenght = imageArray.length;
-                var image = imageArray;
                 var Urlimage = 'url('+imageArray[this.i]+')';
                 console.log(Urlimage);
                 this.$el.querySelector(".background-container").style.backgroundImage = Urlimage;
@@ -270,6 +277,27 @@
                 cross[0].classList.add(section, "active");
             },
 
+            loveHoverDown(id){
+                console.log('loveHoverDdddown');
+                var cross = document.getElementsByClassName("background-container");
+                        // clearInterval(this.playing);
+                this.loveLeave();
+                console.log('id');
+
+                console.log(id);
+
+                cross[0].style.opacity = 0;
+                cross[0].style.backgroundImage = 'none';
+                clearInterval(id);
+                // this.playing='';
+                // console.log(this.playing);
+                // this.gif([0]);
+                // this.playing = setInterval(() => {
+                //     this.gif(this.workImg);
+                // }, this.gifTime)
+                // this.workHover();
+            },
+
             detectScroll(){
                 var vm = this;
                 window.addEventListener('wheel', function(e) {
@@ -285,8 +313,12 @@
                     if (e.deltaY > 0) {
                         // console.log('down');
                         vm.scrollDownWord.play();
+
                         vm.scrollDownWord.eventCallback("onComplete", function () {
                             console.log('complete');
+                            console.log(vm.playing);
+
+                            vm.loveHoverDown(vm.playing);
                             vm.scrollUpWord.pause(0);
                             vm.showLogo();
                         });
@@ -311,6 +343,8 @@
             var workTop = this.$el.querySelector('.work .word-container:nth-child(1)');
             var workMid = this.$el.querySelector('.work .word-container:nth-child(2)');
             var workBottom = this.$el.querySelector('.work .word-container:nth-child(3)');
+
+            this.lm_hover_down
 
             this.work_close
                 .to( workList, 1, {autoAlpha:0, ease: Power4.easeInOut})
@@ -362,8 +396,7 @@
                 .set( ".work", {display: "block", ease: Power4.easeInOut})
                 .set( bgAnim, {alpha:0, visibility: "visible"})
                 .to( workList, 2, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
-                .set( workList, {display: "none", ease: Power4.easeInOut})
-                ;
+                .set( workList, {display: "none", ease: Power4.easeInOut});
 
             this.scrollDownWord
                 .staggerTo( ".active .word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3)
@@ -378,6 +411,7 @@
                 .set(".work-container", {className:"-=active"})
                 .set(".love .word",{y:160})
                 .staggerTo( ".love .word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
+                
             this.lm_click
                 .to( elle, 2, {x:"-80vw", ease: Power4.easeInOut},"fire")
                 .to( aime, 2, {x:"80vw", ease: Power4.easeInOut},"fire")

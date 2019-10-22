@@ -1,18 +1,10 @@
 <template>
     <section class="img-4-section">
         <div class="container">
-            <div class="img-section-container">
-                <div class="img-container grid-item">
-                    <img :src="signIt01" alt="">
-                </div>
-                <div class="img-container grid-item phone-container">
-                    <img :src="signIt02" alt="" class="phone-img">
-                </div>
-                <div class="img-container grid-item">
-                    <img :src="signIt03" alt="">
-                </div>
-                <div class="img-container grid-item">
-                    <img :src="signIt04" alt="">
+            <div class="img-section-container" >
+                <div class="img-container grid-item" v-for="four_image in four_images" v-bind:key>
+                    <!-- WHY sketch_image -->
+                    <img :src="four_image.image.url" :alt="four_image.image.title">
                 </div>
             </div>
         </div>
@@ -20,19 +12,14 @@
 </template>
 
 <script>
-    import signIt01 from '~/assets/images/project/signit01.svg'
-    import signIt02 from '~/assets/images/project/signit02.svg'
-    import signIt03 from '~/assets/images/project/signit03.svg'
-    import signIt04 from '~/assets/images/project/signit04.svg'
     export default {
         data(){
             return{
-                signIt01,
-                signIt02,
-                signIt03,
-                signIt04
             }
-        }
+        },
+        props: [
+            'four_images',
+        ]
     }
 </script>
 

@@ -1,15 +1,9 @@
 <template>
     <section class="img-section">
         <div class="container">
-            <div id="img-section-container" class="img-section-container">
+            <div id="img-section-container" class="img-section-container" v-for="image in images" v-bind:key>
                 <div class="img-container grid-item">
-                    <img :src="homePreview" alt="">
-                </div>
-                <div class="img-container grid-item phone-container">
-                    <img :src="phonePreview" alt="" class="phone-img">
-                </div>
-                <div class="img-container grid-item">
-                    <img :src="productPreview" alt="">
+                    <img :src="image.sketch_image.url" :alt="image.sketch_image.title">
                 </div>
             </div>
         </div>
@@ -18,25 +12,21 @@
 
 <script>
     import Masonry from 'masonry-layout'
-    import homePreview from '~/assets/images/project/project-home.png'
-    import phonePreview from '~/assets/images/project/project-phone.png'
-    import productPreview from '~/assets/images/project/project-product.png'
 
     export default {
         data(){
             return{
-                homePreview,
-                phonePreview,
-                productPreview,
                 masonryW : '#img-section-container',
             }
         },
         mounted() {
-            // console.log(this.masonryW);
             var msnry = new Masonry( this.masonryW, {
                 itemSelector: '.img-container'
             });
-        }
+        },
+        props: [
+            'images',
+        ]
     }
 </script>
 

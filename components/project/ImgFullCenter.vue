@@ -2,21 +2,21 @@
     <section class="img-full-center-section">
         <div class="container">
             <div class="img-full-center-section-container">
-                <img :src="fullCenter" alt="">
+                <img :src="img_full_center.url" alt="">
             </div>
         </div>
     </section>
 </template>
 
 <script>
-    import fullCenter from '~/assets/images/project/fullCenter.png'
-
     export default {
         data(){
             return{
-                fullCenter
             }
-        }
+        },
+        props: [
+            'img_full_center',
+        ]
     }
 </script>
 <style lang="scss" scoped>

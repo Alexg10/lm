@@ -1,17 +1,8 @@
 <template>
     <section class="img-full-half-section">
-        <div class="img-section-container">
-            <div class="img-container">
-                <img :src="signIt01" alt="">
-            </div>
-            <div class="img-container">
-                <img :src="signIt02" alt="">
-            </div>
-            <div class="img-container">
-                <img :src="signIt03" alt="">
-            </div>
-            <div class="img-container">
-                <img :src="signIt04" alt="">
+        <div class="img-section-container" >
+            <div class="img-container" v-for="img_half in img_full_half" v-bind:key>
+                <img :src="img_half.bloc_img_full_half_image.url" alt="">
             </div>
         </div>
     </section>
@@ -30,7 +21,10 @@
                 signIt03,
                 signIt04
             }
-        }
+        },
+        props:[
+            'img_full_half'
+        ]
     }
 </script>
 
