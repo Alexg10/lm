@@ -4,17 +4,21 @@
         <div class="grey-section">
             <div v-for="bloc in projectBlocName" v-bind:key>
                 <!-- {{bloc}} -->
-                <Chapter v-if="bloc[0] == 'bloc_step'" :number=bloc[1] :name=bloc[2]></Chapter>
+                <Chapter v-if="bloc[0] == 'bloc_step'" :bg_color=bloc[1] :number=bloc[2] :name=bloc[3]></Chapter>
                 <LaptopSection v-if="bloc[0] == 'bloc_laptop'" :image=bloc[1].url></LaptopSection>
                 <TextSection v-if="bloc[0] == 'bloc_txt'" :text=bloc[1]></TextSection>
                 <ImgSection v-if="bloc[0] == 'bloc_sketch'" :images=bloc[1]></ImgSection>
                 <Img4Section v-if="bloc[0] == 'bloc_four_section_content'" :four_images=bloc[1]></Img4Section>
                 <ImgFullCenter v-if="bloc[0] == 'bloc_img_full_center'" :img_full_center=bloc[1]></ImgFullCenter>
                 <ImgFullHalf v-if="bloc[0] == 'bloc_img_full_half'" :img_full_half=bloc[1]></ImgFullHalf>
-                <ColorSection></ColorSection>
-                <TextBgSection></TextBgSection>
+                <ColorSection v-if="bloc[0] == 'bloc_colors'" :colors=bloc[1]></ColorSection>
+                <TextBgSection v-if="bloc[0] == 'bloc_bg_gradient'" :gradient_text=bloc[1] :gradient_img=bloc[2]></TextBgSection>
+                <Img6SquareText v-if="bloc[0] == 'bloc_six_img_txt'" :six_chapter=bloc[1] :six_chapter_name=bloc[2] :six_images=bloc[3] :six_images_txt=bloc[4] ></Img6SquareText>
+                <ImgPatchwork v-if="bloc[0] == 'bloc_patchwork'" :patchworkOne=bloc[1] :patchworkTxt=bloc[2] :patchworkTwo=bloc[3]></ImgPatchwork>
+                <BlocAnimation v-if="bloc[0] == 'bloc_animation'" :image_desktop=bloc[1] :image_mobile=bloc[2]></BlocAnimation>
+                <BlocAfter v-if="bloc[0] == 'bloc_after_effect'" :after_top_left=bloc[1] :after_top_righ=bloc[2] :after_top_middle=bloc[3] :after_full_height=bloc[4]></BlocAfter>
             </div>
-            <Footer></Footer>
+            <Footer v-if="footer" :link="footerLink" :title="footerTitle"></Footer>
         </div>
     </div>
 </template>
@@ -33,6 +37,10 @@
     import ImgFullHalf from '~/components/project/ImgFullHalf'
     import ColorSection from '~/components/project/ColorSection'
     import TextBgSection from '~/components/project/TextBgSection'
+    import Img6SquareText from '~/components/project/Img6SquareText'
+    import ImgPatchwork from '~/components/project/ImgPatchwork'
+    import BlocAnimation from '~/components/project/BlocAnimation'
+    import BlocAfter from '~/components/project/BlocAfter'
     import Footer from '~/components/project/Footer'
 
 import { mapMutations } from 'vuex'  
@@ -50,6 +58,10 @@ import { mapState } from 'vuex'
             ImgFullHalf,
             ColorSection,
             TextBgSection,
+            Img6SquareText,
+            ImgPatchwork,
+            BlocAnimation,
+            BlocAfter,
             Footer
         },
         data(){
@@ -60,7 +72,6 @@ import { mapState } from 'vuex'
         },
         mounted: function(){
             console.log(this.id);
-            console.log(this.$store.state.projects.list.find(project => project.id === this.id));
             axios.get(`${apiUrl}`)
             .then(value => {
                 var data = value.data[0];
@@ -88,6 +99,12 @@ import { mapState } from 'vuex'
                 var projectBlocNameInfos= [];
                 var objectBloc = {};
                 var blocName;
+                var footer = projectAcf.footer_link;
+                var footerLink = projectAcf.footer_link.url;
+                var footerTitle = projectAcf.footer_link.title;
+
+
+                console.log(projectAcf);
 
                 projectBlocs.forEach(function(element) {
                     console.log(element.acf_fc_layout);
@@ -99,7 +116,10 @@ import { mapState } from 'vuex'
                     projectName,
                     projectDescription,
                     projectHeaderImg,
-                    projectBlocName
+                    projectBlocName,
+                    footerLink,
+                    footerTitle,
+                    footer
                 }
             })   
             .catch((e) => {

@@ -1,7 +1,6 @@
 <template>
-    <section class="chapter">
+    <section class="chapter" v-bind:style='{backgroundColor: bg_color}'>
         <div class="container">
-            {{this.$store.state.list}}
             <div class="project-chapter"><span class="number">{{number}}</span>.</div>
             <div class="project-category">{{name}}</div>
         </div>
@@ -19,6 +18,7 @@ import { mapState } from 'vuex'
             }
         },
         props: [
+            'bg_color',
             'number',
             'name'
         ]

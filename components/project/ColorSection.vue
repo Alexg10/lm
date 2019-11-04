@@ -2,29 +2,10 @@
     <section class="color-section">
         <div class="container">
             <div class="color-section-container">
-                <div class="color-container">
-                    <div class="color"></div>
+                <div class="color-container" v-for="color in colors" v-bind:key>
+                    <div class="color" v-bind:style="{background: color.color_hexa}"></div>
                     <div class="color-name">
-                        Primary - #ff5e52
-                    </div>
-                </div>
-                <div class="color-container">
-                    <div class="color"></div>
-                    <div class="color-name">
-                        Primary - #ff5e52
-                    </div>
-                    
-                </div>
-                <div class="color-container">
-                    <div class="color"></div>
-                    <div class="color-name">
-                        Primary - #ff5e52
-                    </div>
-                </div>
-                <div class="color-container">
-                    <div class="color"></div>
-                    <div class="color-name">
-                        Primary - #ff5e52
+                        {{color.color_title}} - {{color.color_hexa}}
                     </div>
                 </div>
             </div>
@@ -39,7 +20,10 @@
             return{
 
             }
-        }
+        },
+        props: [
+            'colors'
+        ]
     }
 </script>
 

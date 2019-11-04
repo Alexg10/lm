@@ -1,13 +1,12 @@
 <template>
     <div class="footer-project">
         <div class="foter-project-content">
-            <a href="">
+            <n-link :to="this.link_next" >
                 next project
-                <div class="project-name">Chopard</div>
+                <div class="project-name">{{title}}</div>
                 <img :src="arrowDown" alt="">
-            </a>
+            </n-link>
         </div>
-
     </div>
 </template>
 
@@ -18,8 +17,16 @@
     export default {
         data(){
             return{
-                arrowDown
+                arrowDown,
+                link_next:''
             }
+        },
+        props: [
+            'link',
+            'title'
+        ], 
+        mounted: function(){
+            this.link_next = this.link.match(/([^\/]*)\/*$/)[1];
         }
         
     }
