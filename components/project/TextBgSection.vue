@@ -11,6 +11,9 @@
 <script>
     export default {
         data(){
+            return{
+                
+            }
         },
         props: [
             'gradient_text',

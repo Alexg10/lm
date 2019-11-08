@@ -9,17 +9,10 @@
 </template>
 
 <script>
-    import signIt01 from '~/assets/images/project/signit-half.jpg'
-    import signIt02 from '~/assets/images/project/signit-half2.jpg'
-    import signIt03 from '~/assets/images/project/signit-half2.jpg'
-    import signIt04 from '~/assets/images/project/signit-half.jpg'
     export default {
         data(){
             return{
-                signIt01,
-                signIt02,
-                signIt03,
-                signIt04
+                
             }
         },
         props:[

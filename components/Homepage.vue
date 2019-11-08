@@ -63,44 +63,19 @@
                 </div>
             </div>
             <div class="work-container">
-                <div class="work" v-on:mouseenter="workHover" v-on:mouseleave="workLeave" v-on:click="workClick">
-                    <div class="word-container">
-                        <div class="work-word word">work</div>
-                    </div>
-                    <div class="word-container">
-                        <div class="work-word word">work</div>
-                    </div>
-                    <div class="word-container">
-                        <div class="work-word word">work</div>
-                    </div>
-                </div>
-                <div class="work-list">
-                    <div class="work-list-container">
-                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_1.jpg`">
-                            Dinh Van
+                <nuxt-link to="/project" class="work"  >
+                    <div v-on:mouseenter="workHover" v-on:mouseleave="workLeave" v-on:click="workClick">
+                        <div class="word-container">
+                            <div class="work-word word">work</div>
+                        </div>
+                        <div class="word-container">
+                            <div class="work-word word">work</div>
+                        </div>
+                        <div class="word-container">
+                            <div class="work-word word">work</div>
                         </div>
                     </div>
-                    <div class="work-list-container active">
-                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_2.png`">
-                            Pierre Frey
-                        </div>
-                    </div>
-                    <div class="work-list-container">
-                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_2.png`">
-                            Chopard 
-                        </div>
-                    </div>
-                    <div class="work-list-container">
-                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_3.jpg`">
-                            Letsignit
-                        </div>
-                    </div>
-                    <div class="work-list-container">
-                        <div class="work-list-title" v-on:mouseenter="workTitleHover" data-image="`/images/home/work_4.jpg`">
-                            Monoprix
-                        </div>
-                    </div>
-                </div>
+                </nuxt-link>
             </div>
         </div>
     </div>
@@ -232,9 +207,7 @@
             },
             workHover(){
                 this.work_tl.play(0);
-                this.playing = setInterval(() => {
-                    this.gif(this.workImg);
-                }, this.gifTime)
+                console.log("ok")
             },
             workClick(){
                 console.log('clic');
@@ -339,7 +312,6 @@
             var elle = this.$el.querySelector('.elle');
             var bgAnim = this.$el.querySelector('.background-container');
             var work = this.$el.querySelector('.work .work-word');
-            var workList = this.$el.querySelector('.work-list');
             var workTop = this.$el.querySelector('.work .word-container:nth-child(1)');
             var workMid = this.$el.querySelector('.work .word-container:nth-child(2)');
             var workBottom = this.$el.querySelector('.work .word-container:nth-child(3)');
@@ -347,8 +319,6 @@
             this.lm_hover_down
 
             this.work_close
-                .to( workList, 1, {autoAlpha:0, ease: Power4.easeInOut})
-                .set( workList, {display: "none", ease: Power4.easeInOut})
                 .set( ".work", {display: "block", ease: Power4.easeInOut})
                 .to( workTop, 1.7, {x:"0", ease: Power4.easeInOut}, "-=0.9")
                 .to( workMid, 1.7, {x:"126px", ease: Power4.easeInOut}, "-=1")
@@ -378,7 +348,6 @@
                 .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98");
 
             this.work_tl
-                .to( bgAnim, 1, {alpha:1, ease: Power4.easeInOut}, "-=0.98")
                 .to( workTop, 1, {x:80, ease: Power4.easeInOut}, "-=1")
                 .to( workMid, 1, {x:-45, ease: Power4.easeInOut}, "-=1")
                 .to( workBottom, 1, {x:160, ease: Power4.easeInOut}, "-=1");
@@ -389,14 +358,10 @@
                 .to( workBottom, 1.7, {x:"70vw", ease: Power4.easeInOut}, "-=1.7")
                 .to( bgAnim, 2, {autoAlpha:0, ease: Power4.easeInOut}, "-=0.5")
                 .set( ".work", {display: "none", ease: Power4.easeInOut})
-                .set( workList, {display: "block", ease: Power4.easeInOut})
-                .to( workList, 2, {autoAlpha:1, ease: Power4.easeInOut}, "+=0.4");
 
             this.work_close
                 .set( ".work", {display: "block", ease: Power4.easeInOut})
                 .set( bgAnim, {alpha:0, visibility: "visible"})
-                .to( workList, 2, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
-                .set( workList, {display: "none", ease: Power4.easeInOut});
 
             this.scrollDownWord
                 .staggerTo( ".active .word", 1.2, {y:-160, ease: Power4.easeInOut}, 0.3)
@@ -480,9 +445,10 @@
         position: relative;
         color: black;
         transition: color 0.4s ease;
+        text-decoration: none;
         &:hover{
             cursor:pointer;
-            color:#FF9170;
+            color: $main-color;
             transition: color 0.5s ease;
         }
     }
