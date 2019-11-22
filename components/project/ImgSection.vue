@@ -7,11 +7,14 @@
                 </div>
             </div>
         </div>
+        <div class="spacer" style="clear: both;"></div>
     </section>
 </template>
 
 <script>
     import Masonry from 'masonry-layout'
+    import { Timeline, TimelineMax } from 'gsap'
+    import VueScrollmagic from 'vue-scrollmagic'
 
     export default {
         data(){
@@ -20,9 +23,45 @@
             }
         },
         mounted() {
-            var msnry = new Masonry( this.masonryW, {
-                itemSelector: '.img-container'
+            setTimeout(() => {
+                var msnry = new Masonry( this.masonryW, {
+                    itemSelector: '.img-container'
+                });
+            }, 500);
+
+
+            var imgContainers = document.getElementsByClassName("img-section-container");
+            var scrollM = this.$scrollmagic;
+// console.log(imgContainers);
+            setTimeout(() => {
+
+            Array.prototype.forEach.call(imgContainers,function(el, i) {
+                // console.log(el);
+                var imgContain = el.getElementsByClassName("img-container");
+                var imgContainEl = el.getElementsByClassName("img-container")[0];
+
+                // console.log(imgContain);
+                var tl = new TimelineMax({ paused: false});
+
+                let oldHeight = imgContainEl.offsetHeight;
+                imgContainEl.style.height= 0;
+                let newHeight = oldHeight ? 0 : "auto";
+
+                tl.fromTo(imgContainEl, 3, {height: 0},{height: oldHeight, ease: Power4.easeInOut, overwrite: false});                
+                const imgSectionScene = scrollM.scene({
+                    triggerElement: imgContainEl,
+                    triggerHook: 0.65,
+                    offset: -100
+                })
+                .setTween(tl)
+                .reverse(false)
+                .addIndicators({ name: '2 (imgCain00)' })
+                scrollM.addScene(imgSectionScene)
+
             });
+            }, 800);
+
+
         },
         props: [
             'images',
@@ -35,9 +74,22 @@
         background-color: $white;
     }
     .img-section-container{
+        display: inline-block;
         transform: translateY(-140px);
+        width: 50%;
+        float: left;
+        &:nth-child(2){
+            padding-top: 94px;
+            margin-bottom: 180px;
+            .img-container{
+                max-width: 240px;
+                margin: 0 auto;
+            }
+        }
         .img-container{
-            width: 50%;
+            width: 100%;
+            // height: 0;
+            overflow: hidden;
         }
         .phone-container{
             text-align: center;

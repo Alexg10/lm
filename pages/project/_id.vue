@@ -71,12 +71,12 @@ import { mapState } from 'vuex'
             }
         },
         mounted: function(){
-            console.log(this.id);
+            // console.log(this.id);
             axios.get(`${apiUrl}`)
             .then(value => {
                 var data = value.data[0];
-                console.log('data')
-                console.log(data)
+                // console.log('data')
+                // console.log(data)
             });
         },
         computed: {
@@ -104,12 +104,12 @@ import { mapState } from 'vuex'
                 var footerTitle = projectAcf.footer_link.title;
 
 
-                console.log(projectAcf);
+                // console.log(projectAcf);
 
                 projectBlocs.forEach(function(element) {
-                    console.log(element.acf_fc_layout);
+                    // console.log(element.acf_fc_layout);
                     projectBlocName.push(Object.values(element));
-                    console.log(projectBlocName);
+                    // console.log(projectBlocName);
                 });
                 return { 
                     projectAcf,

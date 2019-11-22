@@ -1,8 +1,12 @@
 <template>
     <section class="chapter" v-bind:style='{backgroundColor: bg_color}'>
         <div class="container">
-            <div class="project-chapter"><span class="number">{{number}}</span>.</div>
-            <div class="project-category">{{name}}</div>
+            <div class="project-chapter">
+                <span class="number">{{number}}.</span>
+            </div>
+            <div class="project-category">
+                <span class="project-category-name">{{name}}</span>
+            </div>
         </div>
     </section>
 </template>
@@ -10,40 +14,48 @@
 <script>
 import { mapMutations } from 'vuex'  
 import { mapState } from 'vuex'  
+import { Timeline, TimelineMax } from 'gsap'
+import VueScrollmagic from 'vue-scrollmagic'
+
 
     export default {
         data(){
             return{
-                chapter:'01'
+                chapter:'01',
+                tween: new TimelineMax({ 
+                    paused: true,
+                }),
             }
         },
         props: [
             'bg_color',
             'number',
             'name'
-        ]
-        // computed:{
-        //     ...mapState({
-        //         projects: state => state.project.list,
-        //         project: state => state.projects.project
-        //     })
-        // },
-        // mounted() {
-            // console.log(this.$store.state.projects);
+        ],
+        mounted() {
+            var chapters = document.getElementsByClassName("chapter");
+            var scrollM = this.$scrollmagic;
 
-            // // console.log($state.projects.list);
-            // console.log(this.$store.state.project);
-            // console.log(this.$store.getters.list);
+            Array.prototype.forEach.call(chapters,function(el, i) {
+                var number = el.children[0].getElementsByClassName("number")[0];
+                var name = el.children[0].getElementsByClassName("project-category-name")[0];
 
-            
+                var tl = new TimelineMax({ paused: false});
+                tl.fromTo(number, 1, {y: 40},{y: 0, ease: Power4.easeInOut, overwrite: false})
+                .fromTo(name, 1, {y: 40},{y: 0, ease: Power4.easeInOut, overwrite: false}, 0.3);
+                
+                const scene2 = scrollM.scene({
+                    triggerElement: el,
+                    triggerHook: 0.65,
+                    offset: -100
+                })
+                .setTween(tl)
+                .reverse(false)
+                .addIndicators({ name: '2 (duration: 300)' })
+                scrollM.addScene(scene2)
 
-
-            // console.log(this.$route.fullPath);
-            // console.log(this.$route.params.slug);
-            // console.log(this.$store);
-            // console.log(this.project);
-            // console.log($route.params.id);
-        // }
+            });
+        },
     }
 </script>
 
@@ -66,5 +78,14 @@ import { mapState } from 'vuex'
         text-transform: uppercase;
         letter-spacing: 2px;
         font-weight: bold;
+        overflow: hidden;
+    }
+    .project-chapter{
+        position: relative;
+        overflow: hidden;
+    }
+    .number,
+    .project-category-name{
+        display: block;
     }
 </style>

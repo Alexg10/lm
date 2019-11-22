@@ -7,8 +7,8 @@
                 <div class="img-square-txt mobile">
                     {{six_images_txt}}
                 </div>
-                <div class="img-section-container">
-                    <div class="img-section-content" v-for="(image, index) in six_images" v-bind:key>
+                <div class="img-square-section-container">
+                    <div class="img-square-section-content" v-for="(image, index) in six_images" v-bind:key>
                         <div v-if="index==4" class="img-square-txt">
                             {{six_images_txt}}
                         </div>
@@ -79,11 +79,11 @@
         font-weight: bold;
         margin: 110px 0 100px;
     }
-    .img-section-container{
+    .img-square-section-container{
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        .img-section-content{
+        .img-square-section-content{
             position: relative;
             width: 33.3%;
             z-index: 10;
@@ -105,8 +105,8 @@
             font-size: 22px;
             display: none;
         }
-        .img-section-container{
-            .img-section-content{
+        .img-square-section-container{
+            .img-square-section-content{
                 width: 50%;
                 margin-bottom: 50px;
                 &:nth-child(2){
@@ -116,8 +116,8 @@
         }
     }
     @media ( max-width : 680px ) {
-        .img-section-container{
-            .img-section-content{
+        .img-square-section-container{
+            .img-square-section-content{
                 width: 100%;
             }
         }

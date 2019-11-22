@@ -29,7 +29,13 @@
             'name',
             'description',
             'image'
-        ]
+        ],
+        mounted(){
+            // const splitted = new SplitText('.project-description p', {
+            //     type: "lines",
+            //     linesClass: "introLine"
+            // });
+        }
     }
 </script>
 
@@ -38,6 +44,7 @@
         height: 100vh;
         width: 100vw;
         background-size: cover;
+        background-position: 50%;
         color: white;
         .project-header-content{
             position: relative;
@@ -76,7 +83,6 @@
             .project-name{
                 font-size: 15.667vw;
             }
-
         }
         @media only screen and ( max-width : 768px ) {
             .project-header-content{
