@@ -30,6 +30,11 @@
 </template>
 
 <script>
+
+    import { Timeline, TimelineMax } from 'gsap'
+    import VueScrollmagic from 'vue-scrollmagic'
+
+
     export default {
         data(){
             return{
@@ -40,7 +45,27 @@
             'after_top_righ',
             'after_top_middle',
             'after_full_height',
-        ]
+        ],
+        mounted(){
+            var scrollM = this.$scrollmagic;
+
+
+            var tl = new TimelineMax({ paused: false});
+
+            var imgContain = document.getElementsByClassName("bloc-after-full-height-container")[0];
+
+            tl.staggerFromTo(".bloc-after-full-height-container", 2, {y: 40, opacity: 0},{y: 0, opacity: 1, ease: Power4.easeInOut, overwrite: false}, 0.35);                
+            const imgSectionScene = scrollM.scene({
+                triggerElement: imgContain,
+                triggerHook: 0.65,
+                offset: -50
+            })
+            .setTween(tl)
+            .reverse(false)
+            // .addIndicators({ name: 'bloc-after-full-height-container' })
+            scrollM.addScene(imgSectionScene)
+
+        }
     }
 </script>
 
@@ -87,10 +112,21 @@
             width: 50%;
             float: left;
         }
+        @media ( max-width : 780px ) {
+            .bloc-after-full-height-container{
+                img{
+                    width: 100%;
+                }
+            }
+
+        }
+        @media ( max-width : 680px ) {
+            .bloc-after-full-height-container{
+                width: 100%;
+            }
+        }
 
     }
-    @media ( max-width : 680px ) {
-       
 
-    }
+
 </style>

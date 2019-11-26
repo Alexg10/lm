@@ -53,7 +53,6 @@ import VueScrollmagic from 'vue-scrollmagic'
                 .reverse(false)
                 .addIndicators({ name: '2 (duration: 300)' })
                 scrollM.addScene(scene2)
-
             });
         },
     }

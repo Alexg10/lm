@@ -34,31 +34,52 @@
             var scrollM = this.$scrollmagic;
 // console.log(imgContainers);
             setTimeout(() => {
+                Array.prototype.forEach.call(imgContainers,function(el, i) {
+                    // // console.log(el);
+                    // var imgContain = el.getElementsByClassName("img-container");
+                    // var imgContainEl = el.getElementsByClassName("img-container")[0];
 
-            Array.prototype.forEach.call(imgContainers,function(el, i) {
-                // console.log(el);
-                var imgContain = el.getElementsByClassName("img-container");
-                var imgContainEl = el.getElementsByClassName("img-container")[0];
+                    // // console.log(imgContain);
+                    // var tl = new TimelineMax({ paused: false});
 
-                // console.log(imgContain);
-                var tl = new TimelineMax({ paused: false});
+                    // let oldHeight = imgContainEl.offsetHeight;
+                    // imgContainEl.style.height= 0;
+                    // let newHeight = oldHeight ? 0 : "auto";
 
-                let oldHeight = imgContainEl.offsetHeight;
-                imgContainEl.style.height= 0;
-                let newHeight = oldHeight ? 0 : "auto";
+                    // tl.fromTo(imgContainEl, 3, {height: 0},{height: oldHeight, ease: Power4.easeInOut, overwrite: false});                
+                    // const imgSectionScene = scrollM.scene({
+                    //     triggerElement: imgContainEl,
+                    //     triggerHook: 0.65,
+                    //     offset: -100
+                    // })
+                    // .setTween(tl)
+                    // .reverse(false)
+                    // .addIndicators({ name: '2 (imgCain00)' })
+                    // scrollM.addScene(imgSectionScene)
 
-                tl.fromTo(imgContainEl, 3, {height: 0},{height: oldHeight, ease: Power4.easeInOut, overwrite: false});                
-                const imgSectionScene = scrollM.scene({
-                    triggerElement: imgContainEl,
-                    triggerHook: 0.65,
-                    offset: -100
-                })
-                .setTween(tl)
-                .reverse(false)
-                .addIndicators({ name: '2 (imgCain00)' })
-                scrollM.addScene(imgSectionScene)
+                    var tl = new TimelineMax({ paused: false});
 
-            });
+                    var imgContain = el.getElementsByClassName("img-container");
+                    var imgContainEl = el.getElementsByClassName("img-container")[0];
+
+                    tl.fromTo(imgContainEl, 2, {y: 40, opacity: 0},{y: 0, opacity: 1, ease: Power4.easeInOut, overwrite: false});                
+                    const imgSectionScene = scrollM.scene({
+                        triggerElement: el,
+                        triggerHook: 0.65,
+                        offset: -50
+                    })
+                    .setTween(tl)
+                    .reverse(false)
+                    // .addIndicators({ name: '2 (imgCain00)' })
+                    scrollM.addScene(imgSectionScene)
+
+
+
+
+
+
+
+                });
             }, 800);
 
 
@@ -119,6 +140,7 @@
 
         .img-section-container{
             transform: translateY(-140px);
+            width: 100%;
             .img-container{
                 width: 100%;
             }
