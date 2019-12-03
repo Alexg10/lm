@@ -44,6 +44,9 @@
                             </div>
                         </div>
                     </div>
+                    <div class="hold-on" v-on:mousedown="loveHover" v-on:mouseup="loveLeave">
+                        Hold me
+                    </div>
                 </div>
                 <div class="love-content">
                     <div class="word-container">
@@ -76,17 +79,23 @@
                         </div>
                     </div>
                 </nuxt-link>
+                <div class="hold-on" v-on:mousedown="loveHover" v-on:mouseup="loveLeave">
+                    Hold me
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+    import axios from 'axios'
+    const apiUrl = process.env.API_URL || 'http://localhost:8888/lm/lm_wordpress/wp-json/acf/v3/options/options'
     import { TimelineMax } from 'gsap'
 
     export default {
         data(){
             return{
+                apiUrl,
                 lm_tl : new TimelineMax({ paused: true}),
                 work_tl : new TimelineMax({ paused: true}),
                 scrollDownWord: new TimelineMax({ 
@@ -300,6 +309,13 @@
             }
         },
         mounted(){
+            console.log(apiUrl);
+            axios.get(`${apiUrl}`)
+            .then(value => {
+                console.log(value.data.acf)
+                var data = value.data.acf;
+            });
+
             var elleStart = this.$el.querySelector('.elle .start .letter-container');
             var elleEnd = this.$el.querySelector('.elle .end .letter-container');
             var aimeStart = this.$el.querySelector('.aime .start .letter-container');
@@ -387,8 +403,29 @@
                 .from( loveContentDesc, 1.5, { y:80, ease: Power4.easeInOut}, "-=1.3");     
 
             this.detectScroll();
+        },
+        async asyncData({ params, error }) {
+            console.log(params);
+            console.log(apiUrl);
+            return axios.get(`${apiUrl}`)
+            .then(res => {
+                console.log(res);
+                var mail = res.mail;
+                var baseline = res.baseline;
+                var description = res.description;
 
-        }    
+                console.log('options');
+                console.log(options);
+                return { 
+                    mail,
+                    baseline,
+                    description
+                }
+            })
+            .catch((e) => {
+                error({ statusCode: 404})
+            });
+        }
     }
 </script>
 
@@ -402,6 +439,12 @@
         flex-direction:column;
         overflow: hidden;
         max-width: 100%;
+        @media ( max-width : 780px ) {
+            font-size: 180px;
+        }
+        @media ( max-width : 680px ) {
+            font-size: 130px;
+        }
     }
     .background-container{
         position: absolute;
@@ -466,9 +509,35 @@
             font-family: 'GTWalsheimProMedium';
             font-weight: bold;
             margin-top: 20px;
+            letter-spacing: 0.75px;
+
+            @media ( max-width : 780px ) {
+                margin-top: 45px;
+                line-height: 40px;
+                font-size: 16px;
+                max-width: 80%;
+                margin: 0 auto;
+            }
+            @media ( max-width : 680px ) {
+                line-height: 26px;
+                margin-top: 45px;
+                line-height: 40px;
+                font-size: 16px;
+                max-width: 90%;
+            }
         }
         .word-container{
             line-height: 80px;
+            @media ( max-width : 780px ) {
+                font-size: 50px;
+                line-height: 50px;
+                letter-spacing: -1.3px;
+                max-width: 80%;
+                margin: 0 auto;
+            }
+            @media ( max-width : 680px ) {
+                line-height: 48px;
+            }
         }
         .contact-me{
             position: fixed;
@@ -476,8 +545,13 @@
             left: 50%;
             transform: translateX(-50%);
             font-family: 'GTWalsheimProMedium';
+            img{
+                width: 45px;
+                margin-bottom: 20px;
+            }
             a{
-                font-size: 14px;
+                font-size: 17px;
+                letter-spacing: 0.3px;
                 color: black;
                 text-decoration: none;
             }
@@ -485,9 +559,18 @@
     }
     .aime{
         transform: translate(-174px, 41px);
+        @media ( max-width : 680px ) {
+            transform: translate(56px, -89px);
+
+        }
+
     }
     .elle{
         transform: translate(163px, -42px);
+        @media ( max-width : 680px ) {
+            transform: translate(-7px, 8px);
+        }
+
     }
     .word-container{
         overflow: hidden;
@@ -624,5 +707,28 @@
 			transition: 0.4s ease;
 		}
 	}
+
+    .hold-on{
+        display: none;
+        @media ( max-width : 780px ) {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 70px;
+            height: 70px;
+            margin: 0 auto;
+            font-size: 12px;
+            border: 1px solid $grey;
+            border-radius: 200px;
+            color: $grey;
+            font-family: 'GTWalsheimProRegular';
+            text-transform: uppercase;
+            z-index: 999;
+        }
+    }
 
 </style>

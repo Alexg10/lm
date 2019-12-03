@@ -22,10 +22,14 @@
 
     import { Timeline, TimelineMax } from 'gsap'
     import VueScrollmagic from 'vue-scrollmagic'
+    
+
 
     export default {
+        // middleware: 'mobile',
         data(){
             return{
+                // $device: this
             }
         },
         props: [
@@ -34,59 +38,68 @@
             'patchworkTxt'
         ],
         mounted(){
-            var img1 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(1)");
-            var img2 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(2)");
-            var img3 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(3)");
-            var img4 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(4)");
+            // var device = require("@nuxtjs/device");
+            // console.log(device.isDesktop)
 
-            var img5 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(1)");
-            var img6 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(2)");
-            var img7 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(3)");
-            var img8 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(4)");
-            var img9 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(5)");
+            // if(device.isDesktop){
 
-            var scrollM = this.$scrollmagic;
+                var img1 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(1)");
+                var img2 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(2)");
+                var img3 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(3)");
+                var img4 = document.querySelector(".img-patchwork-one-container .img-pachwork-img:nth-child(4)");
 
-            var tlPatchwork = new TimelineMax({ paused: false});
-            var tlPatchwork2 = new TimelineMax({ paused: false});
+                var img5 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(1)");
+                var img6 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(2)");
+                var img7 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(3)");
+                var img8 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(4)");
+                var img9 = document.querySelector(".img-patchwork-two-container .img-pachwork-img:nth-child(5)");
 
-            var heightDurationFirst = document.querySelector(".img-patchwork-one-container").offsetHeight;
-            var heightDurationSec = document.querySelector(".img-patchwork-two-container").offsetHeight;
+                var scrollM = this.$scrollmagic;
 
-            console.log(heightDurationFirst);
+                var tlPatchwork = new TimelineMax({ paused: false});
+                var tlPatchwork2 = new TimelineMax({ paused: false});
 
-            tlPatchwork.fromTo(img1, 1, {y: -30},{y: 0, overwrite: false},"start")
-            .fromTo(img2, 1, {y: 5},{y: 60, overwrite: false}, "start")
-            .fromTo(img3, 1, {y: 50},{y: 0, overwrite: false}, "start")
-            .fromTo(img4, 1, {y: -110},{y: 0, overwrite: false}, "start");
+                var heightDurationFirst = document.querySelector(".img-patchwork-one-container").offsetHeight;
+                var heightDurationSec = document.querySelector(".img-patchwork-two-container").offsetHeight;
 
+                console.log(heightDurationFirst);
+
+                tlPatchwork.fromTo(img1, 1, {y: -30},{y: 0, overwrite: false},"start")
+                .fromTo(img2, 1, {y: 5},{y: 60, overwrite: false}, "start")
+                .fromTo(img3, 1, {y: 50},{y: 0, overwrite: false}, "start")
+                .fromTo(img4, 1, {y: -110},{y: 0, overwrite: false}, "start");
+
+                
+                const scenePatchwork = scrollM.scene({
+                    triggerElement: ".img-patchwork",
+                    triggerHook: 0.65,
+                    offset: -50,
+                    duration: heightDurationFirst+700
+                })
+                .setTween(tlPatchwork)
+                // .addIndicators({ name: '22222 (duration: 300)' })
+                scrollM.addScene(scenePatchwork);
+
+
+                tlPatchwork2.fromTo(img5, 1, {y: -30},{y: 10, overwrite: false},"startTwo")
+                .fromTo(img6, 1, {y: 5},{y: -10, overwrite: false}, "startTwo")
+                .fromTo(img7, 1, {y: 50},{y: -50, overwrite: false}, "startTwo")
+                .fromTo(img8, 1, {y: -50},{y: 0, overwrite: false}, "startTwo")
+                .fromTo(img9, 1, {y: -50},{y: 0, overwrite: false}, "startTwo");
+
+                const scenePatchwork2 = scrollM.scene({
+                    triggerElement: ".patchwork-txt",
+                    triggerHook: 0.65,
+                    offset: -50,
+                    duration: heightDurationSec+600
+                })
+                .setTween(tlPatchwork2)
+                // .addIndicators({ name: '2 (duration: 300)' })
+                scrollM.addScene(scenePatchwork2);
+            // }else{
+            //     console.log('MOBILE FUCKET');
+            // }
             
-            const scenePatchwork = scrollM.scene({
-                triggerElement: ".img-patchwork",
-                triggerHook: 0.65,
-                offset: -50,
-                duration: heightDurationFirst+700
-            })
-            .setTween(tlPatchwork)
-            // .addIndicators({ name: '22222 (duration: 300)' })
-            scrollM.addScene(scenePatchwork);
-
-
-            tlPatchwork2.fromTo(img5, 1, {y: -30},{y: 10, overwrite: false},"startTwo")
-            .fromTo(img6, 1, {y: 5},{y: -10, overwrite: false}, "startTwo")
-            .fromTo(img7, 1, {y: 50},{y: -50, overwrite: false}, "startTwo")
-            .fromTo(img8, 1, {y: -50},{y: 0, overwrite: false}, "startTwo")
-            .fromTo(img9, 1, {y: -50},{y: 0, overwrite: false}, "startTwo");
-
-            const scenePatchwork2 = scrollM.scene({
-                triggerElement: ".patchwork-txt",
-                triggerHook: 0.65,
-                offset: -50,
-                duration: heightDurationSec+600
-            })
-            .setTween(tlPatchwork2)
-            // .addIndicators({ name: '2 (duration: 300)' })
-            scrollM.addScene(scenePatchwork2);
 
             
 

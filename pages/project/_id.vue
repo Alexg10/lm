@@ -43,8 +43,8 @@
     import BlocAfter from '~/components/project/BlocAfter'
     import Footer from '~/components/project/Footer'
 
-import { mapMutations } from 'vuex'  
-import { mapState } from 'vuex' 
+    import { mapMutations } from 'vuex'  
+    import { mapState } from 'vuex' 
 
     export default {
         components:{
