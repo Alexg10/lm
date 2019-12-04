@@ -23,7 +23,28 @@
         },
         props: [
             'colors'
-        ]
+        ],
+        mounted(){
+            var colors = document.getElementsByClassName("color-section-container");
+            var scrollM = this.$scrollmagic;
+                console.log(colors);
+            
+            Array.prototype.forEach.call(colors,function(el, i) {
+                var color = el.getElementsByClassName("color-container");
+                console.log(color);
+                var tl = new TimelineMax({ paused: false});
+                tl.staggerFromTo(".color-container", 2, {y: 80, opacity:0},{y: 0, opacity:1, ease: Power4.easeInOut, overwrite: false}, 0.35);
+                const colorScene = scrollM.scene({
+                    triggerElement: el,
+                    triggerHook: 0.65,
+                    offset: -100
+                })
+                .setTween(tl)
+                .reverse(false)
+                .addIndicators({ name: 'COLOR' })
+                scrollM.addScene(colorScene)
+            });
+        }
     }
 </script>
 
@@ -52,6 +73,7 @@
         @media only screen and ( max-width : 768px ) {
             .color-section-container{
                 flex-wrap: wrap;
+                overflow: hidden;
                 .color-container{
                     padding: 0 22px;
                     margin-bottom: 30px;

@@ -12,7 +12,9 @@ export default {
       { hid: 'description', name: 'description', content: process.env.npm_package_description || '' }
     ],
     script: [
-      // { src: 'https: //cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js' },
+      // {
+      //   src: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/SplitText.min.js?v=2017b'
+      // }
       // { src: '~/static/js/TweenMax.min.js' }
     ],
     link: [
@@ -33,11 +35,16 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
+    {
+      src: '~plugins/vue-scrollmagic.js',
+      ssr: false
+    }
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
+    '@nuxtjs/device',
   ],
   /*
   ** Build configuration

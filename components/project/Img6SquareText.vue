@@ -3,12 +3,12 @@
         <div class="container">
             <div class="img-square-container">
                 <div class="project-chapter"><span class="number">{{six_chapter}}</span></div>
-                <div class="project-category">{{six_chapter_name}}</div>
+                <div class="project-category"><span class="name">{{six_chapter_name}}</span></div>
                 <div class="img-square-txt mobile">
                     {{six_images_txt}}
                 </div>
-                <div class="img-section-container">
-                    <div class="img-section-content" v-for="(image, index) in six_images" v-bind:key>
+                <div class="img-square-section-container">
+                    <div class="img-square-section-content" v-for="(image, index) in six_images" v-bind:key>
                         <div v-if="index==4" class="img-square-txt">
                             {{six_images_txt}}
                         </div>
@@ -21,6 +21,8 @@
 </template>
 
 <script>
+    import { Timeline, TimelineMax } from 'gsap'
+    import VueScrollmagic from 'vue-scrollmagic'
 
     export default {
         data(){
@@ -32,7 +34,42 @@
             'six_chapter_name',
             'six_images',
             'six_images_txt'
-        ]
+        ],
+        mounted(){
+            var imgsSquare = document.getElementsByClassName("img-square-section-content");
+            var scrollM = this.$scrollmagic;
+
+            var name = document.querySelector(".img-square-container .number");
+            console.log(name);
+            var tlChapter = new TimelineMax({ paused: true});
+            tlChapter.fromTo(name, 1, {y: 10},{y: 0, ease: Power4.easeInOut, overwrite: false})
+            .fromTo(".img-square-container .name", 1, {y: 40},{y: 0, ease: Power4.easeInOut, overwrite: false});
+            
+            const sceneChapter = scrollM.scene({
+                triggerElement: ".img-square-container",
+                triggerHook: 0.65,
+                offset: 100
+            })
+            .setTween(tlChapter)
+            .reverse(false)
+            .addIndicators({ name: '2 (duration: 300)' })
+            scrollM.addScene(sceneChapter);
+            
+            Array.prototype.forEach.call(imgsSquare,function(el, i) {
+                var img = el.getElementsByTagName("img");
+                var tl = new TimelineMax({ paused: false});
+                tl.staggerFromTo(".img-square-section-content img", 1.5, {y: 140, opacity:0},{y: 0, opacity:1, ease: Power4.easeInOut, overwrite: false},0.3);
+                const scene2 = scrollM.scene({
+                    triggerElement: ".img-square-container",
+                    triggerHook: 0.65,
+                    offset: -100
+                })
+                .setTween(tl)
+                .reverse(false)
+                .addIndicators({ name: '2 (IMG 4' })
+                scrollM.addScene(scene2)
+            });
+        }
     }
 </script>
 
@@ -45,12 +82,14 @@
         color: $grey;
         font-weight: bold;
         margin-bottom: 10px;
+        overflow: hidden;
     }
     .project-category{
         font-family: 'GTWalsheimProBold';
         text-transform: uppercase;
         letter-spacing: 2px;
         font-weight: bold;
+        overflow: hidden;
     }
     .img-square{
         position: relative;
@@ -79,11 +118,11 @@
         font-weight: bold;
         margin: 110px 0 100px;
     }
-    .img-section-container{
+    .img-square-section-container{
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        .img-section-content{
+        .img-square-section-content{
             position: relative;
             width: 33.3%;
             z-index: 10;
@@ -105,8 +144,8 @@
             font-size: 22px;
             display: none;
         }
-        .img-section-container{
-            .img-section-content{
+        .img-square-section-container{
+            .img-square-section-content{
                 width: 50%;
                 margin-bottom: 50px;
                 &:nth-child(2){
@@ -116,8 +155,8 @@
         }
     }
     @media ( max-width : 680px ) {
-        .img-section-container{
-            .img-section-content{
+        .img-square-section-container{
+            .img-square-section-content{
                 width: 100%;
             }
         }

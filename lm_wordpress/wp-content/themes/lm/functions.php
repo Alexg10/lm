@@ -105,4 +105,8 @@ function wpc_mime_types($mimes) {
 }
 add_filter('upload_mimes', 'wpc_mime_types');
 
+if( function_exists('acf_add_options_page') ) {
+	acf_add_options_page();
+}
+
 ?>

@@ -28,7 +28,9 @@
             }
         },
         mounted() {
-            this.showCross();
+            setTimeout(() => {
+                this.showCross();
+            }, 2000);
         }
     }
 </script>

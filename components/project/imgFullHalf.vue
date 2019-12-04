@@ -1,7 +1,7 @@
 <template>
     <section class="img-full-half-section">
-        <div class="img-section-container" >
-            <div class="img-container" v-for="img_half in img_full_half" v-bind:key>
+        <div class="img-full-half-section-container" >
+            <div class="img-full-half-container" v-for="img_half in img_full_half" v-bind:key>
                 <img :src="img_half.bloc_img_full_half_image.url" alt="">
             </div>
         </div>
@@ -23,10 +23,10 @@
 
 <style lang="scss" scoped>
     .img-full-half-section{
-        .img-section-container{
+        .img-full-half-section-container{
             display: flex;
             flex-wrap: wrap;
-            .img-container{
+            .img-full-half-container{
                 display: flex;
                 justify-content: center;
                 width: 50%;
@@ -36,8 +36,8 @@
             }
         }
         &.three-multiple {
-            .img-section-container{
-                .img-container{
+            .img-full-half-section-container{
+                .img-full-half-container{
                     width: 33.3%;
                 }
             }
