@@ -32,7 +32,7 @@
 
             var imgContainers = document.getElementsByClassName("img-section-container");
             var scrollM = this.$scrollmagic;
-// console.log(imgContainers);
+    
             setTimeout(() => {
                 Array.prototype.forEach.call(imgContainers,function(el, i) {
                     // // console.log(el);
