@@ -1,16 +1,29 @@
 <template>
   <div>
     <Header></Header>
+    <Cover />
     <nuxt />
+    <!-- <div class="cursor"></div> -->
   </div>
 </template>
 
 <script>
   import Header from '../components/Header'
+  import Cover from '../components/Cover'
 
   export default {
     components: {
-      Header
+      Header,
+      Cover
+    },
+    methods: {
+      moveCursor(e){
+        const cursor = document.querySelector('.cursor');
+        cursor.setAttribute("style", "top: "+(e.pageY - 20)+"px; left: "+(e.pageX - 20)+"px");
+      }
+    },
+    mounted(){
+      // document.addEventListener('mousemove', this.moveCursor);
     }
   }
 </script>
@@ -61,5 +74,16 @@ html {
 .button--grey:hover {
   color: #fff;
   background-color: #35495e;
+}
+.cursor{
+  position: absolute;
+  width: 45px;
+  height: 45px;
+  border: 1px solid #B4B3B1;
+  border-radius: 100px;
+  /* transition-duration: 0.2s;
+  transition-timing-function: ease-in-out; */
+  transition: top 200ms ease-in-out, left 200ms ease-in-out;
+  pointer-events: none
 }
 </style>

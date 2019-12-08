@@ -38,13 +38,16 @@ export default {
     {
       src: '~plugins/vue-scrollmagic.js',
       ssr: false
+    },
+    {
+      src: '~plugins/vue-device-detector.js',
+      ssr: false
     }
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-    '@nuxtjs/device',
   ],
   /*
   ** Build configuration

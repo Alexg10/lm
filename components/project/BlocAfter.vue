@@ -13,8 +13,10 @@
                     </g>
                 </svg>
             </div>
+            
             <div class="bloc-after-top-left-container">
-                <img class="bloc-after-top-left-img" :src="after_top_righ.url">
+                <div id="animation"></div>
+                <!-- <img class="bloc-after-top-left-img" :src="after_top_righ.url"> -->
             </div>
             <div class="bloc-after-top-right-container">
                 <img class="bloc-after-top-right-img" :src="after_top_left.url">
@@ -33,6 +35,8 @@
 
     import { Timeline, TimelineMax } from 'gsap'
     import VueScrollmagic from 'vue-scrollmagic'
+    import lottie from 'lottie-web'
+
 
 
     export default {
@@ -64,6 +68,14 @@
             .reverse(false)
             // .addIndicators({ name: 'bloc-after-full-height-container' })
             scrollM.addScene(imgSectionScene)
+
+            lottie.loadAnimation({
+                container: document.getElementById('animation'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "/images/anim_img/anim_intro.json" // the path to the animation json
+            });
 
         }
     }
@@ -102,6 +114,7 @@
             position: relative;
             right: 115px;
             float: right;
+            max-width: 311px;
         }
         .bloc-after-top-right-container{
             padding-top: 144px;

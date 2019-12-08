@@ -47,6 +47,7 @@
     import { mapState } from 'vuex' 
 
     export default {
+        transition: 'bounce',
         components:{
             HeaderProject,
             LaptopSection,
@@ -72,6 +73,8 @@
         },
         mounted: function(){
             // console.log(this.id);
+            document.querySelector('.cover-project').classList.remove('visible');
+
             axios.get(`${apiUrl}`)
             .then(value => {
                 var data = value.data[0];
@@ -83,6 +86,11 @@
             project(){
                 return this.$store.state.projects.list.find(project => project.id === this.id)
             }
+        },
+        fetch({store, params}){
+            // Get project from slug
+            // Commit project in project st@ore list
+            // Commit project in project current
         },
         async asyncData({ params, error }) {
             var projectName = params.id.charAt(0).toUpperCase() + params.id.slice(1);
