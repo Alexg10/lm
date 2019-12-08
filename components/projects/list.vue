@@ -1,5 +1,7 @@
 <template>
     <div class="work-list">
+
+        <!-- $device.mobile -->
             <div class="project-name-container">
                 <div class="project-name" @click="triggerClick" data-id="id">Chopard</div>
             </div>
