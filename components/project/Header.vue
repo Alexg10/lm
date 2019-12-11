@@ -3,8 +3,12 @@
         <CloseProject></CloseProject>
         <div class="project-header-content">
             <div class="project-header-content-top">
-                <div class="category">Project</div>
-                <div class="project-name">{{name}}</div>
+                <div class="category">
+                    <div class="category-type">Project</div>
+                </div>
+                <div class="project-name">
+                    <div class="project-name-content">{{name}}</div>
+                </div>
             </div>
             <div class="project-description">
                 <p>{{description}}</p>
@@ -16,6 +20,7 @@
 <script>
 
     import CloseProject from '~/components/project/CloseProject'
+    import { TimelineMax } from 'gsap'
 
     export default {
         components:{
@@ -35,6 +40,20 @@
             //     type: "lines",
             //     linesClass: "introLine"
             // });
+
+            var anim = new TimelineLite();
+            var projectName = document.querySelector('.project-name-content');
+            var categoryType = document.querySelector('.category-type');
+            var description = document.querySelector('.project-description p');
+
+            
+
+
+            anim
+                .fromTo(categoryType, 2,{y:50}, {y:0, ease: Power4.easeInOut})
+                .fromTo(projectName, 1.8,{y:230}, {y:0, ease: Power4.easeInOut},"-=1.2" )
+                .fromTo(description, 1.5,{y:30, opacity:0}, {y:0, opacity:1, ease: Power4.easeInOut},"-=1" );
+
         }
     }
 </script>
@@ -67,10 +86,12 @@
             font-family: 'GTWalsheimProMedium';
             text-transform: uppercase;
             letter-spacing: 1px;
+            overflow: hidden;
         }
         .project-name{
             font-size: 200px;
             font-weight: bold;
+            overflow: hidden;
         }
         .project-description{
             align-self: flex-end;

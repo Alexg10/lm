@@ -77,8 +77,8 @@
             const animFooter = scrollM.scene({
                 triggerElement: ".footer-project",
                 triggerHook: 0.65,
-                duration: 750,
-                offset: -100
+                duration: 850,
+                offset: -50
             })
             .setTween(tlCover)
             scrollM.addScene(animFooter);
