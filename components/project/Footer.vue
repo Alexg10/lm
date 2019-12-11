@@ -47,73 +47,15 @@
                 }
             },
             goToNextProject(){
-                console.log('BOOOOTOM');
                 var link = document.querySelector('.link-to');
-                // window.scrollTo(0,document.body.scrollHeight);
-                // this.scrollTo(document.body, 0, 500);  
-                // this.doScrolling('.next-cover', 1000);
-                // document.body.classList.add("fixed");
-                var id = document.getElementsByClassName('next-cover')[0].getAttribute("data-id");
-                console.log(id);
-                this.$store.commit('projects/setProject', id);
-                // document.querySelector('.cover-project').classList.add('visible');
-                link.click();
-            },
-            // scrollTo(element, to, duration) {
-            //     var start = element.scrollTop,
-            //         change = to - start,
-            //         currentTime = 0,
-            //         increment = 20;
-
-            //     var animateScroll = function(){        
-            //         currentTime += increment;
-            //         var val = 500;
-            //         console.log(val);
-            //         element.scrollTop = val;
-            //         if(currentTime < duration) {
-            //             setTimeout(animateScroll, increment);
-            //         }
-            //     };
-
-            //     animateScroll();
-            // },
-            getElementY(query) {
-                return window.pageYOffset + document.querySelector(query).getBoundingClientRect().top
-            },
-            doScrolling(element, duration) {
-                console.log('kuku');
-                var startingY = window.pageYOffset
-                var elementY = this.getElementY(element)
-                var targetY = document.body.scrollHeight - elementY < window.innerHeight ? document.body.scrollHeight - window.innerHeight : elementY
-                    var diff = targetY - startingY
-                // Easing function: easeInOutCubic
-                // From: https://gist.github.com/gre/1650294
-                var easing = function (t) { return t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1 }
-                var start
-
-                if (!diff) return
-
-                    // Bootstrap our animation - it will get called right before next frame shall be rendered.
-                    window.requestAnimationFrame(function step(timestamp) {
-                    if (!start) start = timestamp
-                    // Elapsed miliseconds since start of scrolling.
-                    var time = timestamp - start
-                        // Get percent of completion in range [0, 1].
-                    var percent = Math.min(time / duration, 1)
-                    // Apply the easing.
-                    // It can cause bad-looking slow frames in browser performance tool, so be careful.
-                    percent = easing(percent)
-
-                    window.scrollTo(0, startingY + diff * percent)
-
-                        // Proceed with animation as long as we wanted it to.
-                    if (time < duration) {
-                    window.requestAnimationFrame(step)
+                var vm = this;
+                window.onscroll = function(ev) {
+                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        console.log('BOOOOTTOM');
+                        link.click();
                     }
-                })
-            }
-
-
+                };
+            },
         },
         mounted: function(){
             var nextProject = this.$store.state.projects.currentProjectData[0].footerLink.match(/([^\/]*)\/*$/)[1];
@@ -125,9 +67,7 @@
             this.letterContainer("next-project");
             this.letterContainer("next-project-name");
 
-
             var scrollM = this.$scrollmagic;
-
             var nextCover = document.getElementsByClassName("next-cover");
             var footer = document.getElementsByClassName("footer-project");
             var upLetter = document.getElementsByClassName("up-letters");
@@ -141,11 +81,8 @@
                 offset: -100
             })
             .setTween(tlCover)
-            // .reverse(false)
-            .addIndicators({ name: 'AnimeFooter' })
             scrollM.addScene(animFooter);
 
-            var vm = this;
             Array.prototype.forEach.call(upLetter,function(el, i) {
                 var elements = el.childNodes;
                 var upLetterTl = new TimelineMax({ paused: false});
@@ -160,23 +97,11 @@
                     duration: 550,
                     offset: 0
                 })
-                .on("end", function(){
-                    vm.goToNextProject();
-                })
                 .setTween(upLetterTl)
-                // .reverse(false)
-                .addIndicators({ name: 'Letter' })
                 scrollM.addScene(animLetterScene)
-
-
-
-
             });
-
-            // this.goToNextProject();
-
-
-
+            
+            this.goToNextProject();
         }
     }
 </script>
@@ -197,9 +122,9 @@
             margin-bottom: 100px;
         }
     }
-        span{
-            display: inline-block;
-        }
+    span{
+        display: inline-block;
+    }
     .next-cover{
         height: 100vh;
         width: 80%;

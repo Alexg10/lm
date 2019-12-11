@@ -39,7 +39,7 @@
                 })
                 .setTween(tl)
                 .reverse(false)
-                .addIndicators({ name: 'COLOR' })
+                // .addIndicators({ name: 'COLOR' })
                 scrollM.addScene(colorScene)
             });
         }

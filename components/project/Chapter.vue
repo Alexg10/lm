@@ -51,7 +51,7 @@ import VueScrollmagic from 'vue-scrollmagic'
                 })
                 .setTween(tl)
                 .reverse(false)
-                .addIndicators({ name: '2 (duration: 300)' })
+                // .addIndicators({ name: '2 (duration: 300)' })
                 scrollM.addScene(scene2)
             });
         },

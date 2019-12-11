@@ -41,7 +41,7 @@
                 })
                 .setTween(tl)
                 .reverse(false)
-                .addIndicators({ name: 'blocsImgFullCenter' })
+                // .addIndicators({ name: 'blocsImgFullCenter' })
                 scrollM.addScene(animSectionScene)
 
             });

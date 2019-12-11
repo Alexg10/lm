@@ -169,14 +169,8 @@
             },
             triggerClick(){
                 console.log("triggerClick");
-
                 var id = document.getElementsByClassName('project-name')[0].getAttribute("data-id");
-
-
                 this.$store.commit('projects/setProject', id);
-                // var slug = this.$store.state.projects.currentProjectData;
-
-                // this.$store.commit('projects/setNext', slug);
 
                 var background = document.getElementsByClassName('swiper-slide-active')[0].nextElementSibling.children[0].getElementsByClassName("project-container-img")[0];
                 var translate = 'translate(0px, 0px) scale(1)';
