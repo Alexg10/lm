@@ -2,8 +2,7 @@ export const state = () => ({
     loading: true,
     list: [],
     current: false,
-    currentProjectData: [],
-    nextProject: []
+    currentProjectData: []
 })
 
 export const mutations = {
