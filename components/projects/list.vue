@@ -169,11 +169,9 @@
             },
             triggerClick(){
                 console.log("triggerClick");
-
                 var id = document.getElementsByClassName('project-name')[0].getAttribute("data-id");
-                console.log(id)
-
                 this.$store.commit('projects/setProject', id);
+
                 var background = document.getElementsByClassName('swiper-slide-active')[0].nextElementSibling.children[0].getElementsByClassName("project-container-img")[0];
                 var translate = 'translate(0px, 0px) scale(1)';
                 let slideActive = document.querySelector('.swiper-slide-active');
@@ -259,12 +257,12 @@
             },
             showLogo(){
                 var logo = document.getElementsByClassName("logo");
-                console.log(logo);
+                // console.log(logo);
                 logo[0].classList.add("visible");
             },
             hideLogo(){
                 var logo = document.getElementsByClassName("logo");
-                console.log(logo);
+                // console.log(logo);
                 logo[0].classList.remove("visible");
             },
 
@@ -274,20 +272,20 @@
                 return this.$refs.mySwiper.swiper
             }
         },
-        beforeCreate(){
-            console.log("beforeCreate");
+        // beforeCreate(){
+        //     console.log("beforeCreate");
 
-            console.log(window.innerWidth);
-            if(window.innerWidth <= 790) {
-                this.isMobile = true;
-                console.log("is mobile tru");
-                console.log(this.isMobile);
-            } else {
-                this.isMobile = false;
-                console.log("is mobile false");
+        //     console.log(window.innerWidth);
+        //     if(window.innerWidth <= 790) {
+        //         this.isMobile = true;
+        //         console.log("is mobile tru");
+        //         console.log(this.isMobile);
+        //     } else {
+        //         this.isMobile = false;
+        //         console.log("is mobile false");
 
-            }
-        },
+        //     }
+        // },
         mounted(){
             console.log(this);
             this.animIntro();

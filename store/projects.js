@@ -28,6 +28,7 @@ export const mutations = {
         currentProject.footerLink = project.data[0].acf.footer_link.url;
         currentProject.footerLinkTitle = project.data[0].acf.footer_link.title;
 
+        state.currentProjectData= [],
         state.currentProjectData.push(currentProject);
         state.list.push(project)
     },

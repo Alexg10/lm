@@ -43,7 +43,6 @@
     import Footer from '~/components/project/Footer'
 
     export default {
-        transition: 'bounce',
         components:{
             HeaderProject,
             LaptopSection,
@@ -66,13 +65,13 @@
                 apiUrl,
                 id: this.$route.params.id,
                 currentProject :this.$store.state.projects.currentProjectData[0]
-
             }
         },
         mounted: function(){
-            //TOREMOVE ANIAMTION TRANSITON BG
-            // document.querySelector('.cover-project').classList.remove('visible');
-
+            if (document.getElementsByClassName("cover-project").length>0) {
+                document.querySelector('.cover-project').classList.remove('visible');
+            }
+            document.body.classList.remove("fixed");
         },
         computed: {
             project(){
@@ -82,7 +81,6 @@
         fetch({store, params}){
             // Get project from slug
             var projectName = params.id.charAt(0).toUpperCase() + params.id.slice(1);
-
             return axios.get(`${apiUrl}?slug=${projectName}`)
             .then(res => {
                 store.commit('projects/add', res);

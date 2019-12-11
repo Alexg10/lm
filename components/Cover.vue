@@ -1,8 +1,7 @@
 <template>
-    <div  v-if="$store.state.projects.current" class="cover-project" :style="{ backgroundImage: `url(${$store.state.projects.current.cover})` }">
+    <div v-if="$store.state.projects.current" class="cover-project" :style="{ backgroundImage: `url(${$store.state.projects.current.cover})` }">
         <div class="project-header-content">
             <div class="project-header-content-top">
-                <div class="category">Project</div>
                 <div class="name">{{$store.state.projects.current.title}}</div>
             </div>
         </div>
@@ -34,39 +33,39 @@
         }
     }
 
-        .project-header-content{
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            width: 100%;
-            max-width: 1113px;
-            margin: 0 auto;
-            .project-header-content-top{
-                position: absolute;
-                top: 50%;
-                transform: translateY(-60%);
-                text-align: center;
-            }
+    .project-header-content{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        width: 100%;
+        max-width: 1113px;
+        margin: 0 auto;
+        .project-header-content-top{
+            position: absolute;
+            top: 50%;
+            transform: translateY(-60%);
+            text-align: center;
         }
-        .category{
-            font-family: 'GTWalsheimProMedium';
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .name{
-            font-size: 200px;
-            font-weight: bold;
-            color:white;
-        }
-        .project-description{
-            align-self: flex-end;
-            max-width: 370px;
-            font-size: 23px;
-            font-weight: bold;
-            transform: translateY(210px);
-        }
+    }
+    .category{
+        font-family: 'GTWalsheimProMedium';
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    .name{
+        font-size: 200px;
+        font-weight: bold;
+        color:white;
+    }
+    .project-description{
+        align-self: flex-end;
+        max-width: 370px;
+        font-size: 23px;
+        font-weight: bold;
+        transform: translateY(210px);
+    }
 
 </style>
