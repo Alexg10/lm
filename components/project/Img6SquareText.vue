@@ -40,7 +40,6 @@
             var scrollM = this.$scrollmagic;
 
             var name = document.querySelector(".img-square-container .number");
-            console.log(name);
             var tlChapter = new TimelineMax({ paused: true});
             tlChapter.fromTo(name, 1, {y: 10},{y: 0, ease: Power4.easeInOut, overwrite: false})
             .fromTo(".img-square-container .name", 1, {y: 40},{y: 0, ease: Power4.easeInOut, overwrite: false});

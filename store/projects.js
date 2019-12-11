@@ -2,7 +2,8 @@ export const state = () => ({
     loading: true,
     list: [],
     current: false,
-    currentProjectData: []
+    currentProjectData: [],
+    nextProject: []
 })
 
 export const mutations = {
@@ -36,6 +37,8 @@ export const mutations = {
     },
     setProject(state, id) {
         const project = state.list.find(project => project.id == id);
-        state.current = project
+        console.log(id);
+        state.current = project;
+        
     }
 }

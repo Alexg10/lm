@@ -27,11 +27,9 @@
         mounted(){
             var colors = document.getElementsByClassName("color-section-container");
             var scrollM = this.$scrollmagic;
-                console.log(colors);
             
             Array.prototype.forEach.call(colors,function(el, i) {
                 var color = el.getElementsByClassName("color-container");
-                console.log(color);
                 var tl = new TimelineMax({ paused: false});
                 tl.staggerFromTo(".color-container", 2, {y: 80, opacity:0},{y: 0, opacity:1, ease: Power4.easeInOut, overwrite: false}, 0.35);
                 const colorScene = scrollM.scene({
