@@ -1,5 +1,5 @@
 <template>
-    <div class="work-list">
+    <div class="work-list" v-on:mousemove="parralaxEffect">
 
         <!-- $device.mobile -->
             <div class="project-name-container">
@@ -181,6 +181,30 @@
                 slideActive.classList.remove('parallax');
                 background.style.transform = translate;
 
+
+                var word = document.getElementsByClassName("project-name")[0];
+                var container = document.getElementsByClassName("project-name");
+
+                //ADD SPAN TO LETTERS
+                var wordContent = word.textContent.trim();
+                var wordContentSplit = wordContent.split("");
+                word.innerHTML = "";
+
+                for(var i=0; i< wordContentSplit.length; i++){
+                    var newSpan = document.createElement('span');
+                    newSpan.style.display = "inline-block";
+                    newSpan.innerHTML = wordContentSplit[i];
+                    word.appendChild(newSpan);
+                }
+
+                document.getElementsByClassName("project-name-container")[0].classList.add('visible');
+                document.getElementsByClassName("project-name")[0].classList.add('visible');
+                //Anim LETTERS
+                var letterTrans = new TimelineMax({delay:1.3});
+                letterTrans.staggerFromTo(".project-name span", 0.75, {scaleX:1, scaleY:1, opacity:1},{scaleX:3, scaleY:3, opacity:0, ease: Power4.easeInOut, overwrite: false}, 0.1);    
+
+
+
                 var tl = new TimelineMax({ paused: false});
                 tl.add('start');
                 tl.to( ".swiper-slide-active", 1, {x:-200, ease: Power4.easeInOut}, 'start')
@@ -188,6 +212,12 @@
                 .to( paralaxElement, 1, {scale:1, ease: Power4.easeInOut}, 'start+=1')
                 .to( ".swiper-slide-next .big-background", 2, {width:"100vw", height:"100vh", ease: Power4.easeInOut}, 'start+=1');
                 const elem = document.getElementsByClassName('swiper-slide-active')[0].nextElementSibling.getElementsByClassName('slide-link')[0];
+
+
+
+
+
+
                 setTimeout(() => {
                     document.querySelector('.cover-project').classList.add('visible');
                     elem.click();
@@ -336,6 +366,9 @@
         z-index: 999;
         // mix-blend-mode: soft-light;
         overflow: hidden;
+        &.visible{
+            overflow: visible;
+        }
         &.hover{
             mix-blend-mode: normal;
             .project-name{
@@ -355,6 +388,9 @@
             white-space: nowrap;  
             opacity: 0.3;
             transition: color 0.5s ease, opacity 0.5s ease;
+            &.visible{
+                opacity: 1;
+            }
             &:hover{
                 cursor: pointer;
                 color: $main-color;
