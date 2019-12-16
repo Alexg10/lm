@@ -42,7 +42,7 @@
                 })
                 .setTween(tl)
                 .reverse(false)
-                .addIndicators({ name: 'AnimeSection' })
+                // .addIndicators({ name: 'AnimeSection' })
                 scrollM.addScene(animSectionScene)
 
 

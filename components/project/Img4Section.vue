@@ -38,7 +38,7 @@
                 })
                 .setTween(tl)
                 .reverse(false)
-                .addIndicators({ name: '2 (IMG 4' })
+                // .addIndicators({ name: '2 (IMG 4' })
                 scrollM.addScene(scene2)
             });
         }

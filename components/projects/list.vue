@@ -1,11 +1,13 @@
 <template>
-    <div class="work-list">
+    <div class="work-list" v-on:mousemove="parralaxEffect">
+
+        <!-- $device.mobile -->
             <div class="project-name-container">
                 <div class="project-name" @click="triggerClick" data-id="id">Chopard</div>
             </div>
-            <swiper :options="swiperOption" ref="mySwiper"  @transitionStart="changeNameStart">
+            <swiper :options="swiperOption" ref="mySwiper" @transitionStart="changeNameStart">
                 <!-- slides -->
-                <swiper-slide v-for="project in $store.state.projects.list" v-bind:key :data-id="project.id" :data-name="project.name" :data-link="project.slug" >
+                <swiper-slide v-for="project in $store.state.projects.list" v-bind:key :data-id="project.id" :data-name="project.name" :data-link="project.slug" :data-hash="project.slug">
                     <div class="project-container">
                         <nuxt-link :to="{ name: 'project-id', params: { id: project.slug }}" class="slide-link"></nuxt-link>
                         <div class="big-background" v-on:mouseenter="triggerHoverIn" v-on:mouseleave="triggerHoverOut" >
@@ -26,6 +28,7 @@
         data(){
             const vue = this;
             return{
+                fromProjectData:'',
                 id: this.$route.params.id,
                 changeNameDown: new TimelineMax({ 
                     paused: true,
@@ -40,7 +43,12 @@
                     loop: true,
                     speed:1100,
                     slidesPerView: 3,
-                    spaceBetween: "50%",
+                    mousewheel: true,
+                    centeredSlides: true,
+                    spaceBetween: "45%",
+                    hashNavigation: {
+                        watchState: true,
+                    },
                     // virtualTranslate: true,
                     navigation: {
                         nextEl: '.swiper-button-next',
@@ -68,26 +76,26 @@
                         }
                     },
                     on: {
+                        slugP: this.fromProjectData,
+
                         init: function () {
+
                             var slides = document.getElementsByClassName('swiper-slide');
-                                console.log("init slide");
-                                console.log(vue.isMobile);
+                            console.log("init slide");
+                            setTimeout(function(){
 
-
-                            var slideActive = document.getElementsByClassName('swiper-slide-active')[0].nextSibling;
-                            if (vue.isMobile) {
-                                console.log("mobile");
                                 var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
-                            }else{
-                                console.log("not mobile");
-                                var slideActive = document.getElementsByClassName('swiper-slide-active')[0].nextSibling;
-                            }
-                            var slideActiveName = slideActive.getAttribute('data-name');
-                            var slideActiveId = slideActive.getAttribute('data-id');
-                            console.log(slideActiveId);
+                                var slideActiveName = slideActive.getAttribute('data-name');
+                                var slideActiveId = slideActive.getAttribute('data-id');
+                                console.log(slideActiveId);
+                                console.log(slideActiveName);
 
-                            document.getElementsByClassName("project-name")[0].innerHTML = slideActiveName;
-                            document.getElementsByClassName("project-name")[0].setAttribute("data-id",slideActiveId);
+
+                                document.getElementsByClassName("project-name")[0].innerHTML = slideActiveName;
+                                document.getElementsByClassName("project-name")[0].setAttribute("data-id",slideActiveId);
+                            }, 1000);
+
+
 
                             setTimeout(function(){
                                 document.getElementsByClassName('swiper-wrapper')[0].classList.add('parallax-ready');
@@ -98,9 +106,9 @@
                         click: function(e){
                             console.log(this.clickedSlide);
                             var clicked = this.clickedSlide;
-                            if(clicked.classList.contains("swiper-slide-duplicate-prev") ){
+                            if(clicked.classList.contains("swiper-slide-next") ){
                                 this.slideNext();
-                            }else if(clicked.classList.contains("swiper-slide-active")){
+                            }else if(clicked.classList.contains("swiper-slide-prev")){
                                 this.slidePrev();
                             }else{
                                 vue.triggerClick();
@@ -122,13 +130,7 @@
                 this.changeNameDown.eventCallback("onComplete", function () {
                     console.log(vm.isMobile);
 
-                    if (vm.isMobile) {
-                        console.log("mobile");
-                        var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
-                    }else{
-                        console.log("not mobile");
-                        var slideActive = document.getElementsByClassName('swiper-slide-active')[0].nextSibling;
-                    }
+                    var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
                     var name = slideActive.getAttribute('data-name');
                     var link = slideActive.getAttribute('data-link');
                     var id = slideActive.getAttribute('data-id');
@@ -145,7 +147,7 @@
                 this.changeNameUp.play(0);
             },
             changeName(){
-                var slideActive = document.getElementsByClassName('swiper-slide-active')[0].nextSibling;
+                var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
                 var name = slideActive.getAttribute('data-name');
                 var id = slideActive.getAttribute('data-id');
                 document.getElementsByClassName("project-name")[0].innerHTML = name;
@@ -167,12 +169,10 @@
             },
             triggerClick(){
                 console.log("triggerClick");
-
                 var id = document.getElementsByClassName('project-name')[0].getAttribute("data-id");
-                console.log(id)
-
                 this.$store.commit('projects/setProject', id);
-                var background = document.getElementsByClassName('swiper-slide-active')[0].nextElementSibling.children[0].getElementsByClassName("project-container-img")[0];
+
+                var background = document.getElementsByClassName('swiper-slide-active')[0].getElementsByClassName("project-container-img")[0];
                 var translate = 'translate(0px, 0px) scale(1)';
                 let slideActive = document.querySelector('.swiper-slide-active');
                 let paralaxElement = document.querySelector('.project-container-img');
@@ -181,17 +181,63 @@
                 slideActive.classList.remove('parallax');
                 background.style.transform = translate;
 
+
+                var word = document.getElementsByClassName("project-name")[0];
+                var container = document.getElementsByClassName("project-name");
+
+                //ADD SPAN TO LETTERS
+                var wordContent = word.textContent.trim();
+                var wordContentSplit = wordContent.split("");
+                word.innerHTML = "";
+                var tabLetterLength=[];
+
+                for(var i=0; i< wordContentSplit.length; i++){
+                    var newSpan = document.createElement('span');
+                    newSpan.style.display = "inline-block";
+                    newSpan.style.minWidth = "40px";
+                    newSpan.setAttribute("class", "letter-"+i);
+                    newSpan.innerHTML = wordContentSplit[i];
+                    word.appendChild(newSpan);
+                    tabLetterLength.push(i)
+                }
+
+                //SHUFFLE LETTER
+                var currentIndex = tabLetterLength.length, 
+                    temporaryValue, 
+                    randomIndex;
+                while (0 !== currentIndex) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+                    temporaryValue = tabLetterLength[currentIndex];
+                    tabLetterLength[currentIndex] = tabLetterLength[randomIndex];
+                    tabLetterLength[randomIndex] = temporaryValue;
+                }
+
+                document.getElementsByClassName("project-name-container")[0].classList.add('visible');
+                document.getElementsByClassName("project-name")[0].classList.add('visible');
+                //Anim LETTERS
+                var letterTrans = new TimelineMax({});
+                setTimeout(() => {
+                    tabLetterLength.forEach(function(element){
+                        var elemToAnim = document.querySelector('.project-name .letter-'+element+'');
+                        letterTrans.fromTo(elemToAnim , 0.8, {scaleX:1, scaleY:1, opacity:1},{scaleX:3, scaleY:3, opacity:0, ease: Power4.easeInOut, overwrite: false},"-=0.55");    
+                        //! IF PASS TO WHITE
+                        // letterTrans.fromTo(elemToAnim , 0.75, {scaleX:1, scaleY:1, opacity:1},{color: "white", ease: Power4.easeInOut, overwrite: false},"-=0.55");    
+                    });
+                }, 300);
+
                 var tl = new TimelineMax({ paused: false});
                 tl.add('start');
-                tl.to( ".swiper-slide-active", 1, {x:-200, ease: Power4.easeInOut}, 'start')
-                .to( ".swiper-slide-duplicate-prev", 1, {x:200, ease: Power4.easeInOut}, 'start')
+                tl.to( ".swiper-slide-prev", 1, {x:-240, ease: Power4.easeInOut}, 'start')
+                .to( ".swiper-slide-next", 1, {x:240, ease: Power4.easeInOut}, 'start')
                 .to( paralaxElement, 1, {scale:1, ease: Power4.easeInOut}, 'start+=1')
-                .to( ".swiper-slide-next .big-background", 2, {width:"100vw", height:"100vh", ease: Power4.easeInOut}, 'start+=1');
-                const elem = document.getElementsByClassName('swiper-slide-active')[0].nextElementSibling.getElementsByClassName('slide-link')[0];
+                .to( ".swiper-slide-active .big-background", 2, {width:"100vw", height:"100vh", ease: Power4.easeInOut}, 'start+=1');
+                const elem = document.getElementsByClassName('swiper-slide-active')[0].getElementsByClassName('slide-link')[0];
+
                 setTimeout(() => {
                     document.querySelector('.cover-project').classList.add('visible');
                     elem.click();
-                }, 3000);
+                }, 2800);
 
             },
             parralaxEffect(e){
@@ -200,7 +246,7 @@
 
                 if (slideActive.classList.contains("parallax")){
                     if (slideWrapper.classList.contains('parallax-ready')){
-                        var background = document.getElementsByClassName('swiper-slide-active parallax')[0].nextElementSibling.children[0].getElementsByClassName("project-container-img")[0];
+                        var background = document.getElementsByClassName('swiper-slide-active parallax')[0].children[0].getElementsByClassName("project-container-img")[0];
                         var backgroudH = parseInt(background.offsetHeight)/2;
                         var backgroudW = parseInt(background.offsetWidth)/2;
                         var posX = -backgroudW - e.clientX;
@@ -218,7 +264,7 @@
 
             },
             beforeLeave(){
-                var background = document.getElementsByClassName('swiper-slide-active')[0].nextElementSibling.children[0].getElementsByClassName("project-container-img")[0];
+                var background = document.getElementsByClassName('swiper-slide-active')[0].getElementsByClassName("project-container-img")[0];
                 var translate = 'translate(0px, 0px) scale(1.2)';
                 let shadesEl = document.querySelector('.swiper-slide-active');
                 var vm = this;
@@ -237,18 +283,18 @@
                 });
             },
             animIntro(){
-                var slideActive = document.getElementsByClassName('swiper-slide-active')[0].nextSibling.children[0].getElementsByClassName("big-background");
+                var slideActive = document.getElementsByClassName('swiper-slide-active')[0].children[0].getElementsByClassName("big-background");
                 var tl = new TimelineMax({ 
                     delay:0.5
                 });
                 var vm = this;
                 tl.add('start');
-                tl.from( slideActive, 2.5, {alpha:0, ease: Power4.easeInOut},'animIntroStart')
-                .from( slideActive, 3, {width:"100vw", height:"100vh", ease: Power4.easeInOut},'animIntroStart+=1.5')
-                .to( ".project-container-img", 3, {scale: 1.2, ease: Power4.easeInOut},'animIntroStart+=1.5')
-                .from( ".project-name", 2, {y:220, ease: Power4.easeInOut}, 'animIntroStart+=3')
-                .from( ".swiper-slide-active", 2, {x:-200, ease: Power4.easeInOut}, 'animIntroStart+=4')
-                .from( ".swiper-slide-duplicate-prev", 2, {x:200, ease: Power4.easeInOut}, 'animIntroStart+=4');
+                tl
+                .from( slideActive, 3, {width:"100vw", height:"100vh", ease: Power4.easeInOut},'animIntroStart')
+                .to( ".project-container-img", 3, {scale: 1.2, ease: Power4.easeInOut},'animIntroStart')
+                .from( ".project-name", 2, {y:220, ease: Power4.easeInOut}, 'animIntroStart+=1.5')
+                .from( ".swiper-slide-prev", 2.5, {x:-240, ease: Power4.easeInOut}, 'animIntroStart+=2.5')
+                .from( ".swiper-slide-next", 2.5, {x:240, ease: Power4.easeInOut}, 'animIntroStart+=2.5');
 
                 tl.eventCallback("onComplete", function () {
                     console.log('complete lm');
@@ -257,12 +303,12 @@
             },
             showLogo(){
                 var logo = document.getElementsByClassName("logo");
-                console.log(logo);
+                // console.log(logo);
                 logo[0].classList.add("visible");
             },
             hideLogo(){
                 var logo = document.getElementsByClassName("logo");
-                console.log(logo);
+                // console.log(logo);
                 logo[0].classList.remove("visible");
             },
 
@@ -275,19 +321,22 @@
         beforeCreate(){
             console.log("beforeCreate");
 
-            console.log(window.innerWidth);
-            if(window.innerWidth <= 790) {
-                this.isMobile = true;
-                console.log("is mobile tru");
-                console.log(this.isMobile);
-            } else {
-                this.isMobile = false;
-                console.log("is mobile false");
+            // console.log(window.innerWidth);
+            // if(window.innerWidth <= 790) {
+            //     this.isMobile = true;
+            //     console.log("is mobile tru");
+            //     console.log(this.isMobile);
+            // } else {
+            //     this.isMobile = false;
+            //     console.log("is mobile false");
 
-            }
+            // }
+            console.log("fromProject OOOOOON beforeCreate");
         },
         mounted(){
-            console.log(this);
+            if (document.getElementsByClassName("cover-project").length>0) {
+                document.querySelector('.cover-project').classList.remove('visible');
+            }
             this.animIntro();
             this.changeNameDown.to( ".project-name", 0.8, {y:220, ease: Power4.easeInOut});
             this.changeNameUp.to( ".project-name", 1, {y:0, ease: Power4.easeInOut});
@@ -336,6 +385,9 @@
         z-index: 999;
         // mix-blend-mode: soft-light;
         overflow: hidden;
+        &.visible{
+            overflow: visible;
+        }
         &.hover{
             mix-blend-mode: normal;
             .project-name{
@@ -355,6 +407,13 @@
             white-space: nowrap;  
             opacity: 0.3;
             transition: color 0.5s ease, opacity 0.5s ease;
+            span{
+                display: inline-block;
+                min-width: 50px;
+            }
+            &.visible{
+                opacity: 1;
+            }
             &:hover{
                 cursor: pointer;
                 color: $main-color;
@@ -423,6 +482,16 @@
     .slide-link{
         visibility: hidden;
     }
+
+    // .swiper-slide-next{
+    //     transition: all 0.4s ease;
+    //         left: 0px;
+
+    //     &:hover{
+    //         left: -50px;
+    //         transition: all 0.6s ease-in-out;
+    //     }
+    // }
 
     // .fade-leave-active{
     //     opacity:0;

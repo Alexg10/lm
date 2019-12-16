@@ -1,24 +1,23 @@
 <template>
     <div>
-        <HeaderProject :name="projectName" :description="projectDescription" :image="projectHeaderImg"></HeaderProject>
+        <HeaderProject :name="currentProject.title" :description="currentProject.description" :image="currentProject.HeaderImg"></HeaderProject>
         <div class="grey-section">
-            <div v-for="bloc in projectBlocName" v-bind:key>
-                <!-- {{bloc}} -->
-                <Chapter v-if="bloc[0] == 'bloc_step'" :bg_color=bloc[1] :number=bloc[2] :name=bloc[3]></Chapter>
-                <LaptopSection v-if="bloc[0] == 'bloc_laptop'" :image=bloc[1].url></LaptopSection>
-                <TextSection v-if="bloc[0] == 'bloc_txt'" :text=bloc[1]></TextSection>
-                <ImgSection v-if="bloc[0] == 'bloc_sketch'" :images=bloc[1]></ImgSection>
-                <Img4Section v-if="bloc[0] == 'bloc_four_section_content'" :four_images=bloc[1]></Img4Section>
-                <ImgFullCenter v-if="bloc[0] == 'bloc_img_full_center'" :img_full_center=bloc[1]></ImgFullCenter>
-                <ImgFullHalf v-if="bloc[0] == 'bloc_img_full_half'" :img_full_half=bloc[1]></ImgFullHalf>
-                <ColorSection v-if="bloc[0] == 'bloc_colors'" :colors=bloc[1]></ColorSection>
-                <TextBgSection v-if="bloc[0] == 'bloc_bg_gradient'" :gradient_text=bloc[1] :gradient_img=bloc[2]></TextBgSection>
-                <Img6SquareText v-if="bloc[0] == 'bloc_six_img_txt'" :six_chapter=bloc[1] :six_chapter_name=bloc[2] :six_images=bloc[3] :six_images_txt=bloc[4] ></Img6SquareText>
-                <ImgPatchwork v-if="bloc[0] == 'bloc_patchwork'" :patchworkOne=bloc[1] :patchworkTxt=bloc[2] :patchworkTwo=bloc[3]></ImgPatchwork>
-                <BlocAnimation v-if="bloc[0] == 'bloc_animation'" :image_desktop=bloc[1] :image_mobile=bloc[2]></BlocAnimation>
-                <BlocAfter v-if="bloc[0] == 'bloc_after_effect'" :after_top_left=bloc[1] :after_top_righ=bloc[2] :after_top_middle=bloc[3] :after_full_height=bloc[4]></BlocAfter>
+            <div v-for="bloc in currentProject.projectBlocName" v-bind:key>
+                <Chapter v-if="bloc.acf_fc_layout == 'bloc_step'" :bg_color=bloc.color :number=bloc.number :name=bloc.step_title></Chapter>
+                <LaptopSection v-if="bloc.acf_fc_layout == 'bloc_laptop'" :image=bloc.laptop_picture.url></LaptopSection>
+                <TextSection v-if="bloc.acf_fc_layout == 'bloc_txt'" :text=bloc.text></TextSection>
+                <ImgSection v-if="bloc.acf_fc_layout == 'bloc_sketch'" :images=bloc.sketch_images></ImgSection>
+                <Img4Section v-if="bloc.acf_fc_layout == 'bloc_four_section_content'" :four_images=bloc.bloc_four_section_img></Img4Section>
+                <ImgFullCenter v-if="bloc.acf_fc_layout == 'bloc_img_full_center'" :img_full_center=bloc.bloc_img_full_center_img></ImgFullCenter>
+                <ImgFullHalf v-if="bloc.acf_fc_layout == 'bloc_img_full_half'" :img_full_half=bloc.bloc_img_full_half_images></ImgFullHalf>
+                <ColorSection v-if="bloc.acf_fc_layout == 'bloc_colors'" :colors=bloc.bloc_colors_color></ColorSection>
+                <TextBgSection v-if="bloc.acf_fc_layout == 'bloc_bg_gradient'" :gradient_text=bloc.bloc_bg_gradient_txt :gradient_img=bloc.gradient_background></TextBgSection>
+                <Img6SquareText v-if="bloc.acf_fc_layout == 'bloc_six_img_txt'" :six_chapter=bloc.chapter :six_chapter_name=bloc.chapter_name :six_images=bloc.bloc_six_images :six_images_txt=bloc.bloc_six_txt ></Img6SquareText>
+                <ImgPatchwork v-if="bloc.acf_fc_layout == 'bloc_patchwork'" :patchworkOne=bloc.first_patchwork :patchworkTxt=bloc.patchwork_txt :patchworkTwo=bloc.second_patchwork></ImgPatchwork>
+                <BlocAnimation v-if="bloc.acf_fc_layout == 'bloc_animation'" :image_desktop=bloc.image_desktop :image_mobile=bloc.image_mobile></BlocAnimation>
+                <BlocAfter v-if="bloc.acf_fc_layout == 'bloc_after_effect'" :after_top_left=bloc.image_top_left :after_top_righ=bloc.image_top_right :after_top_middle=bloc.image_middle :after_full_height=bloc.images_full_height></BlocAfter>
             </div>
-            <Footer v-if="footer" :link="footerLink" :title="footerTitle"></Footer>
+            <Footer :link="currentProject.footerLink" :title="currentProject.footerLinkTitle"></Footer>
         </div>
     </div>
 </template>
@@ -43,11 +42,7 @@
     import BlocAfter from '~/components/project/BlocAfter'
     import Footer from '~/components/project/Footer'
 
-    import { mapMutations } from 'vuex'  
-    import { mapState } from 'vuex' 
-
     export default {
-        transition: 'bounce',
         components:{
             HeaderProject,
             LaptopSection,
@@ -68,19 +63,15 @@
         data(){
             return{
                 apiUrl,
-                id: this.$route.params.id
+                id: this.$route.params.id,
+                currentProject :this.$store.state.projects.currentProjectData[0]
             }
         },
         mounted: function(){
-            // console.log(this.id);
-            document.querySelector('.cover-project').classList.remove('visible');
-
-            axios.get(`${apiUrl}`)
-            .then(value => {
-                var data = value.data[0];
-                // console.log('data')
-                // console.log(data)
-            });
+            if (document.getElementsByClassName("cover-project").length>0) {
+                document.querySelector('.cover-project').classList.remove('visible');
+            }
+            document.body.classList.remove("fixed");
         },
         computed: {
             project(){
@@ -89,54 +80,14 @@
         },
         fetch({store, params}){
             // Get project from slug
-            // Commit project in project st@ore list
-            // Commit project in project current
-        },
-        async asyncData({ params, error }) {
             var projectName = params.id.charAt(0).toUpperCase() + params.id.slice(1);
-            // console.log('cityName');
-            // console.log(projectName);
             return axios.get(`${apiUrl}?slug=${projectName}`)
             .then(res => {
-                var projectAcf = res.data[0].acf;
-                var projectName = projectAcf.project_title;
-                var projectDescription = projectAcf.project_description;
-                var projectHeaderImg = projectAcf.header_picture.sizes.header_picture;
-                var projectBlocs = projectAcf.blocs;
-                var projectBlocName = [];
-                var projectBlocNameInfos= [];
-                var objectBloc = {};
-                var blocName;
-                var footer = projectAcf.footer_link;
-                var footerLink = projectAcf.footer_link.url;
-                var footerTitle = projectAcf.footer_link.title;
-
-
-                // console.log(projectAcf);
-
-                projectBlocs.forEach(function(element) {
-                    // console.log(element.acf_fc_layout);
-                    projectBlocName.push(Object.values(element));
-                    // console.log(projectBlocName);
-                });
-                return { 
-                    projectAcf,
-                    projectName,
-                    projectDescription,
-                    projectHeaderImg,
-                    projectBlocName,
-                    footerLink,
-                    footerTitle,
-                    footer
-                }
-            })   
-            .catch((e) => {
-                error({ statusCode: 404})
-            });
+                store.commit('projects/add', res);
+            })
+            // Commit project in project st@ore list
+            
+            // Commit project in project current
         }
     }
 </script>
-
-<style lang="scss" scoped>
-    
-</style>

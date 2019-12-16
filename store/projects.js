@@ -1,9 +1,10 @@
 export const state = () => ({
     loading: true,
     list: [],
-    current: false
+    current: false,
+    currentProjectData: [],
+    fromProject:''
 })
-
 
 export const mutations = {
     hydrate(state, data){
@@ -18,6 +19,18 @@ export const mutations = {
         state.loading = false;
     },
     add(state, project) {
+        let currentProject = new Object;
+        currentProject.slug = project.data[0].slug;
+        currentProject.acf = project.data[0].acf;
+        currentProject.title = project.data[0].title.rendered;
+        currentProject.description = project.data[0].acf.project_description;
+        currentProject.HeaderImg = project.data[0].acf.header_picture.sizes.header_picture;
+        currentProject.projectBlocName = project.data[0].acf.blocs;
+        currentProject.footerLink = project.data[0].acf.footer_link.url;
+        currentProject.footerLinkTitle = project.data[0].acf.footer_link.title;
+
+        state.currentProjectData= [],
+        state.currentProjectData.push(currentProject);
         state.list.push(project)
     },
     emptyList(state) {

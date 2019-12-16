@@ -54,7 +54,7 @@
                 duration: gradientHeightDuration+700
             })
             .setTween(tlGradient)
-            .addIndicators({ name: 'Gradient' })
+            // .addIndicators({ name: 'Gradient' })
             scrollM.addScene(sceneGradient);
 
 
