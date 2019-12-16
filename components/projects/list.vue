@@ -43,6 +43,7 @@
                     loop: true,
                     speed:1100,
                     slidesPerView: 3,
+                    mousewheel: true,
                     centeredSlides: true,
                     spaceBetween: "45%",
                     hashNavigation: {
@@ -83,16 +84,16 @@
                             console.log("init slide");
                             setTimeout(function(){
 
-                            var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
-                            var slideActiveName = slideActive.getAttribute('data-name');
-                            var slideActiveId = slideActive.getAttribute('data-id');
-                            console.log(slideActiveId);
-                            console.log(slideActiveName);
+                                var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
+                                var slideActiveName = slideActive.getAttribute('data-name');
+                                var slideActiveId = slideActive.getAttribute('data-id');
+                                console.log(slideActiveId);
+                                console.log(slideActiveName);
 
 
-                            document.getElementsByClassName("project-name")[0].innerHTML = slideActiveName;
-                            document.getElementsByClassName("project-name")[0].setAttribute("data-id",slideActiveId);
-                            }, 3000);
+                                document.getElementsByClassName("project-name")[0].innerHTML = slideActiveName;
+                                document.getElementsByClassName("project-name")[0].setAttribute("data-id",slideActiveId);
+                            }, 1000);
 
 
 
@@ -188,21 +189,42 @@
                 var wordContent = word.textContent.trim();
                 var wordContentSplit = wordContent.split("");
                 word.innerHTML = "";
+                var tabLetterLength=[];
 
                 for(var i=0; i< wordContentSplit.length; i++){
                     var newSpan = document.createElement('span');
                     newSpan.style.display = "inline-block";
+                    newSpan.style.minWidth = "40px";
+                    newSpan.setAttribute("class", "letter-"+i);
                     newSpan.innerHTML = wordContentSplit[i];
                     word.appendChild(newSpan);
+                    tabLetterLength.push(i)
+                }
+
+                //SHUFFLE LETTER
+                var currentIndex = tabLetterLength.length, 
+                    temporaryValue, 
+                    randomIndex;
+                while (0 !== currentIndex) {
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+                    temporaryValue = tabLetterLength[currentIndex];
+                    tabLetterLength[currentIndex] = tabLetterLength[randomIndex];
+                    tabLetterLength[randomIndex] = temporaryValue;
                 }
 
                 document.getElementsByClassName("project-name-container")[0].classList.add('visible');
                 document.getElementsByClassName("project-name")[0].classList.add('visible');
                 //Anim LETTERS
-                var letterTrans = new TimelineMax({delay:1.3});
-                letterTrans.staggerFromTo(".project-name span", 0.75, {scaleX:1, scaleY:1, opacity:1},{scaleX:3, scaleY:3, opacity:0, ease: Power4.easeInOut, overwrite: false}, 0.1);    
-
-
+                var letterTrans = new TimelineMax({});
+                setTimeout(() => {
+                    tabLetterLength.forEach(function(element){
+                        var elemToAnim = document.querySelector('.project-name .letter-'+element+'');
+                        letterTrans.fromTo(elemToAnim , 0.8, {scaleX:1, scaleY:1, opacity:1},{scaleX:3, scaleY:3, opacity:0, ease: Power4.easeInOut, overwrite: false},"-=0.55");    
+                        //! IF PASS TO WHITE
+                        // letterTrans.fromTo(elemToAnim , 0.75, {scaleX:1, scaleY:1, opacity:1},{color: "white", ease: Power4.easeInOut, overwrite: false},"-=0.55");    
+                    });
+                }, 300);
 
                 var tl = new TimelineMax({ paused: false});
                 tl.add('start');
@@ -212,15 +234,10 @@
                 .to( ".swiper-slide-active .big-background", 2, {width:"100vw", height:"100vh", ease: Power4.easeInOut}, 'start+=1');
                 const elem = document.getElementsByClassName('swiper-slide-active')[0].getElementsByClassName('slide-link')[0];
 
-
-
-
-
-
                 setTimeout(() => {
                     document.querySelector('.cover-project').classList.add('visible');
                     elem.click();
-                }, 3000);
+                }, 2800);
 
             },
             parralaxEffect(e){
@@ -272,12 +289,12 @@
                 });
                 var vm = this;
                 tl.add('start');
-                tl.from( slideActive, 2.5, {alpha:0, ease: Power4.easeInOut},'animIntroStart')
-                .from( slideActive, 3, {width:"100vw", height:"100vh", ease: Power4.easeInOut},'animIntroStart+=1.5')
-                .to( ".project-container-img", 3, {scale: 1.2, ease: Power4.easeInOut},'animIntroStart+=1.5')
-                .from( ".project-name", 2, {y:220, ease: Power4.easeInOut}, 'animIntroStart+=3')
-                .from( ".swiper-slide-prev", 2.5, {x:-240, ease: Power4.easeInOut}, 'animIntroStart+=4')
-                .from( ".swiper-slide-next", 2.5, {x:240, ease: Power4.easeInOut}, 'animIntroStart+=4');
+                tl
+                .from( slideActive, 3, {width:"100vw", height:"100vh", ease: Power4.easeInOut},'animIntroStart')
+                .to( ".project-container-img", 3, {scale: 1.2, ease: Power4.easeInOut},'animIntroStart')
+                .from( ".project-name", 2, {y:220, ease: Power4.easeInOut}, 'animIntroStart+=1.5')
+                .from( ".swiper-slide-prev", 2.5, {x:-240, ease: Power4.easeInOut}, 'animIntroStart+=2.5')
+                .from( ".swiper-slide-next", 2.5, {x:240, ease: Power4.easeInOut}, 'animIntroStart+=2.5');
 
                 tl.eventCallback("onComplete", function () {
                     console.log('complete lm');
@@ -390,6 +407,10 @@
             white-space: nowrap;  
             opacity: 0.3;
             transition: color 0.5s ease, opacity 0.5s ease;
+            span{
+                display: inline-block;
+                min-width: 50px;
+            }
             &.visible{
                 opacity: 1;
             }
@@ -461,6 +482,16 @@
     .slide-link{
         visibility: hidden;
     }
+
+    // .swiper-slide-next{
+    //     transition: all 0.4s ease;
+    //         left: 0px;
+
+    //     &:hover{
+    //         left: -50px;
+    //         transition: all 0.6s ease-in-out;
+    //     }
+    // }
 
     // .fade-leave-active{
     //     opacity:0;

@@ -46,9 +46,6 @@
             var categoryType = document.querySelector('.category-type');
             var description = document.querySelector('.project-description p');
 
-            
-
-
             anim
                 .fromTo(categoryType, 2,{y:50}, {y:0, ease: Power4.easeInOut})
                 .fromTo(projectName, 1.8,{y:230}, {y:0, ease: Power4.easeInOut},"-=1.2" )

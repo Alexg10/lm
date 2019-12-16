@@ -28,9 +28,18 @@
             hideCross(){
                 var cross = document.getElementsByClassName("cross");
                 cross[0].classList.remove("active");
-                // if (document.getElementsByClassName("cover-project").length>0) {
-                //     document.querySelector('.cover-project').classList.add('visible');
-                // }
+                // this.animBeforeGoBack();
+            },
+            animBeforeGoBack(){
+                var anim = new TimelineLite();
+                var projectName = document.querySelector('.project-name-content');
+                var categoryType = document.querySelector('.category-type');
+                var description = document.querySelector('.project-description p');
+
+                anim
+                    .fromTo(categoryType, 2,{y:0}, {y:-50, ease: Power4.easeInOut})
+                    .fromTo(projectName, 1.8,{y:0}, {y:-230, ease: Power4.easeInOut},"-=1.2" )
+                    .fromTo(description, 1.5,{y:0, opacity:1}, {y:-30, opacity:0, ease: Power4.easeInOut},"-=1" );
             }
         },
         mounted() {
