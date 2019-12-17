@@ -83,6 +83,7 @@
                     Hold me
                 </div>
             </div>
+            <img class="arrow" :src="arrowDown" alt="">
         </div>
     </div>
 </template>
@@ -91,6 +92,7 @@
     import axios from 'axios'
     const apiUrl = process.env.API_URL || 'http://localhost:8888/lm/lm_wordpress/wp-json/acf/v3/options/options'
     import { TimelineMax } from 'gsap'
+    import arrowDown from '~/assets/images/ico/arrow-down-ico.svg'
 
     export default {
         data(){
@@ -98,6 +100,7 @@
                 apiUrl,
                 lm_tl : new TimelineMax({ paused: true}),
                 work_tl : new TimelineMax({ paused: true}),
+                arrowDown,
                 scrollDownWord: new TimelineMax({ 
                     paused: true,
                 }),
@@ -185,10 +188,10 @@
                 var vm = this;
                 this.clicked = true;
                 this.lm_click.play(0);
-                setTimeout(() =>     {
+                document.getElementsByClassName("arrow")[0].classList.remove("visible");
+                setTimeout(() => {
                     clearInterval(this.playing);
-                },2000);
-                vm.showCross("love");
+                },800);
             },
             loveLeave(){
 
@@ -294,6 +297,7 @@
                     }
                     if (e.deltaY > 0) {
                         // console.log('down');
+                        document.getElementsByClassName("arrow")[0].classList.remove("visible");
                         vm.scrollDownWord.play();
 
                         vm.scrollDownWord.eventCallback("onComplete", function () {
@@ -315,6 +319,12 @@
                 console.log(value.data.acf)
                 var data = value.data.acf;
             });
+            var vm =this;
+
+            //! SETTIMEOUT ?
+            setTimeout(() => {
+                document.getElementsByClassName("arrow")[0].classList.add("visible");
+            }, 5000);
 
             var elleStart = this.$el.querySelector('.elle .start .letter-container');
             var elleEnd = this.$el.querySelector('.elle .end .letter-container');
@@ -396,11 +406,17 @@
             this.lm_click
                 .to( elle, 2, {x:"-80vw", ease: Power4.easeInOut},"fire")
                 .to( aime, 2, {x:"80vw", ease: Power4.easeInOut},"fire")
-                .to( bgAnim, 2, {autoAlpha:0, ease: Power4.easeInOut}, "+=0.4")
+                .to( bgAnim, 2, {autoAlpha:0, ease: Power4.easeInOut}, "-=0.6")
                 .set( love, {autoAlpha: 0, display: 'none'})
                 .set( loveContent, {className:"+=active"})
                 .from( loveContentW, 1.8, { y:80, ease: Power4.easeInOut}, "-=0.6")
-                .from( loveContentDesc, 1.5, { y:80, ease: Power4.easeInOut}, "-=1.3");     
+                .from( loveContentDesc, 1.5, { y:80, ease: Power4.easeInOut}, "-=1.3");  
+            
+            this.lm_click.eventCallback("onComplete", function () {
+                console.log("lm_click");
+                vm.showCross("love");
+            });
+                
 
             this.detectScroll();
         },
@@ -444,6 +460,18 @@
         }
         @media ( max-width : 680px ) {
             font-size: 130px;
+        }
+    }
+    .arrow{
+        position: fixed;
+        bottom: 55px;
+        opacity: 0;
+        transition: 0.5s ease;
+        &.visible{
+            opacity: 1;
+            bottom: 45px;
+            transition: 0.8s ease;
+            transition-delay: 2s;
         }
     }
     .background-container{
