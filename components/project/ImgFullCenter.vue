@@ -1,6 +1,5 @@
 <template>
     <section class="img-full-center-section">
-        <div class="bloc-anim"></div>
         <div class="container">
             <div class="img-full-center-section-container">
                 <img :src="img_full_center.url" alt="">
@@ -31,8 +30,8 @@
             Array.prototype.forEach.call(blocsImgFullCenter,function(el, i) {
                 var tl = new TimelineMax({ paused: false});
 
-                var bloc = el.getElementsByClassName("bloc-anim");
-                tl.fromTo(bloc, 1.5, {xPercent: -50, width:0},{xPercent: -50, width: "100%", ease: Power4.easeInOut, overwrite: false});                
+                var img = el.children[0].getElementsByClassName("img-full-center-section-container");
+                tl.fromTo(img, 2, {y: 80, scale:0.8, opacity: 0},{y: 0, scale:1, opacity: 1, ease: Power4.easeInOut, overwrite: false});                
                 
                 const animSectionScene = scrollM.scene({
                     triggerElement: el,

@@ -103,6 +103,38 @@
 
                             }, 6000);
                         },
+                        // slideChangeTransitionStart: function(e){
+                        //     console.log("transitionStart");
+                        //     document.querySelector('.swiper-slide-active').classList.remove('next-hover');
+                        // },
+                        transitionStart: function(e){
+                            function addMarginL(e) {
+                                console.log(e);
+                                console.log(document.getElementsByClassName('swiper-slide-prev')[0].children[0]);
+
+                                // document.querySelector('.swiper-slide-prev .project-container').style.marginLeft = "50px";
+                                document.getElementsByClassName('swiper-slide-prev')[0].children[0].style.marginLeft = "50px";
+                            }
+                            function addMarginR(e) {
+                                // document.querySelector('.swiper-slide-next .project-container').style.marginRight = "50px";
+                                document.getElementsByClassName('swiper-slide-next')[0].children[0].style.marginRight = "50px";;
+
+                            }
+                            function removeMargin(e) {
+                                document.querySelector('.swiper-slide-next .project-container').style.marginRight = "0px";
+                                document.querySelector('.swiper-slide-prev .project-container').style.marginLeft = "0px";
+                            }
+
+                            var nextSlide = document.querySelector('.swiper-slide-next .project-container');
+                            var prevSlide = document.querySelector('.swiper-slide-prev .project-container');
+                            var activeSlide = document.querySelector('.swiper-slide-active .project-container');
+
+                            nextSlide.addEventListener('mouseenter', addMarginR);
+                            prevSlide.addEventListener('mouseenter', addMarginL);
+                            nextSlide.addEventListener('mouseleave', removeMargin);
+                            prevSlide.addEventListener('mouseleave', removeMargin);
+                            activeSlide.addEventListener('mouseenter', removeMargin);
+                        },
                         click: function(e){
                             console.log(this.clickedSlide);
                             var clicked = this.clickedSlide;
@@ -340,6 +372,7 @@
             this.animIntro();
             this.changeNameDown.to( ".project-name", 0.8, {y:220, ease: Power4.easeInOut});
             this.changeNameUp.to( ".project-name", 1, {y:0, ease: Power4.easeInOut});
+
         }
     }
 </script>
@@ -372,6 +405,12 @@
         position: relative;
         height: 100%;
         background-size: cover;
+        margin-right: 0px;
+        transition: all 0.6s ease-in-out;
+        &.next-hover{
+            margin-right: 50px;
+            transition: all 0.6s ease-in-out;
+        }
     }
     .project-name-container{
         position: fixed;
@@ -482,16 +521,6 @@
     .slide-link{
         visibility: hidden;
     }
-
-    // .swiper-slide-next{
-    //     transition: all 0.4s ease;
-    //         left: 0px;
-
-    //     &:hover{
-    //         left: -50px;
-    //         transition: all 0.6s ease-in-out;
-    //     }
-    // }
 
     // .fade-leave-active{
     //     opacity:0;
