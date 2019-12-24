@@ -2,16 +2,7 @@
     <section class="bloc-after">
         <div class="container">
             <div class="after-bg">
-                <svg width="945px" height="668px" viewBox="0 0 945 668" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                    <g id="A---Homepage" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" font-family="Helvetica" font-size="300" font-weight="normal">
-                        <g id="C.1.0---Project-Page" transform="translate(-233.000000, -6526.000000)" fill="#C9F7F5">
-                            <text id="After-effects" transform="translate(682.500000, 6817.000000) rotate(-10.000000) translate(-682.500000, -6817.000000) ">
-                                <tspan x="365.727539" y="6928">After </tspan>
-                                <tspan x="240.629883" y="7288">effects</tspan>
-                            </text>
-                        </g>
-                    </g>
-                </svg>
+                <img src="~/assets/images/block/ae_anim.svg" alt="">
             </div>
             
             <div class="bloc-after-top-left-container">
@@ -82,6 +73,9 @@
 </script>
 
 <style lang="scss" scoped>
+    .container{
+        position: relative;
+    }
     .bloc-after{
         position: relative;
         // margin-top: -130px;
@@ -94,6 +88,10 @@
             left: 50%;
             transform: translateX(-50%);
             z-index: 0;
+            width: 100%;
+            img{
+                width: 100%;
+            }
         }
         .bloc-after-top-left-container,
         .bloc-after-top-right-container,
