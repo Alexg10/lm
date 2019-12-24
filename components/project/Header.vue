@@ -4,7 +4,7 @@
         <div class="project-header-content">
             <div class="project-header-content-top">
                 <div class="category">
-                    <div class="category-type">Project</div>
+                    <div class="category-type">{{type}}</div>
                 </div>
                 <div class="project-name">
                     <div class="project-name-content">{{name}}</div>
@@ -32,6 +32,7 @@
         },
         props: [
             'name',
+            'type',
             'description',
             'image'
         ],

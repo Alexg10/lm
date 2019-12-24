@@ -2,17 +2,22 @@
     <div class="work-list" v-on:mousemove="parralaxEffect">
 
         <!-- $device.mobile -->
-            <div class="project-name-container">
-                <div class="project-name" @click="triggerClick" data-id="id">Chopard</div>
+            <div class="project-name-container link">
+                <span>
+                    <div class="project-name" @click="triggerClick" v-on:mouseenter="triggerHoverInProjectName" v-on:mouseleave="triggerHoverOutProjectName"  data-id="id">Chopard</div>
+                </span>
+                <span>
+                    <div class="project-type">Brand UI - Interface</div>
+                </span>
             </div>
             <swiper :options="swiperOption" ref="mySwiper" @transitionStart="changeNameStart">
                 <!-- slides -->
-                <swiper-slide v-for="project in $store.state.projects.list" v-bind:key :data-id="project.id" :data-name="project.name" :data-link="project.slug" :data-hash="project.slug">
-                    <div class="project-container">
+                <swiper-slide v-for="project in $store.state.projects.list" v-bind:key :data-id="project.id" :data-name="project.name" :data-type="project.type" :data-link="project.slug" :data-hash="project.slug">
+                    <div class="project-container link">
                         <nuxt-link :to="{ name: 'project-id', params: { id: project.slug }}" class="slide-link"></nuxt-link>
                         <div class="big-background" v-on:mouseenter="triggerHoverIn" v-on:mouseleave="triggerHoverOut" >
-                            <!-- <img :src="project[2]" alt=""> -->
                             <div class="project-container-img" :style="{ backgroundImage: `url(${project.cover})` }"></div>
+                            <div class="layer"></div>
                         </div>
                     </div>
                 </swiper-slide>
@@ -86,12 +91,14 @@
 
                                 var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
                                 var slideActiveName = slideActive.getAttribute('data-name');
+                                var slideActiveType = slideActive.getAttribute('data-type');
                                 var slideActiveId = slideActive.getAttribute('data-id');
                                 console.log(slideActiveId);
                                 console.log(slideActiveName);
 
 
                                 document.getElementsByClassName("project-name")[0].innerHTML = slideActiveName;
+                                document.getElementsByClassName("project-type")[0].innerHTML = slideActiveType;
                                 document.getElementsByClassName("project-name")[0].setAttribute("data-id",slideActiveId);
                             }, 1000);
 
@@ -103,20 +110,17 @@
 
                             }, 6000);
                         },
-                        // slideChangeTransitionStart: function(e){
-                        //     console.log("transitionStart");
-                        //     document.querySelector('.swiper-slide-active').classList.remove('next-hover');
-                        // },
+                        slideChange: function(){
+                            console.log("slideChange");
+                            var slideActiveLayer = document.getElementsByClassName("swiper-slide-active")[0];
+                            slideActiveLayer = slideActiveLayer.getElementsByClassName("layer")[0]
+                            slideActiveLayer.classList.remove("visible");
+                        },
                         transitionStart: function(e){
                             function addMarginL(e) {
-                                console.log(e);
-                                console.log(document.getElementsByClassName('swiper-slide-prev')[0].children[0]);
-
-                                // document.querySelector('.swiper-slide-prev .project-container').style.marginLeft = "50px";
                                 document.getElementsByClassName('swiper-slide-prev')[0].children[0].style.marginLeft = "50px";
                             }
                             function addMarginR(e) {
-                                // document.querySelector('.swiper-slide-next .project-container').style.marginRight = "50px";
                                 document.getElementsByClassName('swiper-slide-next')[0].children[0].style.marginRight = "50px";;
 
                             }
@@ -134,6 +138,7 @@
                             nextSlide.addEventListener('mouseleave', removeMargin);
                             prevSlide.addEventListener('mouseleave', removeMargin);
                             activeSlide.addEventListener('mouseenter', removeMargin);
+
                         },
                         click: function(e){
                             console.log(this.clickedSlide);
@@ -164,40 +169,67 @@
 
                     var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
                     var name = slideActive.getAttribute('data-name');
+                    var type = slideActive.getAttribute('data-type');
                     var link = slideActive.getAttribute('data-link');
                     var id = slideActive.getAttribute('data-id');
                     document.getElementsByClassName("project-name")[0].setAttribute("data-id", id);
 
                     document.getElementsByClassName("project-name")[0].innerHTML = name;
+                    document.getElementsByClassName("project-type")[0].innerHTML = type;
                     document.getElementsByClassName("project-name")[0].href = "/project/"+link;
                     vm.changeNameUp.play(0);
+
                 });
             },
             changeNameEnd(){
                 console.log('End');
                 this.changeName();
                 this.changeNameUp.play(0);
+                document.querySelectorAll('.layer')[0].classList.remove('visible');
+
             },
             changeName(){
                 var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
                 var name = slideActive.getAttribute('data-name');
+                var type = slideActive.getAttribute('data-type');
                 var id = slideActive.getAttribute('data-id');
                 document.getElementsByClassName("project-name")[0].innerHTML = name;
+                document.getElementsByClassName("project-type")[0].innerHTML = type;
                 document.getElementsByClassName("project-name")[0].setAttribute("data-id", id);
             },
             triggerHoverIn(e){
-                console.log("triggerHoverIn");
-                var link = e.target.offsetParent.parentNode.previousSibling;
+                console.log("triggerHoverIIIIIIIIIIn");
+                //! Probleme avec duplicated slide A VOIR 
+                //TODO Ne rentre pas ds la function si duplicated slide
+                var target = e.target;
+                // console.log(target);
+                var slideActiveLayer = target.getElementsByClassName("layer")[0];
+                var link = e.target.closest(".swiper-slide");
+                console.log(link);
                 if(link.classList.contains("swiper-slide-active")){
-                    document.getElementsByClassName('project-name-container')[0].classList.add("hover");
+                    slideActiveLayer.classList.add("visible");
+                    document.querySelector('.project-name-container').classList.add("hover");
                 }
             },
             triggerHoverOut(e){
                 console.log("triggerHoverOut");
-                // var link = e.target.offsetParent.parentNode.previousSibling;
-                // if(link.classList.contains("swiper-slide-active")){
-                //     document.getElementsByClassName('project-name-container')[0].classList.remove("hover");
-                // }
+                var target = e.target;
+                var slideActiveLayer = target.getElementsByClassName("layer")[0];
+                var link = e.target.closest(".swiper-slide");
+                if(link.classList.contains("swiper-slide-active")){
+                    slideActiveLayer.classList.remove("visible");
+                    document.querySelector('.project-name-container').classList.remove("hover");
+                }
+            },
+            triggerHoverInProjectName(){
+                var slideActiveLayer = document.getElementsByClassName("swiper-slide-active")[0];
+                slideActiveLayer = slideActiveLayer.getElementsByClassName("layer")[0]
+                slideActiveLayer.classList.add("visible");
+            },
+            triggerHoverOutProjectName(){
+                var slideActiveLayer = document.getElementsByClassName("swiper-slide-active")[0];
+                slideActiveLayer = slideActiveLayer.getElementsByClassName("layer")[0]
+                slideActiveLayer.classList.remove("visible");
             },
             triggerClick(){
                 console.log("triggerClick");
@@ -262,6 +294,8 @@
                 tl.add('start');
                 tl.to( ".swiper-slide-prev", 1, {x:-240, ease: Power4.easeInOut}, 'start')
                 .to( ".swiper-slide-next", 1, {x:240, ease: Power4.easeInOut}, 'start')
+                .to( ".project-type", 1, {y:80, ease: Power4.easeInOut}, "start")
+                .to( ".layer.visible", 1, {opcity:0, ease: Power4.easeInOut}, "start+=1")
                 .to( paralaxElement, 1, {scale:1, ease: Power4.easeInOut}, 'start+=1')
                 .to( ".swiper-slide-active .big-background", 2, {width:"100vw", height:"100vh", ease: Power4.easeInOut}, 'start+=1');
                 const elem = document.getElementsByClassName('swiper-slide-active')[0].getElementsByClassName('slide-link')[0];
@@ -325,6 +359,7 @@
                 .from( slideActive, 3, {width:"100vw", height:"100vh", ease: Power4.easeInOut},'animIntroStart')
                 .to( ".project-container-img", 3, {scale: 1.2, ease: Power4.easeInOut},'animIntroStart')
                 .from( ".project-name", 2, {y:220, ease: Power4.easeInOut}, 'animIntroStart+=1.5')
+                .from( ".project-type", 2, {y:80, ease: Power4.easeInOut}, 'animIntroStart+=1.8')
                 .from( ".swiper-slide-prev", 2.5, {x:-240, ease: Power4.easeInOut}, 'animIntroStart+=2.5')
                 .from( ".swiper-slide-next", 2.5, {x:240, ease: Power4.easeInOut}, 'animIntroStart+=2.5');
 
@@ -370,9 +405,12 @@
                 document.querySelector('.cover-project').classList.remove('visible');
             }
             this.animIntro();
-            this.changeNameDown.to( ".project-name", 0.8, {y:220, ease: Power4.easeInOut});
-            this.changeNameUp.to( ".project-name", 1, {y:0, ease: Power4.easeInOut});
-
+            this.changeNameDown
+                .to( ".project-name", 0.8, {y:220, ease: Power4.easeInOut}, "start")
+                .to( ".project-type", 1, {y:80, ease: Power4.easeInOut}, "start");
+            this.changeNameUp
+                .to( ".project-name", 1.2, {y:0, ease: Power4.easeInOut})
+                .to( ".project-type", 1.2, {y:0, ease: Power4.easeInOut}, "-= 1");
         }
     }
 </script>
@@ -414,7 +452,8 @@
     }
     .project-name-container{
         position: fixed;
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
         top: 50%;
         left: 50%;
         width: auto;
@@ -424,6 +463,10 @@
         z-index: 999;
         // mix-blend-mode: soft-light;
         overflow: hidden;
+        span{
+            display: inline-block;
+            overflow: hidden;
+        }
         &.visible{
             overflow: visible;
         }
@@ -432,7 +475,8 @@
             .project-name{
                 cursor: pointer;
                 color: $main-color;
-                transition: color 0.5s ease;
+                opacity: 1;
+                transition: color 0.5s ease, opacity 0.5s ease;
             }
         }
         &:hover{
@@ -459,6 +503,13 @@
                 opacity: 1;
                 transition: color 0.5s ease, opacity 0.5s ease;
             }
+        }
+        .project-type{
+            color: white;
+            font-size: 16px;
+            font-family: 'GTWalsheimProBold';
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
     }
     .project-container-img{
@@ -518,6 +569,27 @@
             // animation-timing-function: cubic-bezier(0.39, 0.69, 0.36, 1);
         }
     }
+
+    .layer{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: $main-color;
+        opacity: 0;
+        transition: opacity 0.5s ease;
+    }
+    .parallax-ready{
+        .layer{
+            &.visible{
+                opacity: 0.4;
+                transition: opacity 0.5s ease;
+            }
+        }
+    }
+
+
     .slide-link{
         visibility: hidden;
     }

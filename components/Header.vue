@@ -1,6 +1,6 @@
 <template>
     <div class="header">
-        <div class="logo">
+        <div class="logo link">
             <div class="logo-container">
                 <span class="letter first-letter">L</span>
                 <span class="letter second-letter">M</span>

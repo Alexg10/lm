@@ -10,10 +10,10 @@
                 </div>
             </div>
             <div class="background-container"></div>
-            <div class="love-container active">
+            <div class="love-container active link">
                 <div class="love" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave" v-on:click="loveClick">
                     <div class="word-container elle">
-                        <div class=" word">
+                        <div class="word">
                             <div class="start">
                                 <div class="letter-container">
                                     <div class="letter ">e</div>
@@ -83,7 +83,7 @@
                     Hold me
                 </div>
             </div>
-            <img class="arrow" :src="arrowDown" alt="">
+            <img class="arrow link" :src="arrowDown" alt="">
         </div>
     </div>
 </template>

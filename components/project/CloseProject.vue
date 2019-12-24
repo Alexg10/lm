@@ -1,5 +1,5 @@
 <template>
-    <div class="cross" v-on:click="hideCross">
+    <div class="cross link" v-on:click="hideCross">
         <nuxt-link :to="{ path: '/project',hash: this.currentProjectSlug}" class="back-link">
             <div class="crossLineOne">
                 <div class="crossLineOne_content"></div>

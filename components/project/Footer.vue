@@ -1,7 +1,7 @@
 <template>
     <div class="footer-project">
         <div class="foter-project-content">
-            <nuxt-link prefetch class="link-to" :to="{ name: 'project-id', params: { id: this.linkSlug }}" >
+            <nuxt-link prefetch class="link-to link" :to="{ name: 'project-id', params: { id: this.linkSlug }}" >
                 <div class="next-project up-letters">next project</div> 
                 <div class="next-project-name up-letters">{{title}}</div>
                 <img class="arrow" :src="arrowDown" alt="">

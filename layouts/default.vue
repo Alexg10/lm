@@ -3,31 +3,41 @@
     <Header></Header>
     <Cover />
     <nuxt />
-    <!-- <div class="cursor"></div> -->
+    <CursorBlock />
   </div>
 </template>
 
 <script>
   import Header from '../components/Header'
   import Cover from '../components/Cover'
+  import CursorBlock from '../components/Cursor'
+
 
   export default {
     components: {
       Header,
-      Cover
+      Cover,
+      CursorBlock
     },
     methods: {
       moveCursor(e){
-        const cursor = document.querySelector('.cursor');
-        cursor.setAttribute("style", "top: "+(e.pageY - 20)+"px; left: "+(e.pageX - 20)+"px");
+        console.log('cursor');
+        // const cursor = document.querySelector('.cursor');
+        // cursor.setAttribute("style", "top: "+(e.pageY - 20)+"px; left: "+(e.pageX - 20)+"px");
+
+
+
+
+
+
       }
     },
     mounted(){
-      // document.addEventListener('mousemove', this.moveCursor);
+
     }
   }
 </script>
-<style>
+<style lang="scss">
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -38,6 +48,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
+  // cursor: none;
 }
 
 *,
@@ -75,15 +86,26 @@ html {
   color: #fff;
   background-color: #35495e;
 }
-.cursor{
-  position: absolute;
+#cursor{
+  position: fixed;
+  left: 50%;
+  top: 50%;
   width: 45px;
   height: 45px;
   border: 1px solid #B4B3B1;
   border-radius: 100px;
+  transform: translate(-20px, -20px); 
   /* transition-duration: 0.2s;
   transition-timing-function: ease-in-out; */
-  transition: top 200ms ease-in-out, left 200ms ease-in-out;
-  pointer-events: none
+  /* transition: top 200ms ease-in-out, left 200ms ease-in-out; */
+  pointer-events: none;
+  transition: width 0.4s ease, height 0.4s ease;
+  z-index: 9999;
+  &.hover{
+    width: 15px;
+    height: 15px;
+    transform: translate(-8px, -5px);
+    transition: width 0.5s ease, height 0.5s ease;
+  }
 }
 </style>
