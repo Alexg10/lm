@@ -10,10 +10,18 @@
                 <!-- <img class="bloc-after-top-left-img" :src="after_top_righ.url"> -->
             </div>
             <div class="bloc-after-top-right-container">
-                <img class="bloc-after-top-right-img" :src="after_top_left.url">
+                <div id="anim-result"></div>
+                <!-- <img class="bloc-after-top-right-img" :src="after_top_left.url"> -->
+                <div class="anim-container">
+                    <div id="animation-hand" class="hand-anim"></div>
+                    <div id="animation-smart" class="hand-anim"></div>
+                    <div id="animation-accessibility" class="hand-anim"></div>
+                    <div id="animation-creativ" class="hand-anim"></div>
+                </div>
             </div>
             <div class="bloc-after-top-middle-container">
-                <img class="bloc-after-top-middle-img" :src="after_top_middle.url">
+                <div id="anim-htu"></div>
+                <!-- <img class="bloc-after-top-middle-img" :src="after_top_middle.url"> -->
             </div>
             <div class="bloc-after-full-height-container" v-for="image in after_full_height" v-bind:key>
                 <img class="bloc-after-top-middle-img" :src="image.image_full_height.url">
@@ -68,6 +76,50 @@
                 path: "/images/anim_img/anim_intro.json" // the path to the animation json
             });
 
+            lottie.loadAnimation({
+                container: document.getElementById('animation-hand'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "/images/anim_img/anim-hand-human.json"
+            });
+            lottie.loadAnimation({
+                container: document.getElementById('animation-accessibility'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "/images/anim_img/anim-hand-accessible.json"
+            });
+
+            lottie.loadAnimation({
+                container: document.getElementById('animation-smart'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "/images/anim_img/anim-hand-smart.json"
+            });
+            lottie.loadAnimation({
+                container: document.getElementById('animation-creativ'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "/images/anim_img/anim-hand-creativ.json"
+            });
+            lottie.loadAnimation({
+                container: document.getElementById('anim-htu'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "/images/anim_img/anim-htu.json"
+            });
+            lottie.loadAnimation({
+                container: document.getElementById('anim-result'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: "/images/anim_img/anim-result.json"
+            });
+
         }
     }
 </script>
@@ -118,6 +170,17 @@
             padding-top: 144px;
             position: relative;
             left: 130px;
+            max-width: 400px;
+            .anim-container{
+                display: flex;
+                .hand-anim{
+                    flex: 1;
+                }
+            }
+        }
+        #anim-htu{
+            max-width: 580px;
+            margin: 0 auto;
         }
         .bloc-after-full-height-container{
             width: 50%;

@@ -64,3 +64,13 @@
     font-style: italic;
 }
 
+@font-face {
+    font-family: "Futura PT";
+    src: url("//db.onlinewebfonts.com/t/e8c6a63541de0a4211a9358cbe74690f.eot");
+    src: url('//db.onlinewebfonts.com/t/e8c6a63541de0a4211a9358cbe74690f.eot') format('embedded-opentype'),
+        url('//db.onlinewebfonts.com/t/e8c6a63541de0a4211a9358cbe74690f.woff2') format('woff2'),
+        url('../fonts/futura-pt.woff') format('woff'),
+        url('../fonts/futura-pt.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
