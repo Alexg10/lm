@@ -12,6 +12,7 @@
             </div>
             <div class="project-description">
                 <p>{{description}}</p>
+                <a v-if="link" :href="link" target="_blank" class="project-link link">View the website</a>
             </div>
         </div>
     </div>
@@ -34,7 +35,8 @@
             'name',
             'type',
             'description',
-            'image'
+            'image',
+            'link'
         ],
         mounted(){
             // const splitted = new SplitText('.project-description p', {
@@ -92,11 +94,21 @@
             overflow: hidden;
         }
         .project-description{
+            position: relative;
             align-self: flex-end;
             max-width: 370px;
             font-size: 23px;
             font-weight: bold;
             transform: translateY(210px);
+        }
+        .project-link{
+            position: absolute;
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-family: 'GTWalsheimProMedium';
+            margin-top: 40px;
         }
         @media only screen and ( max-width : 1280px ) {
             .project-name{

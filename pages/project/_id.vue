@@ -1,6 +1,6 @@
 <template>
     <div>
-        <HeaderProject :name="currentProject.title" :type="currentProject.type" :description="currentProject.description" :image="currentProject.HeaderImg"></HeaderProject>
+        <HeaderProject :name="currentProject.title" :type="currentProject.type" :description="currentProject.description" :image="currentProject.HeaderImg" :link="currentProject.link"></HeaderProject>
         <div class="grey-section">
             <div v-for="bloc in currentProject.projectBlocName" v-bind:key>
                 <Chapter v-if="bloc.acf_fc_layout == 'bloc_step'" :bg_color=bloc.color :number=bloc.number :name=bloc.step_title></Chapter>

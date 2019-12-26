@@ -27,6 +27,7 @@ export const mutations = {
         currentProject.title = project.data[0].title.rendered;
         currentProject.type = project.data[0].acf.project_type;
         currentProject.description = project.data[0].acf.project_description;
+        currentProject.link = project.data[0].acf.project_link;
         currentProject.HeaderImg = project.data[0].acf.header_picture.sizes.header_picture;
         currentProject.projectBlocName = project.data[0].acf.blocs;
         currentProject.footerLink = project.data[0].acf.footer_link.url;
