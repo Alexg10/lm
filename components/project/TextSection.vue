@@ -40,7 +40,7 @@
                 })
                 .setTween(tl)
                 .reverse(false)
-                .addIndicators({ name: 'TextSection' })
+                // .addIndicators({ name: 'TextSection' })
                 scrollM.addScene(textScene)
             });
             

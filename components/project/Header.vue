@@ -48,11 +48,21 @@
             var projectName = document.querySelector('.project-name-content');
             var categoryType = document.querySelector('.category-type');
             var description = document.querySelector('.project-description p');
+            var link = document.querySelector('.project-link');
 
-            anim
-                .fromTo(categoryType, 2,{y:50}, {y:0, ease: Power4.easeInOut})
-                .fromTo(projectName, 1.8,{y:230}, {y:0, ease: Power4.easeInOut},"-=1.2" )
-                .fromTo(description, 1.5,{y:30, opacity:0}, {y:0, opacity:1, ease: Power4.easeInOut},"-=1" );
+            if( link){
+                anim
+                    .fromTo(categoryType, 2,{y:50}, {y:0, ease: Power4.easeInOut})
+                    .fromTo(projectName, 1.8,{y:230}, {y:0, ease: Power4.easeInOut},"-=1.2" )
+                    .fromTo(description, 1.5,{y:30, opacity:0}, {y:0, opacity:1, ease: Power4.easeInOut},"-=1" )
+                    .fromTo(link, 1.5,{y:30, opacity:0}, {y:0, opacity:1, ease: Power4.easeInOut},"-=1" );
+            }else{
+                anim
+                    .fromTo(categoryType, 2,{y:50}, {y:0, ease: Power4.easeInOut})
+                    .fromTo(projectName, 1.8,{y:230}, {y:0, ease: Power4.easeInOut},"-=1.2" )
+                    .fromTo(description, 1.5,{y:30, opacity:0}, {y:0, opacity:1, ease: Power4.easeInOut},"-=1" );
+            }
+
 
         }
     }

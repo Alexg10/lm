@@ -8,12 +8,12 @@
     export default {
         methods: {
             getLinks(){
-                console.log("OOOOOO");
+                // console.log("OOOOOO");
                 var linkItems = document.querySelectorAll(".link");
-                    console.log(linkItems);
+                    // console.log(linkItems);
 
                 linkItems.forEach(item => {
-                    console.log(item)
+                    // console.log(item)
                     item.addEventListener("mouseenter", addHoverClass);
                     item.addEventListener("mouseleave", removeHoverClass);
                 });

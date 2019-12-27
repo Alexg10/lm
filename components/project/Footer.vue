@@ -1,7 +1,7 @@
 <template>
     <div class="footer-project">
         <div class="foter-project-content">
-            <nuxt-link prefetch class="" :to="{ name: 'project-id', params: { id: this.linkSlug }}" >
+            <nuxt-link prefetch class="link-to" :to="{ name: 'project-id', params: { id: this.linkSlug }}" >
                 <div class="next-project up-letters">next project</div> 
                 <div class="next-project-name up-letters">{{title}}</div>
                 <img class="arrow" :src="arrowDown" alt="">
@@ -22,6 +22,7 @@
         data(){
             return{
                 apiUrl,
+                bottom: false,
                 bgNext:'',
                 nextId:'',
                 arrowDown,
@@ -50,14 +51,27 @@
                 var link = document.querySelector('.link-to');
                 var vm = this;
                 window.onscroll = function(ev) {
-                    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                        console.log('BOOOOTTOM');
-                        link.click();
+                    if (!vm.bottom) {
+                        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                        console.log("bottom");
+                        console.log(vm.bottom);
+
+
+                            console.log('BOOOOTTOM');
+                            vm.bottom = true;
+                            console.log('CLIIIICK');
+
+                            link.click();
+                        }
                     }
                 };
             },
         },
         mounted: function(){
+                        console.log("bottom");
+                        console.log(this.bottom);
+
+
             var nextProject = this.$store.state.projects.currentProjectData[0].footerLink.match(/([^\/]*)\/*$/)[1];
             axios.get(`${apiUrl}?slug=${nextProject}`)
             .then(res => {
@@ -83,6 +97,8 @@
             .setTween(tlCover)
             scrollM.addScene(animFooter);
 
+
+
             Array.prototype.forEach.call(upLetter,function(el, i) {
                 var elements = el.childNodes;
                 var upLetterTl = new TimelineMax({ paused: false});
@@ -94,14 +110,70 @@
                 const animLetterScene = scrollM.scene({
                     triggerElement: ".footer-project",
                     triggerHook: 0.65,
-                    duration: 550,
-                    offset: 0
+                    duration: 500,
+                    offset: -180
                 })
                 .setTween(upLetterTl)
+                // .addIndicators({ name: 'upLetter' })
                 scrollM.addScene(animLetterScene)
+
             });
-            
-            this.goToNextProject();
+
+            var executed = false;
+
+
+
+            function scrollTo(element, duration) {
+                var e = document.documentElement;
+                if(e.scrollTop===0){
+                    var t = e.scrollTop;
+                    ++e.scrollTop;
+                    e = t+1===e.scrollTop--?e:document.body;
+                }
+                scrollToC(e, e.scrollTop, element, duration);
+            }
+
+            function scrollToC(element, from, to, duration) {
+                if (duration < 0) return;
+                if(typeof from === "object")from=from.offsetTop;
+                if(typeof to === "object")to=to.offsetTop;
+                scrollToX(element, from, to, 0, 1/duration, 20, easeOutCuaic);
+            }
+
+            function scrollToX(element, x1, x2, t, v, step, operacion) {
+                if (t < 0 || t > 1 || v <= 0) return;
+                element.scrollTop = x1 - (x1-x2)*operacion(t);
+                t += v * step;
+                setTimeout(function() {
+                    scrollToX(element, x1, x2, t, v, step, operacion);
+                }, step);
+            }
+
+            function easeOutCuaic(t){
+                    t--;
+                    return -(t*t*t*t-1);
+            }
+            var vm = this;
+
+
+            window.addEventListener("scroll", function() {
+                var elementTarget = document.querySelector('.link-to');
+                if (!executed) {
+                    console.log('executed1 !!');
+                    console.log(executed);
+
+                    if (window.scrollY >= (elementTarget.offsetTop + elementTarget.offsetHeight - 300)) {
+                        executed = true;
+                        console.log('executed2 !!!!!!!!');
+                        console.log(executed);
+                        // document.querySelector('body').stopScroll();
+                        document.querySelector('body').classList.add('fixed');
+                        scrollTo(document.querySelector('.next-cover').offsetTop + 10, 2000);
+                        vm.goToNextProject();
+                    };
+                }
+            });
+
         }
     }
 </script>
