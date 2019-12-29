@@ -147,8 +147,10 @@
                 work_close: new TimelineMax({ paused: true}),
                 lm_hover_down: new TimelineMax({ paused: true}),
                 cocktailAnim:'',
+                inter:'',
                 pizzaAnim:'',
                 i: 0, 
+                numSparkle:'',
                 gifLenght: 0,
                 gifTime: 250,
                 lmImg:'',
@@ -254,8 +256,54 @@
                     this.i=0;
                 }
             },
+            particuleAnim(){
+                function random(min, max) {
+                    return Math.floor(Math.random() * (1 + max - min) + min);
+                }
+                var tlexplosion = new TimelineMax();
+                var num = 0;
+                document.querySelector('#cursor').classList.add("hidden");
+
+                this.inter = window.setInterval(function () {
+                    var typeParticule = random(1,12);
+                    var div = document.createElement("div");
+                    div.setAttribute("class", "sparkle part-" + num);
+                    var particules = document.getElementById("cursor")[0];
+                    document.querySelector("#cursor").appendChild(div);
+                    var lastPart = document.querySelector(".part-" + num);
+                    lastPart.classList.add("sparkle-"+typeParticule);
+                    createDot(lastPart)
+                    num++
+                },100); 
+
+                function createDot(elem){
+                    TweenMax.fromTo(elem, 1.25, {
+                        left: "+=" + random(-20,20) + "px",
+                        top: "+=" + random(-20,20) + "px",
+                        z: 0,
+                        opacity: 1
+                    }, {
+                        left: "+=" + random(-200,200) + "px",
+                        top: "+=" + random(-200,200) + "px",
+                        z: "+=" + random(-725,600),
+                        opacity: 0,
+                        ease:Power4.easeInOut
+                    });
+                }
+            },
+            particuleAnimLeave(){
+                clearInterval(this.inter);
+                document.querySelector('#cursor').classList.remove("hidden");
+                setTimeout(function(){
+                    document.querySelectorAll('.sparkle').forEach(
+                        e => e.remove()
+                    );
+                }, 1500)
+            },
             workHover(){
                 this.work_tl.play(0);
+                this.particuleAnim();
+
                 console.log("ok")
             },
             workClick(){
@@ -263,19 +311,17 @@
                 var vm = this;
                 this.clicked = true;
                 this.work_click.play(0);
-                setTimeout(() =>     {
-                    clearInterval(this.playing);
-                },700);
+                this.particuleAnimLeave();
+
                 vm.hideLogo();
                 vm.showCross("work");
                 // this.clicked = false;
             },
             workLeave(){
                 if(!this.clicked){
+                    console.log("Leavefonction")
                     this.work_tl.reverse();
-                    setTimeout(() =>     {
-                        clearInterval(this.playing)
-                    },500);
+                    this.particuleAnimLeave();
                 }
             },
             workTitleHover(){
@@ -405,9 +451,6 @@
             var marquee = this.$el.querySelector('.base-line-container');
             var infosLink = this.$el.querySelector('.infos-link');
 
-
-            
-
             this.lm_hover_down
 
             this.work_close
@@ -493,7 +536,6 @@
                 vm.showCross("love");
             });
                 
-
             this.detectScroll();
         },
         async asyncData({ params, error }) {
@@ -945,6 +987,31 @@
             text-transform: uppercase;
             z-index: 999;
         }
+    }
+    .sparkle {
+        position: absolute;
+        top:0;
+        left:0;
+        //background: #9CEE02;
+        width: 24px;
+        height: 24px;
+        border-radius: 100%;
+        box-shadow: "0px 0px 4px 0px #9CEE02";
+        &:after{
+            content:'✨';
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+    #cursor{
+        // position: absolute;
+        // right: 47px;
+        // bottom: 40px;
+        // width: 10px;
+        // height: 10px;
+    //	z-index: -1;
+
     }
 
     @keyframes heart-beat {

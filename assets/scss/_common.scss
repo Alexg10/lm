@@ -81,3 +81,62 @@ body{
 .nuxt-progress{
     display: none;
 }
+
+.sparkle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    background-size: 30px;
+    background-position: center;
+
+    &.sparkle-1 {
+        background-image: url('../images/sparkles/sparkle-1.svg');
+    }
+
+    &.sparkle-2 {
+        background-image: url('../images/sparkles/sparkle-2.svg');
+    }
+
+    &.sparkle-3 {
+        background-image: url('../images/sparkles/sparkle-3.svg');
+    }
+
+    &.sparkle-4 {
+        background-image: url('../images/sparkles/sparkle-4.svg');
+    }
+
+    &.sparkle-5 {
+        background-image: url('../images/sparkles/sparkle-5.svg');
+    }
+
+    &.sparkle-6 {
+        background-image: url('../images/sparkles/sparkle-6.svg');
+    }
+
+    &.sparkle-7 {
+        background-image: url('../images/sparkles/sparkle-7.svg');
+    }
+
+    &.sparkle-8 {
+        background-image: url('../images/sparkles/sparkle-8.svg');
+    }
+
+    &.sparkle-9 {
+        background-image: url('../images/sparkles/sparkle-9.svg');
+    }
+
+    &.sparkle-10 {
+        background-image: url('../images/sparkles/sparkle-10.svg');
+    }
+
+    &.sparkle-11 {
+        background-image: url('../images/sparkles/sparkle-11.svg');
+    }
+
+    &.sparkle-12 {
+        background-image: url('../images/sparkles/sparkle-12.svg');
+    }
+}
