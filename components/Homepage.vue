@@ -49,20 +49,49 @@
                     </div>
                 </div>
                 <div class="love-content">
-                    <div class="word-container">
-                        <div class="">images are stronger than words</div>
+                    <div class="base-line-container">
+                        <marquee-text :repeat="2" :duration="20">
+                            <div class="base-line">images are stronger than words</div>
+                        </marquee-text>
                     </div>
                     <div class="word-container">
-                        <div class="love-description">but I’m Louise, 25, french artistic director who would love to work with u.</div>
+                        <div class="love-description">
+                            Oh, hi there!<br>
+                            I’m Louise Margueritat, 26, a french artistic director who would love to work with u.
+                            <div class="love-description-separator"></div>
+                        </div>
+
                     </div>
-                    <div class="contact-me">
-                        <a href="https://nuxtjs.org">
-                            <div class="ico">
-                                <img src="~/assets/images/ico/contact-ico.svg" alt="">
+                    <div class="bottom-container">
+                        <div class="left-bottom">
+                            <div class="contact-me infos-link">
+                                <a href="https://nuxtjs.org" class="link" v-on:mouseenter="cocktailPlay">
+                                    <!-- <div class="ico">
+                                        <img src="~/assets/images/ico/contact-ico.svg" alt="">
+                                    </div> -->
+                                    <div id="ico-cocktail" class="ico-anim"></div>
+                                    <p>contact me</p>
+                                </a>
                             </div>
-                            <p>contact me</p>
-                        </a>
+                            <div class="toppings-me infos-link">
+                                <a href="" class="link" v-on:mouseenter="pizzaPlay">
+                                    <div id="pizza-ico" class="ico-anim"></div>
+                                    <p>my toppings</p>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="right-bottom">
+                            <div class="developped">
+                                <a href=""  class="developped-link">
+                                    <div class="ico-heart">
+                                        <img src="~/assets/images/ico/heart.svg" alt="">
+                                    </div>
+                                    <p>credits code by <span>Alexandre Guerard</span></p>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
             <div class="work-container">
@@ -92,9 +121,15 @@
     import axios from 'axios'
     const apiUrl = process.env.API_URL || 'http://localhost:8888/lm/lm_wordpress/wp-json/acf/v3/options/options'
     import { TimelineMax } from 'gsap'
+    import lottie from 'lottie-web'
+    import MarqueeText from 'vue-marquee-text-component'
     import arrowDown from '~/assets/images/ico/arrow-down-ico.svg'
 
+
     export default {
+        components:{
+            MarqueeText
+        },
         data(){
             return{
                 apiUrl,
@@ -111,6 +146,8 @@
                 work_click: new TimelineMax({ paused: true}),
                 work_close: new TimelineMax({ paused: true}),
                 lm_hover_down: new TimelineMax({ paused: true}),
+                cocktailAnim:'',
+                pizzaAnim:'',
                 i: 0, 
                 gifLenght: 0,
                 gifTime: 250,
@@ -310,6 +347,14 @@
                         });
                     }
                 });
+            },
+            cocktailPlay(){
+                console.log("PLAY");
+                this.cocktailAnim.goToAndPlay(1,1);
+            },
+            pizzaPlay(){
+                console.log("PLAY");
+                this.pizzaAnim.goToAndPlay(1,1);
             }
         },
         mounted(){
@@ -320,6 +365,22 @@
                 var data = value.data.acf;
             });
             var vm =this;
+
+            this.pizzaAnim = lottie.loadAnimation({
+                container: document.getElementById('pizza-ico'),
+                renderer: 'svg',
+                loop: false,
+                autoplay: false,
+                path: "/images/anim_img/pizza.json" 
+            });
+
+            this.cocktailAnim = lottie.loadAnimation({
+                container: document.getElementById('ico-cocktail'),
+                renderer: 'svg',
+                loop: false,
+                autoplay: false,
+                path: "/images/anim_img/cocktail.json" 
+            });
 
             //! SETTIMEOUT ?
             setTimeout(() => {
@@ -341,6 +402,11 @@
             var workTop = this.$el.querySelector('.work .word-container:nth-child(1)');
             var workMid = this.$el.querySelector('.work .word-container:nth-child(2)');
             var workBottom = this.$el.querySelector('.work .word-container:nth-child(3)');
+            var marquee = this.$el.querySelector('.base-line-container');
+            var infosLink = this.$el.querySelector('.infos-link');
+
+
+            
 
             this.lm_hover_down
 
@@ -351,7 +417,13 @@
                 .to( workBottom, 1.7, {x:"-109px", ease: Power4.easeInOut}, "-=1.1");
 
             this.lm_close
-                .to( loveContentW, 1.8, { y:-80, ease: Power4.easeInOut}, "-=0.6")
+                .to( '.love-description-separator', 1, { width: 0, ease: Power4.easeInOut})
+                .to( loveContentW, 1.8, { y:-140, ease: Power4.easeInOut},"-=0.8")
+                .addLabel("start")
+                .to( '.infos-link', 1.8, { y:-30, ease: Power4.easeInOut}, "start-=1.2")
+                .to( '.developped-link', 1.8, { y:-30, ease: Power4.easeInOut}, "start-=1.2")
+                .set( loveContentW, { y: -230})
+                .to( marquee, 2, {opacity: 0, ease: Power4.easeInOut}, "-=1")
                 .to( loveContentDesc, 1.5, { y:-80, ease: Power4.easeInOut}, "-=1.3")
                 .set( elleStart, {xPercent:0})
                 .set( elleEnd, {xPercent:0})
@@ -360,8 +432,9 @@
                 .set( loveContent, {className:"-=active"})
                 .set( love, {autoAlpha: 1, display: 'block'})
                 .set( bgAnim, {alpha:0, visibility: "visible"}, "+=0.4")
-                .to( elle, 1.5, {x:163, ease: Power4.easeInOut},"fire")
-                .to( aime, 1.5, {x:-174, ease: Power4.easeInOut},"fire");   
+                .to( elle, 2, {x:163, ease: Power4.easeInOut},"start+=8.5")
+                .to( aime, 2, {x:-174, ease: Power4.easeInOut},"start+=8.5");  
+                //! LM Animation back 
 
             this.lm_tl.to( elle, 1, {x:92, ease: Power4.easeInOut},"fire")
                 .to( aime, 1, {x:-92, ease: Power4.easeInOut},"fire")
@@ -404,13 +477,16 @@
                 .staggerTo( ".love .word", 1.2, {y:0, ease: Power4.easeInOut}, 0.4);
                 
             this.lm_click
-                .to( elle, 2, {x:"-80vw", ease: Power4.easeInOut},"fire")
-                .to( aime, 2, {x:"80vw", ease: Power4.easeInOut},"fire")
+                .to( elle, 2, {x: "-80vw", ease: Power4.easeInOut},"fire")
+                .to( aime, 2, {x: "80vw", ease: Power4.easeInOut},"fire")
                 .to( bgAnim, 2, {autoAlpha:0, ease: Power4.easeInOut}, "-=0.6")
                 .set( love, {autoAlpha: 0, display: 'none'})
                 .set( loveContent, {className:"+=active"})
-                .from( loveContentW, 1.8, { y:80, ease: Power4.easeInOut}, "-=0.6")
-                .from( loveContentDesc, 1.5, { y:80, ease: Power4.easeInOut}, "-=1.3");  
+                .from( marquee, 2, {opacity: 0, ease: Power4.easeInOut}, "-=0.2")
+                .from( loveContentW, 1.8, { y: 140, ease: Power4.easeInOut}, "-=0.9")
+                .from( '.love-description-separator', 1.5, { width: 0, ease: Power4.easeInOut}, "-=1")
+                .staggerFrom( '.infos-link', 2, { y: 40, ease: Power4.easeInOut, stagger:0.3}, "-=1.5")
+                .from( '.developped-link', 2, { y: 40, ease: Power4.easeInOut}, "-=1");
             
             this.lm_click.eventCallback("onComplete", function () {
                 console.log("lm_click");
@@ -528,30 +604,158 @@
         font-size: 60px;
         text-align: center;
         font-weight: bold;
+        margin-top: -170px;
+        overflow: hidden;
         &.active{
             display: block;
         }
+        .word-container{
+            padding-bottom: 22px;
+        }
+        .base-line{
+            font-size: 190px;
+            color:$main-color;
+            white-space: nowrap;
+            line-height: 270px;
+            padding-right: 40px;
+            margin-right: 40px;
+            @media ( max-width : 680px ) {
+                font-size: 78px;
+                line-height: 100px;
+            }
+        }
+        .base-line-container{
+            display: block;
+            width: 100vw;
+            overflow: hidden;
+            margin-bottom: 110px;
+            @media ( max-width : 680px ) {
+                margin-bottom: 30px;
+            }
+        }
+        .developped-link{
+            display: flex;
+            .ico-heart{
+                margin-right: 10px;
+                transition: 0.5s ease;
+            }
+            &:hover{
+                .ico-heart{
+                    animation: heart-beat 0.45s ease;
+                }
+            }
+        }
+        .bottom-container{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1180px;
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0 20px;
+            @media ( max-width : 780px ) {
+                flex-direction: column;
+            }
+
+            .ico-anim{
+                max-width: 30px;
+                margin-right: 17px;
+                display: inline-block;
+                float: left;
+                @media ( max-width : 780px ) {
+                        max-width: 60px;
+                }
+            }
+            .left-bottom{
+                display: flex;
+                overflow: hidden;
+                @media ( max-width : 780px ) {
+                    justify-content: center;
+                }
+                a{
+                    display: flex;
+                    align-items: center;
+                    color: $main-color;
+                    text-decoration: none;
+                    font-family: 'GTWalsheimProMedium';
+                    font-size: 18px;
+                    @media ( max-width : 780px ) {
+                        justify-content: center;
+                        flex-direction: column;
+                    }
+                }
+                p{
+                    display: flex;
+                }
+                .contact-me{
+                    font-family: 'GTWalsheimProMedium';
+                    margin-right: 88px;
+                    img{
+                        width: 45px;
+                        margin-bottom: 20px;
+                    }
+                    a{
+                        letter-spacing: 0.3px;
+                        text-decoration: none;
+                    }
+                }
+            }
+            .developped{
+                font-family: 'GTWalsheimProMedium';
+                font-size: 18px;
+                padding-left: 6px;
+                overflow: hidden;
+                @media ( max-width : 780px ) {
+                    transform: translateY(50px);
+                }
+                a{
+                    color: black;
+                    text-decoration: none;
+                    font-size: 14px;
+                    line-height: 22px;
+                    @media ( max-width : 780px ) {
+                        justify-content: center;
+                    }
+                }
+                span{
+                    font-size: bold;
+                }
+                .ico-heart{
+                    display: flex;
+                }
+            }
+        }
+        .love-description-separator{
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 1px;
+            width: 20px;
+            background-color: black;
+        }
         .love-description{
-            font-size: 20px;
-            text-transform: uppercase;
+            position: relative;
+            font-size: 22px;
             font-family: 'GTWalsheimProMedium';
             font-weight: bold;
-            margin-top: 20px;
-            letter-spacing: 0.75px;
-
+            max-width: 444px;
+            line-height: 32px;
+            margin: 0 auto;
             @media ( max-width : 780px ) {
                 margin-top: 45px;
                 line-height: 40px;
-                font-size: 16px;
-                max-width: 80%;
+                font-size: 28px;
+                max-width: 415px;
                 margin: 0 auto;
             }
             @media ( max-width : 680px ) {
-                line-height: 26px;
                 margin-top: 45px;
-                line-height: 40px;
+                line-height: 28px;
                 font-size: 16px;
-                max-width: 90%;
+                max-width: 300px;
             }
         }
         .word-container{
@@ -567,23 +771,7 @@
                 line-height: 48px;
             }
         }
-        .contact-me{
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'GTWalsheimProMedium';
-            img{
-                width: 45px;
-                margin-bottom: 20px;
-            }
-            a{
-                font-size: 17px;
-                letter-spacing: 0.3px;
-                color: black;
-                text-decoration: none;
-            }
-        }
+
     }
     .aime{
         transform: translate(-174px, 41px);
@@ -756,6 +944,18 @@
             font-family: 'GTWalsheimProRegular';
             text-transform: uppercase;
             z-index: 999;
+        }
+    }
+
+    @keyframes heart-beat {
+        0%{
+            transform: scale(1);
+        }
+        50%{
+            transform: scale(1.5);
+        }
+        100%{
+            transform: scale(1);
         }
     }
 
