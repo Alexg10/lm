@@ -31,23 +31,37 @@
 
             Array.prototype.forEach.call(blocsAnim,function(el, i) {
                 var tl = new TimelineMax({ paused: false});
+                var tlPara = new TimelineMax({ paused: false});
+
 
                 var animImg = el.getElementsByClassName("bloc-animation-desktop-img");
-                tl.fromTo(animImg, 2, {yPercent: 100},{yPercent: 0, ease: Power4.easeInOut, overwrite: false});                
+                var animImgMob = el.getElementsByClassName("bloc-animation-mobile-img");
+
+                tl.fromTo(animImg, 2, {yPercent: 100},{yPercent: 0, ease: Power4.easeInOut, overwrite: false})
+                .fromTo(animImgMob, 2, {yPercent: 100},{yPercent: 0, ease: Power4.easeInOut, overwrite: false}, 0.5);                
+                tlPara.fromTo(animImg, 2, {y: 0},{y: 50, overwrite: false}, "start")
+                .fromTo(animImgMob, 2, {y: -50},{y: -150, overwrite: false}, "start");                
+
                 
                 const animSectionScene = scrollM.scene({
                     triggerElement: el,
                     triggerHook: 0.65,
-                    offset: 350
+                    offset: -200
                 })
                 .setTween(tl)
                 .reverse(false)
                 // .addIndicators({ name: 'AnimeSection' })
                 scrollM.addScene(animSectionScene)
 
-
-
-
+                const animSectionScenePara = scrollM.scene({
+                    triggerElement: el,
+                    triggerHook: 0.65,
+                    offset: -80,
+                    duration: window.innerHeight*2
+                })
+                .setTween(tlPara)
+                // .addIndicators({ name: 'AnimeSection' })
+                scrollM.addScene(animSectionScenePara);
             });
         }
     }
@@ -61,7 +75,7 @@
         }
         .bloc-animation-desktop-container{
             text-align: right;
-            overflow: hidden;
+            // overflow: hidden;
             .bloc-animation-desktop-img{
                 width: 100%;
                 max-width: 1050px;

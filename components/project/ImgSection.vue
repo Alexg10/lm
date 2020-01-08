@@ -73,13 +73,28 @@
                     // .addIndicators({ name: '2 (imgCain00)' })
                     scrollM.addScene(imgSectionScene)
 
-
-
-
-
-
-
                 });
+
+
+                var img1 = document.querySelector(".img-section-container:nth-child(1) .img-container img");
+                var img2 = document.querySelector(".img-section-container:nth-child(2) .img-container img");
+                var img3 = document.querySelector(".img-section-container:nth-child(3) .img-container img");
+
+                var sectionTl= new TimelineMax({ paused: false});
+                var scrollB = this.$scrollmagic;
+
+                sectionTl.fromTo(img1, 1, {y: 0},{y: 200, overwrite: false},"start")
+                .fromTo(img2, 1, {y: 0},{y: -80, overwrite: false}, "start")
+                .fromTo(img3, 1, {y: 0},{y: -150, overwrite: false}, "start");
+
+                const sceneHalfSection = scrollB.scene({
+                    triggerElement: ".img-section",
+                    triggerHook: 0.65,
+                    offset: -150,
+                    duration: window.innerHeight*2.5
+                })
+                .setTween(sectionTl)
+                scrollB.addScene(sceneHalfSection);
             }, 800);
 
 
@@ -110,7 +125,7 @@
         .img-container{
             width: 100%;
             // height: 0;
-            overflow: hidden;
+            // overflow: hidden;
         }
         .phone-container{
             text-align: center;
