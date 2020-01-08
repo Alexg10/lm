@@ -262,7 +262,7 @@
                 }
                 var tlexplosion = new TimelineMax();
                 var num = 0;
-                document.querySelector('#cursor').classList.add("hidden");
+                // document.querySelector('#cursor').classList.add("hidden");
 
                 this.inter = window.setInterval(function () {
                     var typeParticule = random(1,12);
@@ -293,7 +293,7 @@
             },
             particuleAnimLeave(){
                 clearInterval(this.inter);
-                document.querySelector('#cursor').classList.remove("hidden");
+                // document.querySelector('#cursor').classList.remove("hidden");
                 setTimeout(function(){
                     document.querySelectorAll('.sparkle').forEach(
                         e => e.remove()

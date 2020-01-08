@@ -1,84 +1,28 @@
 <template>
     <div>
-        <div id="cursor"></div>
+        <!-- <div id="cursor"></div> -->
     </div>
 </template>
 
 <script>
+
+    import curDot from 'cursor-dot'
+
     export default {
-        methods: {
-            getLinks(){
-                // console.log("OOOOOO");
-                var linkItems = document.querySelectorAll(".link");
-                    // console.log(linkItems);
-
-                linkItems.forEach(item => {
-                    // console.log(item)
-                    item.addEventListener("mouseenter", addHoverClass);
-                    item.addEventListener("mouseleave", removeHoverClass);
-                });
-
-                function addHoverClass(e) {
-                    document.getElementById('cursor').classList.add("hover");
-                }
-                function removeHoverClass(e) {
-                    document.getElementById('cursor').classList.remove("hover");
-                }
-            }
-        },
         mounted(){
-      // document.addEventListener('mousemove', this.moveCursor);
-      // this.moveCursor();
+            const cursor = curDot({
+                borderColor: '#B4B3B1',
+                easing: 6,
+                diameter: 45,
+            });
 
-        var $ = document.querySelector.bind(document);
-        var $on = document.addEventListener.bind(document);
+            cursor.over('.link', {
+                diameter: 15,
 
-        this.getLinks();
-
-        var xmouse, ymouse;
-        $on('mousemove', function (e) {
-            xmouse = e.clientX || e.pageX;
-            ymouse = e.clientY || e.pageY;
-        });
-
-        var ball = $('#cursor');
-        var x = void 0,
-            y = void 0,
-            dx = void 0,
-            dy = void 0,
-            tx = 0,
-            ty = 0,
-            key = -1;
-
-        var followMouse = function followMouse() {
-            key = requestAnimationFrame(followMouse);
-
-            if(!x || !y) {
-                x = xmouse;
-                y = ymouse;
-            } else {
-                dx = (xmouse - x) * 0.125;
-                dy = (ymouse - y) * 0.125;
-                if(Math.abs(dx) + Math.abs(dy) < 0.1) {
-                    x = xmouse;
-                    y = ymouse;
-                } else {
-                    x += dx;
-                    y += dy;
-                }
-            }
-            ball.style.left = x + 'px';
-            ball.style.top = y + 'px';
-        };
-
-        followMouse();
-    },
-    watch: {
-        $route () {
-        console.log('route changed', this.$route);
-            this.getLinks();
-
-        }
+            })
+            cursor.over('.work-container', {
+                borderColor: 'transparent',
+            })
     }
 }
 </script>
