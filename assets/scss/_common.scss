@@ -82,6 +82,16 @@ body{
     display: none;
 }
 
+.cursorHover {
+    width: 15px !important;
+    height: 15px !important;
+    transform: translate(-20px, -20px);
+    transition: width 0.35s ease, height 0.35s ease !important;
+}
+// .linkHover{
+//     display: inline-block;
+// }
+
 .sparkle {
     position: absolute;
     top: 0;

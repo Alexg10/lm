@@ -10,8 +10,8 @@
                 </div>
             </div>
             <div class="background-container"></div>
-            <div class="love-container active link">
-                <div class="love" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave" v-on:click="loveClick">
+            <div class="love-container active">
+                <div class="love linkHover" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave" v-on:click="loveClick">
                     <div class="word-container elle">
                         <div class="word">
                             <div class="start">
