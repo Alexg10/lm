@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Header></Header>
         <HeaderProject :name="currentProject.title" :type="currentProject.type" :description="currentProject.description" :image="currentProject.HeaderImg" :link="currentProject.link"></HeaderProject>
         <div class="grey-section">
             <div v-for="bloc in currentProject.projectBlocName" v-bind:key>
@@ -26,6 +27,7 @@
     import axios from 'axios'
     const apiUrl = process.env.API_URL || 'http://localhost:8888/lm/lm_wordpress/wp-json/wp/v2/projets'
 
+    import Header from '~/components/Header'
     import HeaderProject from '~/components/project/Header'
     import LaptopSection from '~/components/project/LaptopSection'
     import Chapter from '~/components/project/Chapter'
@@ -44,6 +46,7 @@
 
     export default {
         components:{
+            Header,
             HeaderProject,
             LaptopSection,
             Chapter,

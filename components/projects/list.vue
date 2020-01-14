@@ -115,6 +115,7 @@
                             var slideActiveLayer = document.getElementsByClassName("swiper-slide-active")[0];
                             slideActiveLayer = slideActiveLayer.getElementsByClassName("layer")[0]
                             slideActiveLayer.classList.remove("visible");
+                            // document.querySelector('.project-type').classList.add('transition');
                         },
                         transitionStart: function(e){
                             function addMarginL(e) {
@@ -359,7 +360,6 @@
                 .from( slideActive, 3, {width:"100vw", height:"100vh", ease: Power4.easeInOut},'animIntroStart')
                 .to( ".project-container-img", 3, {scale: 1.2, ease: Power4.easeInOut},'animIntroStart')
                 .from( ".project-name", 2, {y:220, ease: Power4.easeInOut}, 'animIntroStart+=1.5')
-                .from( ".project-type", 2, {y:80, ease: Power4.easeInOut}, 'animIntroStart+=1.8')
                 .from( ".swiper-slide-prev", 2.5, {x:-240, ease: Power4.easeInOut}, 'animIntroStart+=2.5')
                 .from( ".swiper-slide-next", 2.5, {x:240, ease: Power4.easeInOut}, 'animIntroStart+=2.5');
 
@@ -407,10 +407,10 @@
             this.animIntro();
             this.changeNameDown
                 .to( ".project-name", 0.8, {y:220, ease: Power4.easeInOut}, "start")
-                .to( ".project-type", 1, {y:80, ease: Power4.easeInOut}, "start");
+                .to( ".project-type", 1.2, {className:"+=transition"},"start");
             this.changeNameUp
-                .to( ".project-name", 1.2, {y:0, ease: Power4.easeInOut})
-                .to( ".project-type", 1.2, {y:0, ease: Power4.easeInOut}, "-= 1");
+                .to( ".project-name", 1.2, {y:0, ease: Power4.easeInOut},"start")
+                .to( ".project-type", 1.2, {className:"-=transition"},"start+=0.5");
         }
     }
 </script>
@@ -478,9 +478,17 @@
                 opacity: 1;
                 transition: color 0.5s ease, opacity 0.5s ease;
             }
+            .project-type{
+                transform: translateY(0px);
+                transition: 0.6s ease-in-out;
+        }
         }
         &:hover{
             mix-blend-mode: normal;
+            .project-type{
+                transform: translateY(0px);
+                transition: 0.6s ease-in-out;
+        }
         }
         .project-name{
             display: inline-block;
@@ -510,6 +518,11 @@
             font-family: 'GTWalsheimProBold';
             text-transform: uppercase;
             letter-spacing: 1px;
+            transform: translateY(50px);
+            transition: 0.5s ease-in-out;
+            &.transition{
+                transform: translateY(60px)!important;
+            }
         }
     }
     .project-container-img{

@@ -380,9 +380,8 @@
                     }
                     if (e.deltaY > 0) {
                         // console.log('down');
-                        document.getElementsByClassName("arrow")[0].classList.remove("visible");
-                        vm.scrollDownWord.play();
 
+                        vm.scrollDownWord.play();
                         vm.scrollDownWord.eventCallback("onComplete", function () {
                             console.log('complete');
                             console.log(vm.playing);
@@ -419,6 +418,7 @@
                 autoplay: false,
                 path: "/images/anim_img/pizza.json" 
             });
+            this.pizzaAnim.goToAndStop(15,1);
 
             this.cocktailAnim = lottie.loadAnimation({
                 container: document.getElementById('ico-cocktail'),
@@ -427,6 +427,7 @@
                 autoplay: false,
                 path: "/images/anim_img/cocktail.json" 
             });
+            this.cocktailAnim.goToAndStop(50,1);
 
             //! SETTIMEOUT ?
             setTimeout(() => {
@@ -693,7 +694,7 @@
             width: 100%;
             max-width: 1180px;
             position: fixed;
-            bottom: 100px;
+            bottom: 90px;
             left: 50%;
             transform: translateX(-50%);
             padding: 0 20px;
@@ -702,7 +703,7 @@
             }
 
             .ico-anim{
-                max-width: 30px;
+                max-width: 40px;
                 margin-right: 17px;
                 display: inline-block;
                 float: left;
