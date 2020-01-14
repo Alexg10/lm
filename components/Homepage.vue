@@ -10,6 +10,8 @@
                 </div>
             </div>
             <div class="background-container"></div>
+            <swiper :options="swiperHomeOption" ref="homeSwiper" @slideChange="scrollDown">
+                <swiper-slide>
             <div class="love-container active">
                 <div class="love linkHover" v-on:mouseenter="loveHover" v-on:mouseleave="loveLeave" v-on:click="loveClick">
                     <div class="word-container elle">
@@ -94,6 +96,8 @@
 
                 </div>
             </div>
+                </swiper-slide>
+                <swiper-slide>
             <div class="work-container">
                 <nuxt-link to="/project" class="work"  >
                     <div v-on:mouseenter="workHover" v-on:mouseleave="workLeave" v-on:click="workClick">
@@ -112,8 +116,12 @@
                     Hold me
                 </div>
             </div>
-            <img class="arrow link" :src="arrowDown" alt="">
+                </swiper-slide>
+                <div class="arrow-container" slot="button-next">
+                    <img class="arrow" :src="arrowDown" alt="">
         </div>
+            </swiper>
+    </div>
     </div>
 </template>
 
@@ -124,14 +132,19 @@
     import lottie from 'lottie-web'
     import MarqueeText from 'vue-marquee-text-component'
     import arrowDown from '~/assets/images/ico/arrow-down-ico.svg'
-
+    import { swiper, swiperSlide } from 'vue-awesome-swiper'
+    import 'swiper/dist/css/swiper.css'
 
     export default {
         components:{
-            MarqueeText
+            MarqueeText,
+            swiper,
+            swiperSlide
         },
         data(){
             return{
+                vm:'this',
+                vue:'',
                 apiUrl,
                 lm_tl : new TimelineMax({ paused: true}),
                 work_tl : new TimelineMax({ paused: true}),
@@ -176,10 +189,66 @@
                     '/images/home/work_3.jpg',
                     '/images/home/work_4.jpg'
                 ],
-                clicked: process.env.clicked
+                clicked: process.env.clicked,
+                swiperHomeOption: {
+                    loop: true,
+                    direction: 'vertical',
+                    speed:1100,
+                    slidesPerView: 1,
+                    initialSlide: -1,
+                    mousewheel: true,
+                    vue: this,
+                    roundLengths: true,
+                    // virtualTranslate:true,
+                    preventInteractionOnTransition: true,
+                    navigation: {
+                        nextEl: '.arrow'
+                    },
+                    on: {
+                        init: function () {
+                            // var vm = vue.passedParams.vue;
+                            console.log(this.params.vue);
+
+                            // console.log(vm);
+                            
+                        },
+                        slideChange: function(){
+
+                        },
+
+//                         slideChange: function(){
+//                             console.log(this);
+//                             // console.log(vm);
+
+//                             document.getElementsByClassName("arrow")[0].classList.remove("visible");
+//                             // this.params.vue.scrollDownWord.play();
+//                             this.params.vue.scrollDown;
+// console.log("CHHHHANE")
+//                             // this.el.slideNext(200, true);
+
+//                             // this.scrollDownWord.eventCallback("onComplete", function () {
+//                             //     console.log('complete');
+//                             //     console.log(this.playing);
+
+//                             //     this.loveHoverDown(this.playing);
+//                             //     this.scrollUpWord.pause(0);
+//                             //     this.showLogo();
+//                             // });
+//                         }
+                        slideChangeTransitionStart: function () {
+                            console.log('slideChangeTransitionStart')
+                        },
+            }
+                }
             }
         },
         methods: {
+
+            scrollDown(){
+                // this.$refs.homeSwiper.swiper.slideTo(0,800, false);
+                this.scrollUpWord.play();
+                console.log("ScroleD")
+            },
             hideCross(){
                 var cross = document.getElementsByClassName("cross");
                 var vm = this;
@@ -368,31 +437,31 @@
 
             detectScroll(){
                 var vm = this;
-                window.addEventListener('wheel', function(e) {
-                    if (e.deltaY < 0) {
-                        // console.log('up');
-                        vm.scrollUpWord.play();
-                        vm.scrollUpWord.eventCallback("onComplete", function () {
-                            console.log('complete');
-                            vm.scrollDownWord.pause(0);
-                            vm.hideLogo();
-                        });
-                    }
-                    if (e.deltaY > 0) {
-                        // console.log('down');
-                        document.getElementsByClassName("arrow")[0].classList.remove("visible");
-                        vm.scrollDownWord.play();
+                // window.addEventListener('wheel', function(e) {
+                //     if (e.deltaY < 0) {
+                //         // console.log('up');
+                //         vm.scrollUpWord.play();
+                //         vm.scrollUpWord.eventCallback("onComplete", function () {
+                //             console.log('complete');
+                //             vm.scrollDownWord.pause(0);
+                //             vm.hideLogo();
+                //         });
+                //     }
+                //     if (e.deltaY > 0) {
+                //         // console.log('down');
+                //         document.getElementsByClassName("arrow")[0].classList.remove("visible");
+                //         vm.scrollDownWord.play();
 
-                        vm.scrollDownWord.eventCallback("onComplete", function () {
-                            console.log('complete');
-                            console.log(vm.playing);
+                //         vm.scrollDownWord.eventCallback("onComplete", function () {
+                //             console.log('complete');
+                //             console.log(vm.playing);
 
-                            vm.loveHoverDown(vm.playing);
-                            vm.scrollUpWord.pause(0);
-                            vm.showLogo();
-                        });
-                    }
-                });
+                //             vm.loveHoverDown(vm.playing);
+                //             vm.scrollUpWord.pause(0);
+                //             vm.showLogo();
+                //         });
+                //     }
+                // });
             },
             cocktailPlay(){
                 console.log("PLAY");
@@ -580,9 +649,14 @@
             font-size: 130px;
         }
     }
-    .arrow{
+    .arrow-container{
+        width: 100%;
+        text-align: center;
         position: fixed;
-        bottom: 55px;
+        bottom: 0;
+        z-index: 99;
+    }
+    .arrow{
         opacity: 0;
         transition: 0.5s ease;
         &.visible{
@@ -880,24 +954,15 @@
         transform: translateY(-160px);
         transition: 0.4s ease;
     }
-    .love-container{
-        // height: 50%;
-        display: none;
-        .love{
-            // display: none;
-        }
-        &.active{
-            display: block;
-        }
-    }
-    .work-container{
-        // height: 50%;
-        display: none;
-        &.active{
-            display: block;
-        }
-    }
 
+    .love-container,
+    .work-container{
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        align-items: center;
+    }
     .cross{
 		position: absolute;
         top: 15px;
@@ -1004,14 +1069,15 @@
             top: 0;
         }
     }
-    #cursor{
-        // position: absolute;
-        // right: 47px;
-        // bottom: 40px;
-        // width: 10px;
-        // height: 10px;
-    //	z-index: -1;
+    .swiper-container{
+        .swiper-wrapper{
+            width: 100vw!important;
+        }
+    }
 
+    .swiper-slide{
+        width: 100vw;
+        height: 100vh;
     }
 
     @keyframes heart-beat {
