@@ -370,7 +370,6 @@
                 var vm = this;
                 window.addEventListener('wheel', function(e) {
                     if (e.deltaY < 0) {
-                        // console.log('up');
                         vm.scrollUpWord.play();
                         vm.scrollUpWord.eventCallback("onComplete", function () {
                             console.log('complete');
@@ -418,7 +417,7 @@
                 autoplay: false,
                 path: "/images/anim_img/pizza.json" 
             });
-            this.pizzaAnim.goToAndStop(15,1);
+            this.pizzaAnim.goToAndStop(70,1);
 
             this.cocktailAnim = lottie.loadAnimation({
                 container: document.getElementById('ico-cocktail'),
@@ -427,7 +426,7 @@
                 autoplay: false,
                 path: "/images/anim_img/cocktail.json" 
             });
-            this.cocktailAnim.goToAndStop(50,1);
+            this.cocktailAnim.goToAndStop(75,1);
 
             //! SETTIMEOUT ?
             setTimeout(() => {
@@ -464,7 +463,7 @@
                 .to( '.love-description-separator', 1, { width: 0, ease: Power4.easeInOut})
                 .to( loveContentW, 1.8, { y:-140, ease: Power4.easeInOut},"-=0.8")
                 .addLabel("start")
-                .to( '.infos-link', 1.8, { y:-30, ease: Power4.easeInOut}, "start-=1.2")
+                .to( '.infos-link', 1.8, { y:-45, ease: Power4.easeInOut}, "start-=1.2")
                 .to( '.developped-link', 1.8, { y:-30, ease: Power4.easeInOut}, "start-=1.2")
                 .set( loveContentW, { y: -230})
                 .to( marquee, 2, {opacity: 0, ease: Power4.easeInOut}, "-=1")
@@ -529,7 +528,7 @@
                 .from( marquee, 2, {opacity: 0, ease: Power4.easeInOut}, "-=0.2")
                 .from( loveContentW, 1.8, { y: 140, ease: Power4.easeInOut}, "-=0.9")
                 .from( '.love-description-separator', 1.5, { width: 0, ease: Power4.easeInOut}, "-=1")
-                .staggerFrom( '.infos-link', 2, { y: 40, ease: Power4.easeInOut, stagger:0.3}, "-=1.5")
+                .staggerFrom( '.infos-link', 2, { y: 50, ease: Power4.easeInOut, stagger:0.3}, "-=1.5")
                 .from( '.developped-link', 2, { y: 40, ease: Power4.easeInOut}, "-=1");
             
             this.lm_click.eventCallback("onComplete", function () {
@@ -744,6 +743,10 @@
                         text-decoration: none;
                     }
                 }
+            }
+            .right-bottom{
+                display: flex;
+                align-items: center;
             }
             .developped{
                 font-family: 'GTWalsheimProMedium';
