@@ -59,10 +59,11 @@
         }
         @media only screen and ( max-width : 768px ) {
             .img-4-section-container{
-                .img-container{
-                    img{
-                        width: 80%;
-                    }
+                display: block;
+                overflow: hidden;
+                .img-4-container{
+                    width: 50%;
+                    float: left;
                 }
             }
         }
@@ -72,8 +73,9 @@
                 .img-4-container{
                     flex: 50%;
                     margin-bottom: 30px;
+                    min-height: 130px;
                     img{
-                        width: 80%;
+                        width: 65%;
                     }
                 }
             }

@@ -65,7 +65,9 @@
         }
         @media only screen and ( max-width : 680px ) {
             font-size: 18px;
-
+            padding-bottom: 180px;
+            max-width: 80%;
+            margin: 0 auto;
         }
     }
     

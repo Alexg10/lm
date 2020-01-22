@@ -22,7 +22,7 @@
 
     import { Timeline, TimelineMax } from 'gsap'
     import VueScrollmagic from 'vue-scrollmagic'
-    
+    import device from "vue-device-detector"
 
 
     export default {
@@ -73,11 +73,12 @@
                 var heightDurationFirst = document.querySelector(".img-patchwork-one-container").offsetHeight;
                 var heightDurationSec = document.querySelector(".img-patchwork-two-container").offsetHeight;
 
-
-                tlPatchwork.fromTo(img1, 1, {y: -30},{y: 0, overwrite: false},"start")
-                .fromTo(img2, 1, {y: 5},{y: 60, overwrite: false}, "start")
-                .fromTo(img3, 1, {y: 50},{y: 0, overwrite: false}, "start")
-                .fromTo(img4, 1, {y: -110},{y: 0, overwrite: false}, "start");
+                if(!this.$device.mobile){
+                    tlPatchwork.fromTo(img1, 1, {y: -30},{y: 0, overwrite: false},"start")
+                    .fromTo(img2, 1, {y: 5},{y: 60, overwrite: false}, "start")
+                    .fromTo(img3, 1, {y: 50},{y: 0, overwrite: false}, "start")
+                    .fromTo(img4, 1, {y: -110},{y: 0, overwrite: false}, "start");
+                }
 
                 tlImages.fromTo(img1img, 1, {y: -20},{y:20, overwrite: false},"start")
                 .fromTo(img2img, 1, {y: -20},{y:20, overwrite: false}, "start")
@@ -105,12 +106,13 @@
                 // .addIndicators({ name: '22222 (duration: 300)' })
                 scrollM.addScene(scenePatchworkImg);
 
-
-                tlPatchwork2.fromTo(img5, 1, {y: -30},{y: 10, overwrite: false},"startTwo")
-                .fromTo(img6, 1, {y: 5},{y: -10, overwrite: false}, "startTwo")
-                .fromTo(img7, 1, {y: 50},{y: -50, overwrite: false}, "startTwo")
-                .fromTo(img8, 1, {y: -50},{y: 0, overwrite: false}, "startTwo")
-                .fromTo(img9, 1, {y: -50},{y: 0, overwrite: false}, "startTwo");
+                if(!this.$device.mobile){
+                    tlPatchwork2.fromTo(img5, 1, {y: -30},{y: 10, overwrite: false},"startTwo")
+                    .fromTo(img6, 1, {y: 5},{y: -10, overwrite: false}, "startTwo")
+                    .fromTo(img7, 1, {y: 50},{y: -50, overwrite: false}, "startTwo")
+                    .fromTo(img8, 1, {y: -50},{y: 0, overwrite: false}, "startTwo")
+                    .fromTo(img9, 1, {y: -50},{y: 0, overwrite: false}, "startTwo");
+                }
 
                 tlImages2.fromTo(img5img, 1, {y: -20},{y: 20, overwrite: false},"startTwo")
                 .fromTo(img6img, 1, {y: -20},{y: 20, overwrite: false}, "startTwo")
@@ -236,6 +238,57 @@
             font-size: 28px;
         }
     }
+
+    @media only screen and ( max-width : 768px ) {
+        .img-patchwork{
+            .img-patchwork-one-container{
+                .img-pachwork-img{
+                    &:nth-child(2){
+                        right: 20px;
+                        max-width: 339px;
+                        max-height: 220px;
+                    }
+                    &:nth-child(4){
+                        top: 260px;
+                        left: 502px;
+                        left: 49.5%;
+                        max-width: 350px;
+                        max-height: 470px;
+                    }
+                }
+            }
+            .img-patchwork-two-container{
+                margin-bottom: 242px;
+                .img-pachwork-img{
+                    &:nth-child(1) {
+                        top: 0;
+                        left: 20px;
+                    }
+                    &:nth-child(2) {
+                        right: 70px;
+                        z-index: 9!important;
+                    }
+                    &:nth-child(3) {
+                        left: 9%;
+                        top: 425px;
+                    }
+                    &:nth-child(4) {
+                        right: auto;
+                        top: 815px;
+                        left: 110px;
+                    }
+                    &:nth-child(5) {
+                        left: initial;
+                        right: 40px;
+                    }
+                }
+            }
+            .patchwork-txt{
+                padding: 0 20px;
+            }
+        }
+    }
+
     @media ( max-width : 680px ) {
         .img-patchwork{
             .img-patchwork-one-container,
@@ -244,19 +297,33 @@
                 overflow: hidden;
                 display: block;
                 height: auto;
+                margin-bottom: 0;
                 .img-pachwork-img{
+                    &:nth-child(1),
+                    &:nth-child(2),
+                    &:nth-child(3),
+                    &:nth-child(4),
+                    &:nth-child(5){
+                        max-width: 100%;
+                        margin: 0;
+                    }
+                    &:nth-child(5){
+                        display: none;
+                    }
                     &:nth-child(n){
                         position: relative;
                         top:auto;
                         left: auto;
                         right: auto;
                         text-align: center;
-                        margin-bottom: 30px;
+                        margin-bottom: 0px;
                     }
                 }
             }
             .patchwork-txt{
                 max-width: 80%;
+                margin: 70px auto;
+                font-size: 18px;
             }
         }
 

@@ -1008,16 +1008,20 @@
             top: 0;
         }
     }
-    #cursor{
-        // position: absolute;
-        // right: 47px;
-        // bottom: 40px;
-        // width: 10px;
-        // height: 10px;
-    //	z-index: -1;
-
+    .swiper-container{
+        .swiper-wrapper{
+            width: 100vw!important;
+        }
     }
 
+    .swiper-slide{
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    
     @keyframes heart-beat {
         0%{
             transform: scale(1);

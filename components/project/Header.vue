@@ -12,7 +12,7 @@
             </div>
             <div class="project-description">
                 <p>{{description}}</p>
-                <a v-if="link" :href="link" target="_blank" class="project-link link">View the website</a>
+                <a v-if="link" :href="link" target="_blank" class="project-link link linkHover">View the website</a>
             </div>
         </div>
     </div>

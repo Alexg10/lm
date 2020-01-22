@@ -106,6 +106,7 @@
             .gradient-column{
                 min-width: 170px;
                 width: 170px;
+                min-height: 482px;
             }
         }
     }

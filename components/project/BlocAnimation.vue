@@ -94,8 +94,8 @@
         }
         @media ( max-width : 680px ) {
             .bloc-animation-mobile-container{
-                width: 50%;
-                margin-top: -43px;
+                width: 40%;
+                margin-top: 57px;
                 img{
                     width: 100%;
                 }

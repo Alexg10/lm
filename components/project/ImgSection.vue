@@ -15,6 +15,7 @@
     import Masonry from 'masonry-layout'
     import { Timeline, TimelineMax } from 'gsap'
     import VueScrollmagic from 'vue-scrollmagic'
+    import device from "vue-device-detector"
 
     export default {
         data(){
@@ -28,10 +29,11 @@
                     itemSelector: '.img-container'
                 });
             }, 500);
-
+                console.log(this.$device.mobile);
 
             var imgContainers = document.getElementsByClassName("img-section-container");
             var scrollM = this.$scrollmagic;
+            var vm = this;
     
             setTimeout(() => {
                 Array.prototype.forEach.call(imgContainers,function(el, i) {
@@ -86,6 +88,18 @@
                 sectionTl.fromTo(img1, 1, {y: 0},{y: 200, overwrite: false},"start")
                 .fromTo(img2, 1, {y: 0},{y: -80, overwrite: false}, "start")
                 .fromTo(img3, 1, {y: 0},{y: -150, overwrite: false}, "start");
+
+                if(this.$device.mobile){
+                    console.log("mobile");
+                    sectionTl.fromTo(img1, 1, {y: 0},{y: -50, overwrite: false},"start")
+                    .fromTo(img2, 1, {y: 0},{y: -80, overwrite: false}, "start")
+                    .fromTo(img3, 1, {y: 0},{y: -150, overwrite: false}, "start");
+                }else{
+                    console.log("Not mobile");
+                    sectionTl.fromTo(img1, 1, {y: 0},{y: 200, overwrite: false},"start")
+                    .fromTo(img2, 1, {y: 0},{y: -80, overwrite: false}, "start")
+                    .fromTo(img3, 1, {y: 0},{y: -150, overwrite: false}, "start");
+                }
 
                 const sceneHalfSection = scrollB.scene({
                     triggerElement: ".img-section",
@@ -144,6 +158,9 @@
     }
 
     @media ( max-width : 768px ) {
+        .img-section{
+            padding: 0 10px;
+        }
         .project-header-content{
             padding: 0 20px;
         }
@@ -152,7 +169,6 @@
         }
     }
     @media ( max-width : 680px ) {
-
         .img-section-container{
             transform: translateY(-140px);
             width: 100%;

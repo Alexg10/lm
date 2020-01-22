@@ -159,6 +159,10 @@
                 width: 100%;
             }
         }
+        .img-square-txt{
+            font-size: 18px;
+            padding: 0 20px;
+        }
     }
     
 </style>

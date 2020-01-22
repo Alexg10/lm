@@ -35,8 +35,7 @@
     import { Timeline, TimelineMax } from 'gsap'
     import VueScrollmagic from 'vue-scrollmagic'
     import lottie from 'lottie-web'
-
-
+    import device from "vue-device-detector"
 
     export default {
         data(){
@@ -76,16 +75,20 @@
             // .addIndicators({ name: 'bloc-after-full-height-container' })
             scrollM.addScene(imgSectionScene)
 
-            const animFullHeightScenePara = scrollM.scene({
-                triggerElement: ".bloc-after-full-height-container:last-of-type",
-                triggerHook: 0.75,
-                offset: 100,
-                duration: window.innerHeight*2
-            })
-            .setTween(tlPara)
-            // .addIndicators({ name: 'bloc-after-full-height-container' })
-            scrollM.addScene(animFullHeightScenePara);
 
+            if(!this.$device.mobile){
+
+                const animFullHeightScenePara = scrollM.scene({
+                    triggerElement: ".bloc-after-full-height-container:last-of-type",
+                    triggerHook: 0.75,
+                    offset: 100,
+                    duration: window.innerHeight*2
+                })
+                .setTween(tlPara)
+                // .addIndicators({ name: 'bloc-after-full-height-container' })
+                scrollM.addScene(animFullHeightScenePara);
+            }
+            
             lottie.loadAnimation({
                 container: document.getElementById('animation'),
                 renderer: 'svg',
@@ -205,6 +208,7 @@
             float: left;
         }
         @media ( max-width : 780px ) {
+            padding: 0 10px;
             .bloc-after-full-height-container{
                 img{
                     width: 100%;
@@ -212,7 +216,37 @@
             }
 
         }
-        @media ( max-width : 680px ) {
+    }
+
+    @media ( max-width : 680px ) {
+        .container{
+            text-align: center;
+        }
+        .bloc-after-full-height-container{
+            width: 100%;
+        }
+        .bloc-after{
+            .container{
+                text-align: center;
+            }
+            .bloc-after-top-left-container{
+                float: none;
+                right: auto;;
+            }
+            .bloc-after-top-right-container{
+                left: 0;
+            }
+            .bloc-after-top-right-container{
+                .anim-container {
+                    display: flex;
+                    max-width: 80%;
+                    margin: 0 auto;
+                    margin-top: 40px;
+                }
+            } 
+            .bloc-after-top-middle-container{
+                margin-top: 76px;
+            }
             .bloc-after-full-height-container{
                 width: 100%;
             }
