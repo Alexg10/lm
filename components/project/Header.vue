@@ -1,5 +1,6 @@
 <template>
     <div class="project-header" :style="{ backgroundImage: `url(${image})` }">
+        <img class="bg-cover" :src="image" alt="">
         <CloseProject></CloseProject>
         <div class="project-header-content">
             <div class="project-header-content-top">
@@ -22,6 +23,7 @@
 
     import CloseProject from '~/components/project/CloseProject'
     import { TimelineMax } from 'gsap'
+    import VueScrollmagic from 'vue-scrollmagic'
 
     export default {
         components:{
@@ -45,10 +47,25 @@
             // });
 
             var anim = new TimelineLite();
+            var sectionTl= new TimelineMax({ paused: false});
+
             var projectName = document.querySelector('.project-name-content');
             var categoryType = document.querySelector('.category-type');
             var description = document.querySelector('.project-description p');
             var link = document.querySelector('.project-link');
+            var img = document.querySelector('.bg-cover');
+            var scrollB = this.$scrollmagic;
+
+            sectionTl.fromTo(img, 2,{y:0}, {y:200});
+
+            const sceneParallax = scrollB.scene({
+                triggerElement: '.bg-cover',
+                triggerHook: 0,
+                offset: 0,
+                duration: 900
+            })
+            .setTween(sectionTl)
+            scrollB.addScene(sceneParallax);
 
             if( link){
                 anim
@@ -70,11 +87,21 @@
 
 <style lang="scss" scoped>
     .project-header{
+        position: relative;
         height: 100vh;
         width: 100vw;
         background-size: cover;
         background-position: 50%;
         color: white;
+        overflow: hidden;
+        .bg-cover{
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100vh;
+            width: 100%;
+            object-fit: cover;
+        }
         .project-header-content{
             position: relative;
             display: flex;

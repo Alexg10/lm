@@ -520,6 +520,7 @@
             letter-spacing: 1px;
             transform: translateY(50px);
             transition: 0.5s ease-in-out;
+            pointer-events: none;
             &.transition{
                 transform: translateY(60px)!important;
             }
