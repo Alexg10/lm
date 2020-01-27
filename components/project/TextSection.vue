@@ -31,16 +31,16 @@
                 var textContent = el.children[0].getElementsByClassName("text-content")[0];
                 var tl = new TimelineMax({ paused: false});
 
-                tl.fromTo(textContent, 2, {y: 80, opacity:0},{y: 0, opacity:1, ease: Power4.easeInOut, overwrite: false});
+                tl.fromTo(textContent, 1.5, {y: 80, opacity:0},{y: 0, opacity:1, ease: Power4.easeInOut, overwrite: false});
                 
                 const textScene = scrollM.scene({
                     triggerElement: el,
                     triggerHook: 0.65,
-                    offset: -100
+                    offset: -300
                 })
                 .setTween(tl)
                 .reverse(false)
-                // .addIndicators({ name: 'TextSection' })
+                .addIndicators({ name: 'TextSection' })
                 scrollM.addScene(textScene)
             });
             

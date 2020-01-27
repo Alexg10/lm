@@ -59,24 +59,25 @@
                     // .addIndicators({ name: '2 (imgCain00)' })
                     // scrollM.addScene(imgSectionScene)
 
-                    var tl = new TimelineMax({ paused: false});
+  
 
-                    var imgContain = el.getElementsByClassName("img-container");
-                    var imgContainEl = el.getElementsByClassName("img-container")[0];
+                });
 
-                    tl.fromTo(imgContainEl, 2, {y: 40, opacity: 0},{y: 0, opacity: 1, ease: Power4.easeInOut, overwrite: false});                
+                  var tl = new TimelineMax({ paused: false});
+
+                    var imgContain = document.getElementsByClassName("img-container");
+                    var imgContainEl = document.getElementsByClassName("img-container")[0];
+
+                    tl.fromTo(".img-section .container", 2, {y: 40, opacity: 0}, {y: 0, opacity: 1, ease: Power4.easeInOut, overwrite: false});                
                     const imgSectionScene = scrollM.scene({
-                        triggerElement: el,
+                        triggerElement: ".img-section ",
                         triggerHook: 0.65,
                         offset: -50
                     })
                     .setTween(tl)
                     .reverse(false)
-                    // .addIndicators({ name: '2 (imgCain00)' })
+                    .addIndicators({ name: '2 (imgCain00)' })
                     scrollM.addScene(imgSectionScene)
-
-                });
-
 
                 var img1 = document.querySelector(".img-section-container:nth-child(1) .img-container img");
                 var img2 = document.querySelector(".img-section-container:nth-child(2) .img-container img");
@@ -85,10 +86,6 @@
                 var sectionTl= new TimelineMax({ paused: false});
                 var scrollB = this.$scrollmagic;
 
-                sectionTl.fromTo(img1, 1, {y: 0},{y: 200, overwrite: false},"start")
-                .fromTo(img2, 1, {y: 0},{y: -80, overwrite: false}, "start")
-                .fromTo(img3, 1, {y: 0},{y: -150, overwrite: false}, "start");
-
                 if(this.$device.mobile){
                     console.log("mobile");
                     sectionTl.fromTo(img1, 1, {y: 0},{y: -50, overwrite: false},"start")
@@ -96,7 +93,7 @@
                     .fromTo(img3, 1, {y: 0},{y: -150, overwrite: false}, "start");
                 }else{
                     console.log("Not mobile");
-                    sectionTl.fromTo(img1, 1, {y: 0},{y: 200, overwrite: false},"start")
+                    sectionTl.fromTo(img1, 1, {y: 0},{y: 300, overwrite: false},"start")
                     .fromTo(img2, 1, {y: 0},{y: -80, overwrite: false}, "start")
                     .fromTo(img3, 1, {y: 0},{y: -150, overwrite: false}, "start");
                 }

@@ -82,10 +82,18 @@ body{
     display: none;
 }
 
+#cursor{    
+    transition: width 0.35s ease,
+    height 0.35s ease !important;
+    transform-origin: center;
+}
 .cursorHover {
     width: 15px !important;
     height: 15px !important;
+    top: 15px !important;
+    left: 15px !important;
     transform: translate(-20px, -20px);
+    transform-origin: center;
     transition: width 0.35s ease, height 0.35s ease !important;
 }
 // .linkHover{

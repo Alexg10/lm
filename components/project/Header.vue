@@ -13,9 +13,11 @@
             </div>
             <div class="project-description">
                 <p>{{description}}</p>
-                <a v-if="link" :href="link" target="_blank" class="project-link link linkHover">View the website</a>
+                <div v-if="link" class="link-container" >
+                    <a :href="link" target="_blank" class="project-link link linkHover link-stagger">View the website</a>
             </div>
         </div>
+    </div>
     </div>
 </template>
 
@@ -40,11 +42,45 @@
             'image',
             'link'
         ],
+        methods: {
+            letterContainer(className){
+                var word = document.getElementsByClassName(className)[0];
+                var wordContent = word.textContent.trim();
+                var wordContentSplit = wordContent.split("");
+                word.innerHTML = "";
+
+                for(var i=0; i< wordContentSplit.length; i++){
+                    var newSpan = document.createElement('span');
+                    newSpan.style.display = "inline-block";
+                    newSpan.className = "staggerLetter";
+                    if (wordContentSplit[i] == " "){
+                        newSpan.style.width = "7px";
+                    }
+                    newSpan.innerHTML = wordContentSplit[i];
+                    word.appendChild(newSpan);
+                }
+            }
+        },
         mounted(){
             // const splitted = new SplitText('.project-description p', {
             //     type: "lines",
             //     linesClass: "introLine"
             // });
+
+            if(this.link){
+                
+                this.letterContainer("link-stagger");
+
+                var staggerLink = document.querySelector('.link-stagger');
+                var tl = new TimelineMax();
+
+                staggerLink.addEventListener('mouseenter', e => {
+                    console.log("enter");
+                    tl.staggerFromTo(".staggerLetter", 0.5, { y: 0, ease: Power4.easeInOut },{ y: -45, ease: Power4.easeInOut }, 0.03)
+                        .staggerFromTo(".staggerLetter", 0.5, { y: 20, ease: Power4.easeOut },{ y: 0, ease: Power4.easeInOut }, 0.025, "-=0.45");
+                });
+            }
+
 
             var anim = new TimelineLite();
             var sectionTl= new TimelineMax({ paused: false});
@@ -138,6 +174,13 @@
             font-weight: bold;
             transform: translateY(210px);
         }
+        .link-container{
+            position: relative;
+            display: block;
+            margin-top: 40px;
+            min-height: 22px;
+            overflow: hidden;
+        }
         .project-link{
             position: absolute;
             display: inline-block;
@@ -145,7 +188,6 @@
             color: white;
             font-size: 18px;
             font-family: 'GTWalsheimProMedium';
-            margin-top: 40px;
         }
         @media only screen and ( max-width : 1280px ) {
             .project-name{

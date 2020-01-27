@@ -50,27 +50,35 @@
             goToNextProject(){
                 var link = document.querySelector('.link-to');
                 var vm = this;
+                var link= this.linkSlug
                 window.onscroll = function(ev) {
                     if (!vm.bottom) {
                         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                        console.log("bottom");
-                        console.log(vm.bottom);
-
+                            console.log("bottom");
+                            console.log(vm.bottom);
 
                             console.log('BOOOOTTOM');
                             vm.bottom = true;
                             console.log('CLIIIICK');
 
+
+                            //! BETTER WAY TO MAKE CHANGE PAGE
                             link.click();
+                            //TODO
+                            // vm.$router.push({
+                            //     path: '/project/'+ link
+                            // });
+                            // window.scrollTo(0, 0);
+                            // document.querySelector('body').classList.remove('fixed');
+
                         }
                     }
                 };
             },
         },
         mounted: function(){
-                        console.log("bottom");
-                        console.log(this.bottom);
-
+            console.log("bottom");
+            console.log(this.bottom);
 
             var nextProject = this.$store.state.projects.currentProjectData[0].footerLink.match(/([^\/]*)\/*$/)[1];
             axios.get(`${apiUrl}?slug=${nextProject}`)
@@ -87,12 +95,12 @@
             var upLetter = document.getElementsByClassName("up-letters");
 
             var tlCover = new TimelineMax({ paused: false});
-            tlCover.fromTo(nextCover, 1, {y: 100, opacity:0, width:"80%"},{y: 0, opacity:1, width:"100%", ease: Power4.easeInOut, overwrite: false});
+            tlCover.fromTo(nextCover, 10, {y: 100, opacity:0, width:"80%"},{y: 0, opacity:1, width:"100%", ease: Power4.easeInOut, overwrite: false});
             const animFooter = scrollM.scene({
                 triggerElement: ".footer-project",
-                triggerHook: 0.65,
-                duration: 850,
-                offset: -50
+                triggerHook: 0.75,
+                duration: 1050,
+                offset: -100
             })
             .setTween(tlCover)
             scrollM.addScene(animFooter);
@@ -105,7 +113,7 @@
                 var element;
                 for(var i=0; i<el.childNodes.length; i++ ){
                     var yValue= Math.floor(Math.random() * 50) + 1;
-                    upLetterTl.fromTo(el.childNodes[i], 2, {y: 0},{y: -yValue, opacity: 0, ease: Power4.easeInOut, overwrite: false}, "start");                
+                    upLetterTl.fromTo(el.childNodes[i], 2, {y: 0},{y: -yValue, opacity: 0, ease: Power4.easeIn, overwrite: false}, "start");                
                 }
                 const animLetterScene = scrollM.scene({
                     triggerElement: ".footer-project",

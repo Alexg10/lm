@@ -86,7 +86,7 @@
                                     <div class="ico-heart">
                                         <img src="~/assets/images/ico/heart.svg" alt="">
                                     </div>
-                                    <p>credits code by <span>Alexandre Guerard</span></p>
+                                    <p>credits code by <span class="link-stagger">Alexandre Guerard</span></p>
                                 </a>
                             </div>
                         </div>
@@ -180,6 +180,23 @@
             }
         },
         methods: {
+            letterContainer(className){
+                var word = document.getElementsByClassName(className)[0];
+                var wordContent = word.textContent.trim();
+                var wordContentSplit = wordContent.split("");
+                word.innerHTML = "";
+
+                for(var i=0; i< wordContentSplit.length; i++){
+                    var newSpan = document.createElement('span');
+                    newSpan.style.display = "inline-block";
+                    newSpan.className = "staggerLetter";
+                    if (wordContentSplit[i] == " "){
+                        newSpan.style.width = "7px";
+                    }
+                    newSpan.innerHTML = wordContentSplit[i];
+                    word.appendChild(newSpan);
+                }
+            },
             hideCross(){
                 var cross = document.getElementsByClassName("cross");
                 var vm = this;
@@ -313,9 +330,9 @@
                 this.work_click.play(0);
                 this.particuleAnimLeave();
 
-                vm.hideLogo();
-                vm.showCross("work");
-                // this.clicked = false;
+                // vm.hideLogo();
+                // vm.showCross("work");
+                this.clicked = false;
             },
             workLeave(){
                 if(!this.clicked){
@@ -409,6 +426,17 @@
                 var data = value.data.acf;
             });
             var vm =this;
+
+            this.letterContainer("link-stagger");
+
+            var staggerLink = document.querySelector('.developped-link');
+            var tl = new TimelineMax();
+
+            staggerLink.addEventListener('mouseenter', e => {
+                console.log("enter");
+                tl.staggerFromTo(".staggerLetter", 0.6, { y: 0, ease: Power4.easeInOut },{ y: -25, ease: Power4.easeInOut }, 0.03)
+                    .staggerFromTo(".staggerLetter", 0.6, { y: 20, ease: Power4.easeOut },{ y: 0, ease: Power4.easeInOut }, 0.025, "-=0.45");
+            });
 
             this.pizzaAnim = lottie.loadAnimation({
                 container: document.getElementById('pizza-ico'),
@@ -676,7 +704,7 @@
             }
         }
         .developped-link{
-            display: flex;
+            display: flex;            
             .ico-heart{
                 margin-right: 10px;
                 transition: 0.5s ease;
@@ -766,7 +794,9 @@
                     }
                 }
                 span{
-                    font-size: bold;
+                    font-weight: bold;
+                    position: relative;
+                    overflow: hidden;
                 }
                 .ico-heart{
                     display: flex;

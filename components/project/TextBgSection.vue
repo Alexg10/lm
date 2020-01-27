@@ -38,6 +38,22 @@
             var tlGradient = new TimelineMax({ paused: false});
 
 
+                var textContent = document.getElementsByClassName("text")[0];
+                var tl = new TimelineMax({ paused: false});
+
+                tl.fromTo(textContent, 1.5, {y: 80, opacity:0},{y: 0, opacity:1, ease: Power4.easeInOut, overwrite: false});
+                
+                const textScene = scrollM.scene({
+                    triggerElement: ".gradient-bg",
+                    triggerHook: 0.65,
+                    offset: -200
+                })
+                .setTween(tl)
+                .reverse(false)
+                .addIndicators({ name: 'TextSection' })
+                scrollM.addScene(textScene)
+
+
             tlGradient.fromTo(column1, 1, {y: -42},{y: 42, overwrite: false},"start")
             .fromTo(column2, 1, {y: -8},{y: 8, overwrite: false}, "start")
             .fromTo(column3, 1, {y: -28},{y: 28, overwrite: false}, "start")

@@ -35,7 +35,7 @@
                 const colorScene = scrollM.scene({
                     triggerElement: el,
                     triggerHook: 0.65,
-                    offset: -100
+                    offset: -200
                 })
                 .setTween(tl)
                 .reverse(false)
