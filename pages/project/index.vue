@@ -11,6 +11,7 @@
     import ProjectsList from '../../components/projects/list';
 
     export default {
+        transition: 'listFade',
         data() {
             return {
                 apiUrl

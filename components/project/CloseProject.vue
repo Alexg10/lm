@@ -45,7 +45,6 @@
         mounted() {
             this.currentProjectSlug = this.$store.state.projects.currentProjectData[0].slug;
             this.currentProjectSlug = "#"+this.currentProjectSlug;
-            console.log(this.currentProjectSlug);
             setTimeout(() => {
                 this.showCross();
             }, 2000);

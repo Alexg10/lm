@@ -26,13 +26,11 @@
             });
 
             function cursorHoverIn(){
-                console.log("ooosodf");
                 var cursorId = document.querySelector('#cursor');
                 cursorId.classList.add('cursorHover');
             };
 
             function cursorHoverOut(){
-                console.log("OOOOOOUT");
                 var cursorId = document.querySelector('#cursor');
                 cursorId.classList.remove('cursorHover');
             };

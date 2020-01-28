@@ -86,15 +86,15 @@
                         init: function () {
 
                             var slides = document.getElementsByClassName('swiper-slide');
-                            console.log("init slide");
+                            
                             setTimeout(function(){
 
                                 var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
                                 var slideActiveName = slideActive.getAttribute('data-name');
                                 var slideActiveType = slideActive.getAttribute('data-type');
                                 var slideActiveId = slideActive.getAttribute('data-id');
-                                console.log(slideActiveId);
-                                console.log(slideActiveName);
+                                
+                                
 
 
                                 document.getElementsByClassName("project-name")[0].innerHTML = slideActiveName;
@@ -111,7 +111,7 @@
                             }, 6000);
                         },
                         slideChange: function(){
-                            console.log("slideChange");
+                            
                             var slideActiveLayer = document.getElementsByClassName("swiper-slide-active")[0];
                             slideActiveLayer = slideActiveLayer.getElementsByClassName("layer")[0]
                             slideActiveLayer.classList.remove("visible");
@@ -142,7 +142,7 @@
 
                         },
                         click: function(e){
-                            console.log(this.clickedSlide);
+                            
                             var clicked = this.clickedSlide;
                             if(clicked.classList.contains("swiper-slide-next") ){
                                 this.slideNext();
@@ -162,11 +162,11 @@
         },
         methods: {
             changeNameStart(){
-                console.log('Chhhhhange');
+                
                 var vm = this;
                 this.changeNameDown.play(0);
                 this.changeNameDown.eventCallback("onComplete", function () {
-                    console.log(vm.isMobile);
+                    
 
                     var slideActive = document.getElementsByClassName('swiper-slide-active')[0];
                     var name = slideActive.getAttribute('data-name');
@@ -183,7 +183,7 @@
                 });
             },
             changeNameEnd(){
-                console.log('End');
+                
                 this.changeName();
                 this.changeNameUp.play(0);
                 document.querySelectorAll('.layer')[0].classList.remove('visible');
@@ -199,21 +199,21 @@
                 document.getElementsByClassName("project-name")[0].setAttribute("data-id", id);
             },
             triggerHoverIn(e){
-                console.log("triggerHoverIIIIIIIIIIn");
+                
                 //! Probleme avec duplicated slide A VOIR 
                 //TODO Ne rentre pas ds la function si duplicated slide
                 var target = e.target;
-                // console.log(target);
+                
                 var slideActiveLayer = target.getElementsByClassName("layer")[0];
                 var link = e.target.closest(".swiper-slide");
-                console.log(link);
+                
                 if(link.classList.contains("swiper-slide-active")){
                     slideActiveLayer.classList.add("visible");
                     document.querySelector('.project-name-container').classList.add("hover");
                 }
             },
             triggerHoverOut(e){
-                console.log("triggerHoverOut");
+                
                 var target = e.target;
                 var slideActiveLayer = target.getElementsByClassName("layer")[0];
                 var link = e.target.closest(".swiper-slide");
@@ -233,7 +233,7 @@
                 slideActiveLayer.classList.remove("visible");
             },
             triggerClick(){
-                console.log("triggerClick");
+                
                 var id = document.getElementsByClassName('project-name')[0].getAttribute("data-id");
                 this.$store.commit('projects/setProject', id);
 
@@ -326,7 +326,7 @@
                     }
                 }else {
                     slideActive.classList.add('parallax');
-                    console.log('no para')
+                    
                 }
 
             },
@@ -364,18 +364,18 @@
                 .from( ".swiper-slide-next", 2.5, {x:240, ease: Power4.easeInOut}, 'animIntroStart+=2.5');
 
                 tl.eventCallback("onComplete", function () {
-                    console.log('complete lm');
-                    vm.showLogo();   
+                    
+                    // vm.showLogo();   
                 });
             },
             showLogo(){
                 var logo = document.getElementsByClassName("logo");
-                // console.log(logo);
+                
                 logo[0].classList.add("visible");
             },
             hideLogo(){
                 var logo = document.getElementsByClassName("logo");
-                // console.log(logo);
+                
                 logo[0].classList.remove("visible");
             },
 
@@ -386,19 +386,19 @@
             }
         },
         beforeCreate(){
-            console.log("beforeCreate");
+            
 
-            // console.log(window.innerWidth);
+            
             // if(window.innerWidth <= 790) {
             //     this.isMobile = true;
-            //     console.log("is mobile tru");
-            //     console.log(this.isMobile);
+            
+            
             // } else {
             //     this.isMobile = false;
-            //     console.log("is mobile false");
+            
 
             // }
-            console.log("fromProject OOOOOON beforeCreate");
+            
         },
         mounted(){
             if (document.getElementsByClassName("cover-project").length>0) {

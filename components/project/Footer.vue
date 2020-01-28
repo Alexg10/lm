@@ -54,13 +54,7 @@
                 window.onscroll = function(ev) {
                     if (!vm.bottom) {
                         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-                            console.log("bottom");
-                            console.log(vm.bottom);
-
-                            console.log('BOOOOTTOM');
                             vm.bottom = true;
-                            console.log('CLIIIICK');
-
 
                             //! BETTER WAY TO MAKE CHANGE PAGE
                             link.click();
@@ -77,8 +71,6 @@
             },
         },
         mounted: function(){
-            console.log("bottom");
-            console.log(this.bottom);
 
             var nextProject = this.$store.state.projects.currentProjectData[0].footerLink.match(/([^\/]*)\/*$/)[1];
             axios.get(`${apiUrl}?slug=${nextProject}`)

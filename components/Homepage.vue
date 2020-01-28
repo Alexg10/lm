@@ -200,16 +200,16 @@
             hideCross(){
                 var cross = document.getElementsByClassName("cross");
                 var vm = this;
-                console.log('close nok ');
+                
                 this.clicked=false;
 
                 if(cross[0].classList.contains("work")){
-                    console.log('close ok ');
+                    
                     cross[0].classList.remove("active", "work");
                     this.work_close.play(0);
-                    console.log('CLose');
+                    
                     this.work_close.eventCallback("onComplete", function () {
-                        console.log('complete');
+                        
                         vm.showLogo();
                     });
                 }else if (cross[0].classList.contains("love")){
@@ -220,21 +220,21 @@
                         this.lm_tl.pause(0);
                     }, 3000);
                 }
-                console.log(this.clicked);
+                
 
             },
             showLogo(){
                 var logo = document.getElementsByClassName("logo");
-                console.log(logo);
+                
                 logo[0].classList.add("visible");
             },
             loveHover(){
                 this.clicked = false;
 
-                console.log(this.lmImg);
+                
                 this.lm_tl.play();
-                console.log(this.clicked)
-                console.log(this.playing);
+                
+                
                 this.playing = setInterval(() => {
                     this.gif(this.lmImg);
                 }, this.gifTime)
@@ -254,11 +254,11 @@
                 if(!this.clicked){
                     this.lm_tl.reverse();
                     setTimeout(() =>     {
-                    console.log(this.playing);
+                    
 
                         clearInterval(this.playing)
                     },500);
-                    console.log('sdfsdfs');
+                    
                     
                 }
             },
@@ -266,7 +266,7 @@
                 this.i;
                 this.gifLenght = imageArray.length;
                 var Urlimage = 'url('+imageArray[this.i]+')';
-                console.log(Urlimage);
+                
                 this.$el.querySelector(".background-container").style.backgroundImage = Urlimage;
                 this.i++;
                 if(this.i >= this.gifLenght){
@@ -321,10 +321,10 @@
                 this.work_tl.play(0);
                 this.particuleAnim();
 
-                console.log("ok")
+                
             },
             workClick(){
-                console.log('clic');
+                
                 var vm = this;
                 this.clicked = true;
                 this.work_click.play(0);
@@ -336,25 +336,25 @@
             },
             workLeave(){
                 if(!this.clicked){
-                    console.log("Leavefonction")
+                    
                     this.work_tl.reverse();
                     this.particuleAnimLeave();
                 }
             },
             workTitleHover(){
-                console.log(this);
+                
 
                 // imgUrl = this.getAttribute("data-image");
-                // console.log(imgUrl);
+                
             },
             showLogo(){
                 var logo = document.getElementsByClassName("logo");
-                console.log(logo);
+                
                 logo[0].classList.add("visible");
             },
             hideLogo(){
                 var logo = document.getElementsByClassName("logo");
-                console.log(logo);
+                
                 logo[0].classList.remove("visible");
             },
             showCross(section){
@@ -363,19 +363,19 @@
             },
 
             loveHoverDown(id){
-                console.log('loveHoverDdddown');
+                
                 var cross = document.getElementsByClassName("background-container");
                         // clearInterval(this.playing);
                 this.loveLeave();
-                console.log('id');
+                
 
-                console.log(id);
+                
 
                 cross[0].style.opacity = 0;
                 cross[0].style.backgroundImage = 'none';
                 clearInterval(id);
                 // this.playing='';
-                // console.log(this.playing);
+                
                 // this.gif([0]);
                 // this.playing = setInterval(() => {
                 //     this.gif(this.workImg);
@@ -389,18 +389,18 @@
                     if (e.deltaY < 0) {
                         vm.scrollUpWord.play();
                         vm.scrollUpWord.eventCallback("onComplete", function () {
-                            console.log('complete');
+                            
                             vm.scrollDownWord.pause(0);
                             vm.hideLogo();
                         });
                     }
                     if (e.deltaY > 0) {
-                        // console.log('down');
+                        
 
                         vm.scrollDownWord.play();
                         vm.scrollDownWord.eventCallback("onComplete", function () {
-                            console.log('complete');
-                            console.log(vm.playing);
+                            
+                            
 
                             vm.loveHoverDown(vm.playing);
                             vm.scrollUpWord.pause(0);
@@ -410,19 +410,19 @@
                 });
             },
             cocktailPlay(){
-                console.log("PLAY");
+                
                 this.cocktailAnim.goToAndPlay(1,1);
             },
             pizzaPlay(){
-                console.log("PLAY");
+                
                 this.pizzaAnim.goToAndPlay(1,1);
             }
         },
         mounted(){
-            console.log(apiUrl);
+            
             axios.get(`${apiUrl}`)
             .then(value => {
-                console.log(value.data.acf)
+                
                 var data = value.data.acf;
             });
             var vm =this;
@@ -433,7 +433,7 @@
             var tl = new TimelineMax();
 
             staggerLink.addEventListener('mouseenter', e => {
-                console.log("enter");
+                
                 tl.staggerFromTo(".staggerLetter", 0.6, { y: 0, ease: Power4.easeInOut },{ y: -25, ease: Power4.easeInOut }, 0.03)
                     .staggerFromTo(".staggerLetter", 0.6, { y: 20, ease: Power4.easeOut },{ y: 0, ease: Power4.easeInOut }, 0.025, "-=0.45");
             });
@@ -525,9 +525,7 @@
             this.work_click
                 .to( workTop, 1.7, {x:"70vw", ease: Power4.easeInOut}, "-=1.7")
                 .to( workMid, 1.7, {x:"-70vw", ease: Power4.easeInOut}, "-=1.7")
-                .to( workBottom, 1.7, {x:"70vw", ease: Power4.easeInOut}, "-=1.7")
-                .to( bgAnim, 2, {autoAlpha:0, ease: Power4.easeInOut}, "-=0.5")
-                .set( ".work", {display: "none", ease: Power4.easeInOut})
+                .to( workBottom, 1.7, {x:"70vw", ease: Power4.easeInOut}, "-=1.7");
 
             this.work_close
                 .set( ".work", {display: "block", ease: Power4.easeInOut})
@@ -560,24 +558,24 @@
                 .from( '.developped-link', 2, { y: 40, ease: Power4.easeInOut}, "-=1");
             
             this.lm_click.eventCallback("onComplete", function () {
-                console.log("lm_click");
+                
                 vm.showCross("love");
             });
                 
             this.detectScroll();
         },
         async asyncData({ params, error }) {
-            console.log(params);
-            console.log(apiUrl);
+            
+            
             return axios.get(`${apiUrl}`)
             .then(res => {
-                console.log(res);
+                
                 var mail = res.mail;
                 var baseline = res.baseline;
                 var description = res.description;
 
-                console.log('options');
-                console.log(options);
+                
+                
                 return { 
                     mail,
                     baseline,

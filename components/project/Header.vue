@@ -75,7 +75,6 @@
                 var tl = new TimelineMax();
 
                 staggerLink.addEventListener('mouseenter', e => {
-                    console.log("enter");
                     tl.staggerFromTo(".staggerLetter", 0.5, { y: 0, ease: Power4.easeInOut },{ y: -45, ease: Power4.easeInOut }, 0.03)
                         .staggerFromTo(".staggerLetter", 0.5, { y: 20, ease: Power4.easeOut },{ y: 0, ease: Power4.easeInOut }, 0.025, "-=0.45");
                 });
