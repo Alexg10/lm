@@ -1,8 +1,8 @@
 <template>
-    <div v-if="$store.state.projects.current" class="cover-project" :style="{ backgroundImage: `url(${$store.state.projects.current.cover})` }">
+    <div class="cover-project" :style="{ backgroundImage: `url(${cover.cover})` }">
         <div class="project-header-content">
             <div class="project-header-content-top">
-                <div class="name">{{$store.state.projects.current.title}}</div>
+                <div class="name">{{cover.title}}</div>
             </div>
         </div>
     </div>
@@ -10,7 +10,14 @@
 
 <script>
     export default {
-
+        mounted() {
+            console.log('Cover mounted', this.$store.state.projects.current.id);
+        },
+        computed: {
+            cover(){
+                return this.$store.state.projects.cover;
+            }
+        },
     }
 
 </script>

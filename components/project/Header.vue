@@ -1,23 +1,23 @@
 <template>
-    <div class="project-header" :style="{ backgroundImage: `url(${image})` }">
-        <img class="bg-cover" :src="image" alt="">
+    <div class="project-header">
+        <img class="bg-cover" :src="project.cover" alt="">
         <CloseProject></CloseProject>
         <div class="project-header-content">
             <div class="project-header-content-top">
                 <div class="category">
-                    <div class="category-type">{{type}}</div>
+                    <div class="category-type">{{project.type}}</div>
                 </div>
                 <div class="project-name">
-                    <div class="project-name-content">{{name}}</div>
+                    <div class="project-name-content">{{project.name}}</div>
                 </div>
             </div>
             <div class="project-description">
-                <p>{{description}}</p>
-                <div v-if="link" class="link-container" >
-                    <a :href="link" target="_blank" class="project-link link linkHover link-stagger">View the website</a>
+                <p>{{project.description}}</p>
+                <div v-if="project.link" class="link-container" >
+                    <a :href="project.link" target="_blank" class="project-link link linkHover link-stagger">View the website</a>
+                </div>
             </div>
         </div>
-    </div>
     </div>
 </template>
 
@@ -31,17 +31,6 @@
         components:{
             CloseProject
         },
-        data(){
-            return{
-            }
-        },
-        props: [
-            'name',
-            'type',
-            'description',
-            'image',
-            'link'
-        ],
         methods: {
             letterContainer(className){
                 var word = document.getElementsByClassName(className)[0];
@@ -114,8 +103,11 @@
                     .fromTo(projectName, 1.8,{y:230}, {y:0, ease: Power4.easeInOut},"-=1.2" )
                     .fromTo(description, 1.5,{y:30, opacity:0}, {y:0, opacity:1, ease: Power4.easeInOut},"-=1" );
             }
-
-
+        },
+        computed: {
+            project(){
+                return this.$store.state.projects.current;
+            }
         }
     }
 </script>

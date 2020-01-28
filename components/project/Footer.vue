@@ -1,38 +1,27 @@
 <template>
     <div class="footer-project">
         <div class="foter-project-content">
-            <nuxt-link prefetch class="link-to linkHover" :to="{ name: 'project-id', params: { id: this.linkSlug }}" >
+            <div class="link-to linkHover">
                 <div class="next-project up-letters">next project</div> 
-                <div class="next-project-name up-letters">{{title}}</div>
+                <div class="next-project-name up-letters">{{project.title}}</div>
                 <img class="arrow" :src="arrowDown" alt="">
-            </nuxt-link>
-            <div class="next-cover" :style="{ backgroundImage: `url(${bgNext})` }" :data-id="this.nextId"></div>
+            </div>
+            <div class="next-cover" :style="{ backgroundImage: `url(${project.cover})` }"></div>
         </div>
     </div>
 </template>
 
 <script>
-
     import arrowDown from '~/assets/images/ico/arrow-down-ico.svg'
-    import axios from 'axios'
-    const apiUrl = process.env.API_URL || 'http://localhost:8888/lm/lm_wordpress/wp-json/wp/v2/projets'
     import VueScrollmagic from 'vue-scrollmagic'
 
     export default {
         data(){
             return{
-                apiUrl,
                 bottom: false,
-                bgNext:'',
-                nextId:'',
-                arrowDown,
-                linkSlug: this.link.match(/([^\/]*)\/*$/)[1]
+                arrowDown
             }
         },
-        props: [
-            'link',
-            'title'
-        ], 
         methods:{
             letterContainer(className){
                 var word = document.getElementsByClassName(className)[0];
@@ -48,21 +37,25 @@
                 }
             },
             goToNextProject(){
-                var link = document.querySelector('.link-to');
                 var vm = this;
-                var link= this.linkSlug
                 window.onscroll = function(ev) {
                     if (!vm.bottom) {
                         if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
                             vm.bottom = true;
-
-                            //! BETTER WAY TO MAKE CHANGE PAGE
-                            link.click();
-                            //TODO
+                            // Listen cover change, then scroll to top and finaly change route
+                            async function changeRoute(){
+                                const cover = await vm.$store.commit('projects/setCover', vm.project.slug);
+                                document.querySelector('.cover-project').classList.add('visible');
+                                vm.$router.push({
+                                    path: '/project/'+ vm.project.slug
+                                });
+                                return true;
+                            }
+                            changeRoute();
+                            // document.querySelector('.cover-project').classList.remove('visible');
                             // vm.$router.push({
-                            //     path: '/project/'+ link
+                            //     path: '/project/'+ vm.project.slug
                             // });
-                            // window.scrollTo(0, 0);
                             // document.querySelector('body').classList.remove('fixed');
 
                         }
@@ -70,14 +63,14 @@
                 };
             },
         },
+        computed: {
+            project(){
+                const slug = this.$store.state.projects.current.footerLink.match(/([^\/]*)\/*$/)[1];
+                return this.$store.state.projects.list.find(project => project.slug == slug);
+            }
+        },
         mounted: function(){
-
-            var nextProject = this.$store.state.projects.currentProjectData[0].footerLink.match(/([^\/]*)\/*$/)[1];
-            axios.get(`${apiUrl}?slug=${nextProject}`)
-            .then(res => {
-                this.bgNext = res.data[0].acf.header_picture.url;
-                this.nextId = res.data[0].id ;
-            });
+            this.$store.commit('projects/emptyCover');
             this.letterContainer("next-project");
             this.letterContainer("next-project-name");
 
@@ -159,15 +152,14 @@
             window.addEventListener("scroll", function() {
                 var elementTarget = document.querySelector('.link-to');
                 if (!executed) {
-                    console.log('executed1 !!');
-                    console.log(executed);
-
+                    // console.log('executed1 !!');
+                    // console.log(executed);
                     if (window.scrollY >= (elementTarget.offsetTop + elementTarget.offsetHeight - 300)) {
                         executed = true;
                         console.log('executed2 !!!!!!!!');
                         console.log(executed);
                         // document.querySelector('body').stopScroll();
-                        document.querySelector('body').classList.add('fixed');
+                        // document.querySelector('body').classList.add('fixed');
                         scrollTo(document.querySelector('.next-cover').offsetTop + 10, 2000);
                         vm.goToNextProject();
                     };

@@ -1,36 +1,21 @@
 <template>
   <div>
-    <Cover />
+    <div v-if="$store.state.projects.cover">
+      <Cover />
+    </div>
     <nuxt />
     <CursorBlock />
   </div>
 </template>
 
 <script>
-  import Cover from '../components/Cover'
-  import CursorBlock from '../components/Cursor'
-
+  import Cover from '~/components/Cover'
+  import CursorBlock from '~/components/Cursor'
 
   export default {
     components: {
       Cover,
       CursorBlock
-    },
-    methods: {
-      moveCursor(e){
-        console.log('cursor');
-        // const cursor = document.querySelector('.cursor');
-        // cursor.setAttribute("style", "top: "+(e.pageY - 20)+"px; left: "+(e.pageX - 20)+"px");
-
-
-
-
-
-
-      }
-    },
-    mounted(){
-
     }
   }
 </script>

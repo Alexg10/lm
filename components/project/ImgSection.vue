@@ -63,21 +63,21 @@
 
                 });
 
-                  var tl = new TimelineMax({ paused: false});
+                var tl = new TimelineMax({ paused: false});
 
-                    var imgContain = document.getElementsByClassName("img-container");
-                    var imgContainEl = document.getElementsByClassName("img-container")[0];
+                var imgContain = document.getElementsByClassName("img-container");
+                var imgContainEl = document.getElementsByClassName("img-container")[0];
 
-                    tl.fromTo(".img-section .container", 2, {y: 40, opacity: 0}, {y: 0, opacity: 1, ease: Power4.easeInOut, overwrite: false});                
-                    const imgSectionScene = scrollM.scene({
-                        triggerElement: ".img-section ",
-                        triggerHook: 0.65,
-                        offset: -50
-                    })
-                    .setTween(tl)
-                    .reverse(false)
-                    .addIndicators({ name: '2 (imgCain00)' })
-                    scrollM.addScene(imgSectionScene)
+                tl.fromTo(".img-section .container", 2, {y: 40, opacity: 0}, {y: 0, opacity: 1, ease: Power4.easeInOut, overwrite: false});                
+                const imgSectionScene = scrollM.scene({
+                    triggerElement: ".img-section ",
+                    triggerHook: 0.65,
+                    offset: -50
+                })
+                .setTween(tl)
+                .reverse(false)
+                // .addIndicators({ name: '2 (imgCain00)' })
+                scrollM.addScene(imgSectionScene)
 
                 var img1 = document.querySelector(".img-section-container:nth-child(1) .img-container img");
                 var img2 = document.querySelector(".img-section-container:nth-child(2) .img-container img");

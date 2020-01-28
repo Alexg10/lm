@@ -1,9 +1,9 @@
 <template>
     <div>
         <Header></Header>
-        <HeaderProject :name="currentProject.title" :type="currentProject.type" :description="currentProject.description" :image="currentProject.HeaderImg" :link="currentProject.link"></HeaderProject>
+        <HeaderProject />
         <div class="grey-section">
-            <div v-for="bloc in currentProject.projectBlocName" v-bind:key>
+            <div v-for="bloc in project.projectBlocName" v-bind:key>
                 <Chapter v-if="bloc.acf_fc_layout == 'bloc_step'" :bg_color=bloc.color :number=bloc.number :name=bloc.step_title></Chapter>
                 <LaptopSection v-if="bloc.acf_fc_layout == 'bloc_laptop'" :image=bloc.laptop_picture.url></LaptopSection>
                 <TextSection v-if="bloc.acf_fc_layout == 'bloc_txt'" :text=bloc.text></TextSection>
@@ -18,14 +18,12 @@
                 <BlocAnimation v-if="bloc.acf_fc_layout == 'bloc_animation'" :image_desktop=bloc.image_desktop :image_mobile=bloc.image_mobile></BlocAnimation>
                 <BlocAfter v-if="bloc.acf_fc_layout == 'bloc_after_effect'" :after_top_left=bloc.image_top_left :after_top_righ=bloc.image_top_right :after_top_middle=bloc.image_middle :after_full_height=bloc.images_full_height></BlocAfter>
             </div>
-            <Footer :link="currentProject.footerLink" :title="currentProject.footerLinkTitle"></Footer>
+            <Footer/>
         </div>
     </div>
 </template>
 
 <script>
-    import axios from 'axios'
-    const apiUrl = process.env.API_URL || 'http://localhost:8888/lm/lm_wordpress/wp-json/wp/v2/projets'
 
     import Header from '~/components/Header'
     import HeaderProject from '~/components/project/Header'
@@ -45,6 +43,8 @@
     import Footer from '~/components/project/Footer'
 
     export default {
+        // transition: 'listFade',
+        scrollToTop: true,
         components:{
             Header,
             HeaderProject,
@@ -63,34 +63,22 @@
             BlocAfter,
             Footer
         },
-        data(){
-            return{
-                apiUrl,
-                id: this.$route.params.id,
-                currentProject :this.$store.state.projects.currentProjectData[0]
-            }
-        },
         mounted: function(){
             if (document.getElementsByClassName("cover-project").length>0) {
                 document.querySelector('.cover-project').classList.remove('visible');
             }
             document.body.classList.remove("fixed");
         },
+        destroyed: function(){
+            console.log("destroyed");
+        },
         computed: {
             project(){
-                return this.$store.state.projects.list.find(project => project.id === this.id)
+                return this.$store.state.projects.current;
             }
         },
-        fetch({store, params}){
-            // Get project from slug
-            var projectName = params.id.charAt(0).toUpperCase() + params.id.slice(1);
-            return axios.get(`${apiUrl}?slug=${projectName}`)
-            .then(res => {
-                store.commit('projects/add', res);
-            })
-            // Commit project in project st@ore list
-            
-            // Commit project in project current
+        async fetch({store, params}){
+            await store.dispatch('projects/getProjects', params.id)
         }
     }
 </script>

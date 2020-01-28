@@ -43,7 +43,7 @@
             }
         },
         mounted() {
-            this.currentProjectSlug = this.$store.state.projects.currentProjectData[0].slug;
+            this.currentProjectSlug = this.$store.state.projects.current.slug;
             this.currentProjectSlug = "#"+this.currentProjectSlug;
             setTimeout(() => {
                 this.showCross();

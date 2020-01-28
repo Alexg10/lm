@@ -1,47 +1,53 @@
+import axios from 'axios'
+
 export const state = () => ({
     loading: true,
     list: [],
     current: false,
-    currentProjectData: [],
+    cover: false,
     fromProject:''
 })
 
+export const actions = {
+    async getProjects ({ commit }, currentProjectSlug) {
+        const { data } = await axios.get('http://localhost:8888/lm/lm_wordpress/wp-json/wp/v2/projets');
+        commit('hydrate', data);
+        commit('setProject', currentProjectSlug);
+    }
+}
+
 export const mutations = {
     hydrate(state, data){
-        data.data.forEach(function (element) {
+        data.forEach(function (element) {
             let project = new Object;
-            console.log(element);
+
             project.id = element.id;
             project.type = element.acf.project_type;
             project.name = element.title.rendered;
             project.slug = element.slug;
             project.cover = element.acf.header_picture.url;
+            project.acf = element.acf;
+            project.title = element.title.rendered;
+            project.description = element.acf.project_description;
+            project.link = element.acf.project_link;
+            project.HeaderImg = element.acf.header_picture.sizes.header_picture;
+            project.projectBlocName = element.acf.blocs;
+            project.footerLink = element.acf.footer_link.url;
+            project.footerLinkTitle = element.acf.footer_link.title;
+
             state.list.push(project);
         });
         state.loading = false;
     },
-    add(state, project) {
-        let currentProject = new Object;
-        currentProject.slug = project.data[0].slug;
-        currentProject.acf = project.data[0].acf;
-        currentProject.title = project.data[0].title.rendered;
-        currentProject.type = project.data[0].acf.project_type;
-        currentProject.description = project.data[0].acf.project_description;
-        currentProject.link = project.data[0].acf.project_link;
-        currentProject.HeaderImg = project.data[0].acf.header_picture.sizes.header_picture;
-        currentProject.projectBlocName = project.data[0].acf.blocs;
-        currentProject.footerLink = project.data[0].acf.footer_link.url;
-        currentProject.footerLinkTitle = project.data[0].acf.footer_link.title;
-
-        state.currentProjectData= [],
-        state.currentProjectData.push(currentProject);
-        state.list.push(project)
-    },
-    emptyList(state) {
-        state.list = []
-    },
-    setProject(state, id) {
-        const project = state.list.find(project => project.id == id);
+    setProject(state, slug) {
+        const project = state.list.find(project => project.slug == slug);
         state.current = project
+    },
+    setCover(state, slug) {
+        const project = state.list.find(project => project.slug == slug);
+        state.cover = project
+    },
+    emptyCover(state) {
+      state.cover = false
     }
 }
