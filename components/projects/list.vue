@@ -352,7 +352,7 @@
             animIntro(){
                 var slideActive = document.getElementsByClassName('swiper-slide-active')[0].children[0].getElementsByClassName("big-background");
                 var tl = new TimelineMax({ 
-                    delay:0.5
+                    delay: 0.75
                 });
                 var vm = this;
                 tl.add('start');

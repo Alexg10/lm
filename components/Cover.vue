@@ -1,9 +1,7 @@
 <template>
     <div class="cover-project" :style="{ backgroundImage: `url(${cover.cover})` }">
         <div class="project-header-content">
-            <div class="project-header-content-top">
-                <div class="name">{{cover.title}}</div>
-            </div>
+   
         </div>
     </div>
 </template>
